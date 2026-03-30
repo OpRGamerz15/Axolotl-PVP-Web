@@ -1,0 +1,7 @@
+body {
+    background: url('craiyon_102026_Minecraft.png') no-repeat center center fixed, var(--dark-bg);
+    background-size: cover;
+    color: var(--light-text);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
