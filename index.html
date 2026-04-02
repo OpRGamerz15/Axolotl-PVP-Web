@@ -1,448 +1,616 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Axolotl PVP+</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
-    /* ── CUSTOM CURSOR ───────────────────────────────────────── */
-    *, *::before, *::after { cursor: none !important; }
+    /* ── CURSOR (always on, every layer) ── */
+    *,*::before,*::after{cursor:none !important;}
+    #cursor-outer{position:fixed;top:0;left:0;width:36px;height:36px;border:2px solid #00ff88;border-radius:50%;pointer-events:none;z-index:2147483646;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s,opacity .2s;mix-blend-mode:screen;}
+    #cursor-inner{position:fixed;top:0;left:0;width:8px;height:8px;background:#00ff88;border-radius:50%;pointer-events:none;z-index:2147483647;transform:translate(-50%,-50%);transition:width .1s,height .1s,background .2s;box-shadow:0 0 10px #00ff88,0 0 20px #00ff8855;}
+    .cursor-trail{position:fixed;width:6px;height:6px;border-radius:50%;pointer-events:none;z-index:2147483644;transform:translate(-50%,-50%);background:#00ff88;opacity:0;}
+    body.cursor-hover #cursor-outer{width:56px;height:56px;border-color:#00ffcc;background:rgba(0,255,136,.07);}
+    body.cursor-hover #cursor-inner{width:12px;height:12px;background:#00ffcc;box-shadow:0 0 16px #00ffcc,0 0 32px #00ffcc88;}
+    body.cursor-click #cursor-inner{width:4px;height:4px;}
+    body.cursor-click #cursor-outer{width:22px;height:22px;}
 
-    #cursor-outer {
-      position: fixed;
-      top: 0; left: 0;
-      width: 36px; height: 36px;
-      border: 2px solid #00ff88;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 99999;
-      transform: translate(-50%, -50%);
-      transition: width .25s, height .25s, border-color .25s, opacity .2s;
-      mix-blend-mode: screen;
-    }
-    #cursor-inner {
-      position: fixed;
-      top: 0; left: 0;
-      width: 8px; height: 8px;
-      background: #00ff88;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 100000;
-      transform: translate(-50%, -50%);
-      transition: width .1s, height .1s, background .2s;
-      box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff8855;
-    }
-    /* cursor trail */
-    .cursor-trail {
-      position: fixed;
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 99998;
-      transform: translate(-50%, -50%);
-      background: #00ff88;
-      opacity: 0;
-      transition: opacity .5s;
-    }
-    /* hover state on links/buttons */
-    a:hover ~ #cursor-outer,
-    button:hover ~ #cursor-outer {
-      width: 56px; height: 56px;
-      border-color: #00ffcc;
-    }
-    body.cursor-hover #cursor-outer {
-      width: 56px; height: 56px;
-      border-color: #00ffcc;
-      background: rgba(0,255,136,.07);
-    }
-    body.cursor-hover #cursor-inner {
-      width: 12px; height: 12px;
-      background: #00ffcc;
-      box-shadow: 0 0 16px #00ffcc, 0 0 32px #00ffcc88;
-    }
-    body.cursor-click #cursor-inner {
-      width: 4px; height: 4px;
-    }
-    body.cursor-click #cursor-outer {
-      width: 22px; height: 22px;
-    }
+    /* ── ROOT ── */
+    :root{--green:#00ff88;--green2:#00ffcc;--bg:#050a07;--card:rgba(0,255,136,.05);--border:rgba(0,255,136,.15);--text:#c8f0d8;--dim:#6a9a7a;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;user-select:none;-webkit-user-select:none;-moz-user-select:none;}
+    input,textarea,select{user-select:text !important;-webkit-user-select:text !important;-moz-user-select:text !important;}
 
-    /* ── RESET & BASE ────────────────────────────────────────── */
-    :root {
-      --green: #00ff88;
-      --green2: #00ffcc;
-      --bg: #050a07;
-      --bg2: #080e0a;
-      --card: rgba(0,255,136,.05);
-      --border: rgba(0,255,136,.15);
-      --text: #c8f0d8;
-      --dim: #6a9a7a;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Rajdhani', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+    /* ── BACKGROUND ── */
+    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    header,section,.hero,footer,.divider{position:relative;z-index:2;}
 
-    /* ── LOADING SCREEN ──────────────────────────────────────── */
-    #loading {
-      position: fixed; inset: 0;
-      background: #000;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 9999;
-      transition: opacity .8s ease, visibility .8s;
+    /* ── STATUS SCREEN — sits above EVERYTHING including auth gate ── */
+    #status-screen{
+      display:none;position:fixed;inset:0;
+      z-index:2147483600; /* below cursor but above every other layer */
+      align-items:center;justify-content:center;flex-direction:column;
+      text-align:center;padding:2rem;background:#000;
     }
-    #loading.hide { opacity: 0; visibility: hidden; }
-    .load-logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--green);
-      text-shadow: 0 0 30px var(--green);
-      margin-bottom: 1.5rem;
-      letter-spacing: .3em;
-    }
-    .load-bar-bg {
-      width: 260px; height: 3px;
-      background: rgba(0,255,136,.15);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .load-bar {
-      height: 100%;
-      background: linear-gradient(90deg, var(--green), var(--green2));
-      width: 0%;
-      animation: loadFill 1.8s ease forwards;
-      box-shadow: 0 0 12px var(--green);
-    }
-    @keyframes loadFill { to { width: 100%; } }
-    .load-text {
-      margin-top: .8rem;
-      font-size: .8rem;
-      letter-spacing: .2em;
-      color: var(--dim);
-    }
+    #status-screen.show{display:flex;}
+    .ss-icon{font-size:5rem;margin-bottom:1.5rem;animation:ssFloat 3s ease-in-out infinite;}
+    @keyframes ssFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+    .ss-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.2rem,4vw,2rem);font-weight:900;margin-bottom:1rem;letter-spacing:.08em;}
+    .ss-sub{font-size:1rem;color:var(--dim);max-width:500px;line-height:1.7;}
+    #status-screen.offline{background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(255,30,30,.09),#000);}
+    #status-screen.offline .ss-title{color:#ff4444;text-shadow:0 0 40px #ff4444;}
+    #status-screen.maintenance{background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(255,140,0,.09),#000);}
+    #status-screen.maintenance .ss-title{color:#ff9900;text-shadow:0 0 40px #ff9900;}
+    #status-screen::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);}
 
-    /* ── HEADER ──────────────────────────────────────────────── */
-    header {
-      position: sticky; top: 0; z-index: 800;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 3rem;
-      background: rgba(5,10,7,.9);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+    /* ── OWNER FLOATING BADGE — always visible above status screen ── */
+    #owner-floating-badge{
+      display:none;position:fixed;top:1rem;right:1.5rem;
+      z-index:2147483645; /* above status screen, below cursor */
     }
-    .logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: var(--green);
-      text-shadow: 0 0 16px var(--green);
-      text-decoration: none;
-      letter-spacing: .15em;
-    }
-    nav { display: flex; gap: 1.2rem; align-items: center; }
-    nav a {
-      font-family: 'Orbitron', sans-serif;
-      font-size: .7rem;
-      letter-spacing: .12em;
-      color: var(--dim);
-      text-decoration: none;
-      padding: .4rem .9rem;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      transition: all .25s;
-    }
-    nav a:hover {
-      color: var(--green);
-      border-color: var(--border);
-      background: var(--card);
-      text-shadow: 0 0 8px var(--green);
-    }
-    .nav-discord { color: #7289da !important; }
-    .nav-discord:hover { border-color: rgba(114,137,218,.3) !important; color: #7289da !important; text-shadow: 0 0 8px #7289da !important; }
+    #owner-floating-badge.visible{display:block;}
 
-    /* ── HERO ────────────────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 6rem 2rem 4rem;
-      position: relative;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,255,136,.07) 0%, transparent 70%),
-        url('https://i.imgur.com/6aJJLDt.jpeg') center/cover no-repeat;
+    /* ── USER BADGE WRAPPER (clickable, opens owner dropdown) ── */
+    .user-badge-wrap{position:relative;}
+    .user-badge{
+      font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;
+      padding:.35rem .9rem;border:1px solid rgba(0,255,136,.3);border-radius:4px;
+      background:rgba(0,255,136,.06);color:var(--green);
+      display:flex;align-items:center;gap:.4rem;
+      transition:all .2s;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(5,10,7,.7) 0%, rgba(5,10,7,.4) 40%, rgba(5,10,7,.95) 100%);
-    }
-    .hero > * { position: relative; z-index: 1; }
-    .hero-badge {
-      display: inline-block;
-      font-family: 'Orbitron', sans-serif;
-      font-size: .65rem;
-      letter-spacing: .25em;
-      color: var(--green);
-      border: 1px solid var(--border);
-      padding: .35rem 1rem;
-      border-radius: 2px;
-      margin-bottom: 1.5rem;
-      background: var(--card);
-    }
-    .hero h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.5rem, 8vw, 6rem);
-      font-weight: 900;
-      line-height: 1;
-      color: #fff;
-      text-shadow: 0 0 40px rgba(0,255,136,.5), 0 0 80px rgba(0,255,136,.2);
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 span { color: var(--green); }
-    .hero p {
-      font-size: 1.2rem;
-      font-weight: 300;
-      color: var(--dim);
-      max-width: 560px;
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-    }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .btn-primary {
-      font-family: 'Orbitron', sans-serif;
-      font-size: .75rem;
-      letter-spacing: .12em;
-      padding: .85rem 2rem;
-      background: var(--green);
-      color: #000;
-      border: none; border-radius: 3px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all .2s;
-      box-shadow: 0 0 20px rgba(0,255,136,.4);
-    }
-    .btn-primary:hover {
-      background: var(--green2);
-      box-shadow: 0 0 36px rgba(0,255,136,.7);
-      transform: translateY(-2px);
-    }
-    .btn-secondary {
-      font-family: 'Orbitron', sans-serif;
-      font-size: .75rem;
-      letter-spacing: .12em;
-      padding: .85rem 2rem;
-      background: transparent;
-      color: var(--green);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all .2s;
-    }
-    .btn-secondary:hover {
-      background: var(--card);
-      border-color: var(--green);
-      box-shadow: 0 0 20px rgba(0,255,136,.2);
-      transform: translateY(-2px);
-    }
+    .user-badge.owner-clickable{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.06);color:#ffd700;box-shadow:0 0 12px rgba(255,215,0,.15);}
+    .user-badge.owner-clickable:hover{background:rgba(255,215,0,.12);box-shadow:0 0 20px rgba(255,215,0,.3);}
+    .user-badge-chevron{font-size:.5rem;opacity:.7;transition:transform .2s;}
+    .user-badge-wrap.open .user-badge-chevron{transform:rotate(180deg);}
 
-    /* ── SECTIONS ────────────────────────────────────────────── */
-    section {
-      padding: 5rem 3rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* ── OWNER DROPDOWN — z-index above status screen ── */
+    #owner-dropdown{
+      display:none;position:fixed;
+      width:270px;
+      background:rgba(5,12,8,.99);border:1px solid rgba(255,215,0,.28);
+      border-radius:10px;overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,.9),0 0 40px rgba(255,215,0,.1);
+      z-index:2147483645;
+      animation:dropIn .2s ease;
     }
-    .section-label {
-      font-family: 'Orbitron', sans-serif;
-      font-size: .65rem;
-      letter-spacing: .3em;
-      color: var(--green);
-      margin-bottom: .6rem;
-      opacity: .7;
+    @keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    #owner-dropdown.open{display:block;}
+    .od-header{
+      padding:.8rem 1rem .6rem;
+      background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(0,255,136,.06));
+      border-bottom:1px solid rgba(255,215,0,.15);
     }
-    h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
-      font-weight: 900;
-      color: #fff;
-      margin-bottom: 3rem;
-    }
-    h2 span { color: var(--green); }
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 auto;
-    }
+    .od-title{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:#ffd700;margin-bottom:.15rem;}
+    .od-sub{font-size:.72rem;color:var(--dim);}
 
-    /* ── DOWNLOAD CARDS ──────────────────────────────────────── */
-    .dl-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .dl-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
-      text-decoration: none;
-      color: inherit;
-      transition: all .25s;
-      position: relative;
-      overflow: hidden;
-    }
-    .dl-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--green), var(--green2));
-      opacity: 0;
-      transition: opacity .25s;
-    }
-    .dl-card:hover { border-color: rgba(0,255,136,.4); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,.4), 0 0 32px rgba(0,255,136,.1); }
-    .dl-card:hover::before { opacity: 1; }
-    .dl-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .dl-card h3 { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: var(--green); margin-bottom: .5rem; }
-    .dl-card p { color: var(--dim); font-size: .95rem; line-height: 1.6; }
+    /* Site mode section */
+    .od-section-label{font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.2em;color:var(--dim);padding:.7rem 1rem .3rem;opacity:.7;}
+    .od-modes{display:flex;gap:.4rem;padding:0 1rem .8rem;}
+    .op-btn{font-family:'Orbitron',sans-serif;font-size:.54rem;letter-spacing:.08em;padding:.35rem .7rem;border-radius:20px;border:1px solid;font-weight:700;transition:all .2s;white-space:nowrap;flex:1;text-align:center;}
+    .op-btn.mode-online{color:#00ff88;border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.06);}
+    .op-btn.mode-online.active,.op-btn.mode-online:hover{background:rgba(0,255,136,.22);box-shadow:0 0 12px rgba(0,255,136,.4);}
+    .op-btn.mode-offline{color:#ff4444;border-color:rgba(255,68,68,.4);background:rgba(255,68,68,.04);}
+    .op-btn.mode-offline.active,.op-btn.mode-offline:hover{background:rgba(255,68,68,.2);box-shadow:0 0 12px rgba(255,68,68,.4);}
+    .op-btn.mode-maintenance{color:#ff9900;border-color:rgba(255,153,0,.4);background:rgba(255,153,0,.04);}
+    .op-btn.mode-maintenance.active,.op-btn.mode-maintenance:hover{background:rgba(255,153,0,.18);box-shadow:0 0 12px rgba(255,153,0,.4);}
 
-    /* ── STATS ───────────────────────────────────────────────── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
+    /* Action rows */
+    .od-action{
+      display:flex;align-items:center;gap:.7rem;
+      padding:.75rem 1rem;border-top:1px solid var(--border);
+      font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;
+      color:var(--dim);background:transparent;width:100%;text-align:left;
+      transition:all .18s;
     }
-    .stat {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    .stat-num {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--green);
-      text-shadow: 0 0 16px var(--green);
-    }
-    .stat-label { font-size: .85rem; color: var(--dim); margin-top: .3rem; letter-spacing: .05em; }
+    .od-action:hover{background:rgba(0,255,136,.06);color:var(--green);}
+    .od-action.danger:hover{background:rgba(255,107,107,.06);color:#ff6b6b;}
+    .od-action-icon{font-size:1rem;}
 
-    /* ── MOD LIST ────────────────────────────────────────────── */
-    .mod-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: .75rem;
+    /* ── USER MANAGER MODAL ── */
+    #user-manager{
+      display:none;position:fixed;inset:0;z-index:2147483630;
+      background:rgba(0,0,0,.88);backdrop-filter:blur(10px);
+      align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;
     }
-    .mod-item {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: .75rem 1rem;
-      font-size: .9rem;
-      color: var(--text);
-      transition: all .2s;
-      display: flex; align-items: center; gap: .5rem;
+    #user-manager.open{display:flex;}
+    .um-box{
+      background:rgba(5,15,8,.99);border:1px solid rgba(0,255,136,.25);
+      border-radius:12px;width:620px;max-width:95vw;
+      display:flex;flex-direction:column;
+      box-shadow:0 0 80px rgba(0,255,136,.12),0 40px 100px rgba(0,0,0,.9);
+      position:relative;overflow:hidden;margin:auto;
     }
-    .mod-item:hover { border-color: rgba(0,255,136,.35); color: var(--green); background: rgba(0,255,136,.08); }
-    .mod-item::before { content: '◆'; font-size: .5rem; color: var(--green); flex-shrink: 0; }
+    .um-top-bar{height:2px;background:linear-gradient(90deg,#ffd700,var(--green));}
+    .um-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0;
+    }
+    .um-head-title{font-family:'Orbitron',sans-serif;font-size:.9rem;color:#ffd700;letter-spacing:.1em;}
+    .um-head-sub{font-size:.78rem;color:var(--dim);margin-top:.15rem;}
+    .um-close{background:none;border:none;color:var(--dim);font-size:1.2rem;line-height:1;transition:color .2s;padding:.2rem;}
+    .um-close:hover{color:#ff6b6b;}
 
-    /* ── CHANGELOG ───────────────────────────────────────────── */
-    #changelog-list { display: flex; flex-direction: column; gap: 1rem; }
-    .cl-entry {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.25rem 1.5rem;
+    /* UM inner tabs */
+    .um-tabs{display:flex;border-bottom:1px solid var(--border);}
+    .um-tab{
+      font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;
+      padding:.8rem 1.4rem;color:var(--dim);background:transparent;border:none;
+      border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px;
     }
-    .cl-version { font-family: 'Orbitron', sans-serif; font-size: .85rem; color: var(--green); margin-bottom: .4rem; }
-    .cl-date { font-size: .8rem; color: var(--dim); margin-bottom: .8rem; }
-    .cl-body { font-size: .9rem; color: var(--text); line-height: 1.7; white-space: pre-wrap; word-break: break-word; }
+    .um-tab.active{color:var(--green);border-bottom-color:var(--green);}
+    .um-tab:hover{color:var(--text);}
 
-    /* ── FAQ ─────────────────────────────────────────────────── */
-    .faq-list { display: flex; flex-direction: column; gap: .75rem; }
-    details {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    details[open] { border-color: rgba(0,255,136,.35); }
-    summary {
-      padding: 1.1rem 1.4rem;
-      font-family: 'Orbitron', sans-serif;
-      font-size: .8rem;
-      color: var(--text);
-      letter-spacing: .06em;
-      list-style: none;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    summary::after { content: '+'; color: var(--green); font-size: 1.2rem; transition: transform .2s; }
-    details[open] summary::after { content: '−'; }
-    .faq-answer { padding: 0 1.4rem 1.2rem; color: var(--dim); font-size: .95rem; line-height: 1.7; }
+    .um-panel{display:none;padding:1rem 1.5rem;}
+    .um-panel.active{display:block;}
+    .um-empty{text-align:center;color:var(--dim);font-size:.9rem;padding:2rem 0;}
 
-    /* ── CREDITS ─────────────────────────────────────────────── */
-    .credits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
+    /* User rows */
+    .um-user-row{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;
+      margin-bottom:.45rem;background:var(--card);transition:border-color .2s;
+      flex-wrap:wrap;gap:.4rem;
     }
-    .credit-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.2rem;
-      text-align: center;
+    .um-user-row:hover{border-color:rgba(0,255,136,.25);}
+    .um-user-row.is-owner{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.04);}
+    .um-user-info{display:flex;align-items:center;gap:.6rem;min-width:0;}
+    .um-user-avatar{
+      width:30px;height:30px;border-radius:50%;flex-shrink:0;
+      background:rgba(0,255,136,.15);border:1px solid rgba(0,255,136,.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.75rem;font-family:'Orbitron',sans-serif;color:var(--green);
     }
-    .credit-name { font-family: 'Orbitron', sans-serif; font-size: .8rem; color: var(--green); margin-bottom: .3rem; }
-    .credit-role { font-size: .8rem; color: var(--dim); }
+    .um-user-avatar.owner-av{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4);color:#ffd700;}
+    .um-user-name{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--text);letter-spacing:.05em;}
+    .um-user-tag{font-size:.65rem;color:var(--dim);margin-top:.1rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;}
+    .um-role-chip{
+      display:inline-flex;align-items:center;gap:.2rem;
+      font-size:.6rem;font-family:'Orbitron',sans-serif;letter-spacing:.05em;
+      padding:.1rem .45rem;border-radius:20px;border:1px solid;
+      font-weight:700;
+    }
+    .um-user-actions{display:flex;gap:.35rem;flex-shrink:0;flex-wrap:wrap;}
+    .um-btn{
+      font-family:'Orbitron',sans-serif;font-size:.53rem;letter-spacing:.08em;
+      padding:.28rem .65rem;border-radius:4px;border:1px solid;transition:all .18s;
+    }
+    .um-btn.assign{color:#7289da;border-color:rgba(114,137,218,.35);background:rgba(114,137,218,.06);}
+    .um-btn.assign:hover{background:rgba(114,137,218,.2);box-shadow:0 0 10px rgba(114,137,218,.3);}
+    .um-btn.del{color:#ff6b6b;border-color:rgba(255,68,68,.35);background:rgba(255,68,68,.06);}
+    .um-btn.del:hover{background:rgba(255,68,68,.18);box-shadow:0 0 10px rgba(255,68,68,.3);}
+    .um-count{font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--dim);letter-spacing:.1em;padding:.4rem 0 .5rem;margin-bottom:.4rem;border-bottom:1px solid var(--border);}
 
-    /* ── FOOTER ──────────────────────────────────────────────── */
-    footer {
-      text-align: center;
-      padding: 2.5rem;
-      border-top: 1px solid var(--border);
-      color: var(--dim);
-      font-size: .85rem;
+    /* Roles tab */
+    .um-role-row{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.6rem .9rem;border:1px solid var(--border);border-radius:6px;
+      margin-bottom:.4rem;background:var(--card);transition:border-color .2s;
     }
-    footer a { color: var(--green); text-decoration: none; }
-    footer a:hover { text-shadow: 0 0 8px var(--green); }
+    .um-role-row:hover{border-color:rgba(0,255,136,.2);}
+    .um-role-info{display:flex;align-items:center;gap:.6rem;}
+    .um-role-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+    .um-role-name{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--text);letter-spacing:.05em;}
+    .um-role-meta{font-size:.65rem;color:var(--dim);}
+    .um-role-actions{display:flex;gap:.35rem;}
+    .um-btn.edit-role{color:#00ffcc;border-color:rgba(0,255,204,.35);background:rgba(0,255,204,.05);}
+    .um-btn.edit-role:hover{background:rgba(0,255,204,.15);}
+    .um-btn.del-role{color:#ff6b6b;border-color:rgba(255,68,68,.35);background:rgba(255,68,68,.06);}
+    .um-btn.del-role:hover{background:rgba(255,68,68,.18);}
 
-    /* ── SCROLLBAR ───────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: rgba(0,255,136,.3); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(0,255,136,.6); }
+    /* Create role form */
+    .um-create-role-form{
+      background:rgba(0,255,136,.03);border:1px solid rgba(0,255,136,.15);
+      border-radius:8px;padding:1rem;margin-bottom:1rem;
+    }
+    .um-form-title{font-family:'Orbitron',sans-serif;font-size:.62rem;color:var(--green);letter-spacing:.1em;margin-bottom:.8rem;}
+    .um-form-row{display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap;}
+    .um-form-field{flex:1;min-width:120px;}
+    .um-form-field label{display:block;font-size:.62rem;letter-spacing:.1em;color:var(--dim);margin-bottom:.3rem;}
+    .um-form-field input[type=text]{width:100%;padding:.5rem .7rem;background:rgba(0,255,136,.04);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;}
+    .um-form-field input[type=text]:focus{border-color:rgba(0,255,136,.4);}
+    .um-form-field input[type=color]{width:100%;height:32px;border-radius:4px;border:1px solid var(--border);background:transparent;padding:2px;cursor:pointer;}
+    .um-save-role-btn{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.5rem 1rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+    .um-save-role-btn:hover{background:var(--green2);box-shadow:0 0 14px rgba(0,255,136,.5);}
+
+    /* Assign role modal */
+    #assign-role-modal{
+      display:none;position:fixed;inset:0;z-index:2147483632;
+      background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
+      align-items:center;justify-content:center;
+    }
+    #assign-role-modal.open{display:flex;}
+    .arm-box{
+      background:rgba(5,15,8,.99);border:1px solid rgba(114,137,218,.3);
+      border-radius:10px;width:320px;max-width:90vw;
+      box-shadow:0 20px 60px rgba(0,0,0,.8);overflow:hidden;
+    }
+    .arm-top{height:2px;background:linear-gradient(90deg,#7289da,var(--green));}
+    .arm-head{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+    .arm-title{font-family:'Orbitron',sans-serif;font-size:.75rem;color:#7289da;letter-spacing:.1em;}
+    .arm-close{background:none;border:none;color:var(--dim);font-size:1rem;transition:color .2s;}
+    .arm-close:hover{color:#ff6b6b;}
+    .arm-body{padding:1rem 1.2rem;}
+    .arm-user-label{font-size:.78rem;color:var(--dim);margin-bottom:.8rem;}
+    .arm-user-label strong{color:var(--text);}
+    .arm-roles-list{display:flex;flex-direction:column;gap:.35rem;max-height:220px;overflow-y:auto;}
+    .arm-role-option{
+      display:flex;align-items:center;gap:.6rem;
+      padding:.5rem .7rem;border-radius:5px;border:1px solid var(--border);
+      background:var(--card);transition:all .18s;
+    }
+    .arm-role-option:hover{border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.06);}
+    .arm-role-option.selected{border-color:rgba(0,255,136,.5);background:rgba(0,255,136,.1);}
+    .arm-role-check{font-size:.7rem;color:var(--green);opacity:0;}
+    .arm-role-option.selected .arm-role-check{opacity:1;}
+    .arm-role-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .arm-role-name{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--text);letter-spacing:.05em;flex:1;}
+    .arm-none-option{font-size:.75rem;color:var(--dim);padding:.5rem .7rem;border-radius:5px;border:1px solid var(--border);background:var(--card);transition:all .18s;}
+    .arm-none-option:hover{border-color:rgba(255,107,107,.3);color:#ff6b6b;}
+    .arm-footer{padding:.8rem 1.2rem;border-top:1px solid var(--border);}
+    .arm-save-btn{width:100%;font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.12em;padding:.6rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .2s;}
+    .arm-save-btn:hover{background:var(--green2);box-shadow:0 0 14px rgba(0,255,136,.5);}
+
+    /* Delete confirms */
+    .um-del-confirm{
+      position:fixed;inset:0;z-index:2147483633;
+      background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;
+    }
+    .um-del-confirm.open{display:flex;}
+    .um-confirm-box{
+      background:rgba(5,15,8,.99);border:1px solid rgba(255,68,68,.3);border-radius:10px;
+      padding:2rem;max-width:360px;width:90%;text-align:center;
+      box-shadow:0 20px 60px rgba(0,0,0,.8);
+    }
+    .um-confirm-title{font-family:'Orbitron',sans-serif;font-size:.85rem;color:#ff6b6b;margin-bottom:.6rem;}
+    .um-confirm-sub{font-size:.9rem;color:var(--dim);margin-bottom:1.5rem;line-height:1.6;}
+    .um-confirm-btns{display:flex;gap:.6rem;justify-content:center;}
+    .um-confirm-yes{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.1em;padding:.6rem 1.4rem;background:#ff4444;color:#fff;border:none;border-radius:4px;transition:all .2s;}
+    .um-confirm-yes:hover{background:#ff6666;box-shadow:0 0 16px rgba(255,68,68,.5);}
+    .um-confirm-no{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.1em;padding:.6rem 1.4rem;background:transparent;color:var(--dim);border:1px solid var(--border);border-radius:4px;transition:all .2s;}
+    .um-confirm-no:hover{color:var(--text);border-color:rgba(0,255,136,.3);}
+
+    /* ── AUTH GATE ── */
+    #auth-gate{position:fixed;inset:0;z-index:88800;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem;transition:opacity .7s,visibility .7s;}
+    #auth-gate.hide{opacity:0;visibility:hidden;pointer-events:none;}
+    .ag-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(0,255,136,.07),transparent);pointer-events:none;}
+    .ag-logo{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,5vw,2.5rem);font-weight:900;color:var(--green);text-shadow:0 0 40px var(--green);letter-spacing:.2em;margin-bottom:.4rem;text-align:center;position:relative;}
+    .ag-tagline{font-size:.78rem;color:var(--dim);letter-spacing:.18em;margin-bottom:2.5rem;text-align:center;position:relative;}
+    .auth-box{background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.22);border-radius:12px;padding:2.2rem;width:360px;max-width:90vw;position:relative;box-shadow:0 0 60px rgba(0,255,136,.1),0 30px 80px rgba(0,0,0,.8);}
+    .auth-box-top{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:12px 12px 0 0;}
+    .auth-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;}
+    .auth-tab{flex:1;font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;padding:.5rem;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--dim);transition:all .2s;}
+    .auth-tab.active{background:var(--card);border-color:rgba(0,255,136,.4);color:var(--green);}
+    .auth-field{margin-bottom:1rem;}
+    .auth-field label{display:block;font-size:.68rem;letter-spacing:.12em;color:var(--dim);margin-bottom:.4rem;}
+    .auth-field input{width:100%;padding:.7rem 1rem;background:rgba(0,255,136,.03);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+    .auth-field input:focus{border-color:rgba(0,255,136,.5);box-shadow:0 0 14px rgba(0,255,136,.1);}
+    .auth-submit{width:100%;padding:.85rem;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.14em;font-weight:700;background:var(--green);color:#000;border:none;border-radius:3px;margin-top:.4rem;transition:all .2s;box-shadow:0 0 20px rgba(0,255,136,.3);position:relative;overflow:hidden;}
+    .auth-submit::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
+    .auth-submit:hover{background:var(--green2);box-shadow:0 0 40px rgba(0,255,136,.6);}
+    .auth-submit:hover::after{transform:translateX(100%);}
+    .auth-msg{font-size:.82rem;text-align:center;margin-top:.8rem;min-height:1em;color:var(--green);}
+    .auth-msg.err{color:#ff6b6b;}
+
+    /* ── ONBOARDING ── */
+    #onboarding{position:fixed;inset:0;z-index:88700;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity .8s,visibility .8s;}
+    #onboarding.hide{opacity:0;visibility:hidden;pointer-events:none;}
+    .ob-axo{font-size:5rem;margin-bottom:1rem;animation:obFloat 3s ease-in-out infinite;}
+    @keyframes obFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .ob-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.4rem,5vw,2.6rem);font-weight:900;color:var(--green);text-shadow:0 0 40px var(--green),0 0 80px rgba(0,255,136,.3);margin-bottom:.8rem;letter-spacing:.1em;}
+    .ob-sub{font-size:1.1rem;color:var(--dim);margin-bottom:2.5rem;letter-spacing:.06em;max-width:480px;}
+    .ob-sub span{color:var(--green);font-weight:700;}
+    .ob-btn{font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.15em;padding:1rem 2.5rem;background:var(--green);color:#000;border:none;border-radius:3px;font-weight:700;box-shadow:0 0 30px rgba(0,255,136,.5);transition:all .2s;position:relative;overflow:hidden;}
+    .ob-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
+    .ob-btn:hover{background:var(--green2);box-shadow:0 0 50px rgba(0,255,200,.8);transform:scale(1.05);}
+    .ob-btn:hover::after{transform:translateX(100%);}
+    .ob-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+    .ob-particle{position:absolute;background:var(--green);border-radius:50%;animation:obPart linear infinite;opacity:0;}
+    @keyframes obPart{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+    /* ── LOADING ── */
+    #loading{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:88600;transition:opacity .8s,visibility .8s;}
+    #loading.hide{opacity:0;visibility:hidden;pointer-events:none;}
+    .load-logo{font-family:'Orbitron',sans-serif;font-size:2.5rem;font-weight:900;color:var(--green);text-shadow:0 0 30px var(--green);margin-bottom:1.5rem;letter-spacing:.3em;}
+    .load-bar-bg{width:260px;height:3px;background:rgba(0,255,136,.15);border-radius:2px;overflow:hidden;}
+    .load-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green2));width:0%;box-shadow:0 0 12px var(--green);transition:width .4s ease;}
+    .load-text{margin-top:.8rem;font-size:.8rem;letter-spacing:.2em;color:var(--dim);min-height:1.2em;}
+
+    /* ── HEADER ── */
+    header{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(5,10,7,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+    .logo{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:900;color:var(--green);text-shadow:0 0 16px var(--green);text-decoration:none;letter-spacing:.15em;transition:all .2s;}
+    .logo:hover{text-shadow:0 0 30px var(--green),0 0 60px var(--green2);transform:scale(1.05);}
+    nav{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+    nav a{font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;padding:.4rem .85rem;border:1px solid transparent;border-radius:4px;transition:all .25s;}
+    nav a:hover{color:var(--green);border-color:var(--border);background:var(--card);text-shadow:0 0 8px var(--green);}
+    .nav-discord{color:#7289da !important;}
+    .nav-discord:hover{border-color:rgba(114,137,218,.3)!important;color:#7289da!important;text-shadow:0 0 8px #7289da!important;}
+    .status-badge{display:flex;align-items:center;gap:.4rem;font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.1em;padding:.3rem .75rem;border-radius:20px;border:1px solid;white-space:nowrap;}
+    .status-badge.online{color:#00ff88;border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.07);}
+    .status-badge.offline{color:#ff4444;border-color:rgba(255,68,68,.3);background:rgba(255,68,68,.07);}
+    .status-badge.maintenance{color:#ff9900;border-color:rgba(255,153,0,.3);background:rgba(255,153,0,.07);}
+    .status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+    .status-badge.online .status-dot{background:#00ff88;box-shadow:0 0 8px #00ff88;animation:pDot 2s infinite;}
+    .status-badge.offline .status-dot{background:#ff4444;box-shadow:0 0 8px #ff4444;}
+    .status-badge.maintenance .status-dot{background:#ff9900;box-shadow:0 0 8px #ff9900;animation:pDot 1s infinite;}
+    @keyframes pDot{0%,100%{opacity:1}50%{opacity:.25}}
+    .user-badge{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;padding:.35rem .9rem;border:1px solid rgba(0,255,136,.3);border-radius:4px;background:rgba(0,255,136,.06);color:var(--green);display:flex;align-items:center;gap:.4rem;}
+
+    /* ── HERO ── */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;position:relative;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(0,255,136,.07) 0%,transparent 70%),url('https://i.imgur.com/6aJJLDt.jpeg') center/cover no-repeat;}
+    .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,10,7,.72) 0%,rgba(5,10,7,.42) 40%,rgba(5,10,7,.96) 100%);}
+    .hero>*{position:relative;z-index:1;}
+    .hero-badge{display:inline-block;font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.25em;color:var(--green);border:1px solid var(--border);padding:.35rem 1rem;border-radius:2px;margin-bottom:1.5rem;background:var(--card);box-shadow:0 0 20px rgba(0,255,136,.08);}
+    .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.5rem,8vw,6rem);font-weight:900;line-height:1;color:#fff;text-shadow:0 0 40px rgba(0,255,136,.5),0 0 80px rgba(0,255,136,.2);margin-bottom:1.5rem;}
+    .hero h1 span{color:var(--green);}
+    .hero p{font-size:1.2rem;font-weight:300;color:var(--dim);max-width:560px;line-height:1.7;margin-bottom:2.5rem;}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;}
+    .btn-primary{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:.85rem 2rem;background:var(--green);color:#000;border:none;border-radius:3px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 0 20px rgba(0,255,136,.4);position:relative;overflow:hidden;}
+    .btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:translateX(-100%);transition:transform .4s;}
+    .btn-primary:hover{background:var(--green2);box-shadow:0 0 40px rgba(0,255,136,.8);transform:translateY(-2px);}
+    .btn-primary:hover::after{transform:translateX(100%);}
+    .btn-secondary{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:.85rem 2rem;background:transparent;color:var(--green);border:1px solid var(--border);border-radius:3px;font-weight:700;text-decoration:none;transition:all .2s;}
+    .btn-secondary:hover{background:var(--card);border-color:var(--green);box-shadow:0 0 24px rgba(0,255,136,.25);transform:translateY(-2px);}
+
+    /* ── SECTIONS ── */
+    section{padding:5rem 3rem;max-width:1200px;margin:0 auto;}
+    .section-label{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.3em;color:var(--green);margin-bottom:.6rem;opacity:.7;}
+    h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:900;color:#fff;margin-bottom:3rem;}
+    h2 span{color:var(--green);}
+    .divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+    .dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .dl-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:2rem;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden;}
+    .dl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));opacity:0;transition:opacity .25s;}
+    .dl-card:hover{border-color:rgba(0,255,136,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px rgba(0,255,136,.1);}
+    .dl-card:hover::before{opacity:1;}
+    .dl-icon{font-size:2.5rem;margin-bottom:1rem;}
+    .dl-card h3{font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--green);margin-bottom:.5rem;}
+    .dl-card p{color:var(--dim);font-size:.95rem;line-height:1.6;}
+    .device-guide-card{margin-top:2rem;background:var(--card);border:1px solid rgba(0,255,136,.22);border-radius:8px;padding:2rem;position:relative;overflow:hidden;}
+    .device-guide-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));}
+    .device-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.1em;padding:.4rem 1rem;border-radius:20px;margin-bottom:1.2rem;}
+    .device-badge.pc{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.3);}
+    .device-badge.mobile{background:rgba(255,180,0,.08);color:#ffb400;border:1px solid rgba(255,180,0,.3);}
+    .device-guide-title{font-family:'Orbitron',sans-serif;font-size:1rem;color:#fff;margin-bottom:1.2rem;}
+    .install-steps{list-style:none;counter-reset:step;}
+    .install-steps li{counter-increment:step;display:flex;align-items:flex-start;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--border);color:var(--text);font-size:.95rem;}
+    .install-steps li:last-child{border-bottom:none;}
+    .install-steps li::before{content:counter(step);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.3);color:var(--green);font-family:'Orbitron',sans-serif;font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-top:2rem;}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;text-align:center;transition:all .2s;}
+    .stat:hover{border-color:rgba(0,255,136,.3);box-shadow:0 0 30px rgba(0,255,136,.07);transform:translateY(-3px);}
+    .stat-num{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;color:var(--green);text-shadow:0 0 16px var(--green);}
+    .stat-label{font-size:.85rem;color:var(--dim);margin-top:.3rem;letter-spacing:.05em;}
+    .mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;}
+    .mod-item{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:.75rem 1rem;font-size:.9rem;color:var(--text);transition:all .2s;display:flex;align-items:center;gap:.5rem;}
+    .mod-item:hover{border-color:rgba(0,255,136,.35);color:var(--green);background:rgba(0,255,136,.08);transform:translateX(4px);}
+    .mod-item::before{content:'◆';font-size:.5rem;color:var(--green);flex-shrink:0;}
+    #changelog-list{display:flex;flex-direction:column;gap:1rem;}
+    .cl-entry{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.25rem 1.5rem;transition:border-color .2s;}
+    .cl-entry:hover{border-color:rgba(0,255,136,.3);}
+    .cl-version{font-family:'Orbitron',sans-serif;font-size:.85rem;color:var(--green);margin-bottom:.4rem;}
+    .cl-date{font-size:.8rem;color:var(--dim);margin-bottom:.8rem;}
+    .cl-body{font-size:.9rem;color:var(--text);line-height:1.7;word-break:break-word;}
+    .faq-list{display:flex;flex-direction:column;gap:.75rem;}
+    details{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;transition:border-color .2s;}
+    details[open]{border-color:rgba(0,255,136,.35);box-shadow:0 0 24px rgba(0,255,136,.04);}
+    summary{padding:1.1rem 1.4rem;font-family:'Orbitron',sans-serif;font-size:.78rem;color:var(--text);letter-spacing:.06em;list-style:none;display:flex;justify-content:space-between;align-items:center;}
+    summary::after{content:'+';color:var(--green);font-size:1.2rem;}
+    details[open] summary::after{content:'−';}
+    .faq-answer{padding:0 1.4rem 1.2rem;color:var(--dim);font-size:.95rem;line-height:1.7;}
+    .credits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;}
+    .credit-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.2rem;text-align:center;transition:all .2s;}
+    .credit-card:hover{border-color:rgba(0,255,136,.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3);}
+    .credit-name{font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--green);margin-bottom:.3rem;}
+    .credit-role{font-size:.8rem;color:var(--dim);}
+    footer{text-align:center;padding:2.5rem;border-top:1px solid var(--border);color:var(--dim);font-size:.85rem;}
+    footer a{color:var(--green);text-decoration:none;}
+    footer a:hover{text-shadow:0 0 8px var(--green);}
+    ::-webkit-scrollbar{width:6px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:rgba(0,255,136,.3);border-radius:3px;}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(0,255,136,.6);}
+    /* ── BUG REPORT DROPDOWN ── */
+    .bug-card-wrap{position:relative;}
+    .bug-dropdown{
+      display:none;position:absolute;top:calc(100% + .6rem);left:0;right:0;
+      background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.3);
+      border-radius:8px;overflow:hidden;
+      box-shadow:0 16px 48px rgba(0,0,0,.6),0 0 30px rgba(0,255,136,.08);
+      z-index:100;
+      animation:dropIn .2s ease;
+    }
+    @keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .bug-dropdown.open{display:block;}
+    .bug-dropdown-top{height:2px;background:linear-gradient(90deg,var(--green),var(--green2));}
+    .bug-opt{
+      display:flex;align-items:center;gap:.8rem;
+      padding:1rem 1.2rem;text-decoration:none;color:var(--text);
+      font-family:'Rajdhani',sans-serif;font-size:.95rem;
+      border-bottom:1px solid var(--border);transition:all .18s;
+    }
+    .bug-opt:last-child{border-bottom:none;}
+    .bug-opt:hover{background:rgba(0,255,136,.07);color:var(--green);padding-left:1.5rem;}
+    .bug-opt-icon{font-size:1.3rem;flex-shrink:0;}
+    .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
+    .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
+
+    #feedback-popup{position:fixed;bottom:2rem;right:2rem;z-index:77777;background:#080e0a;border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:1.5rem;width:280px;box-shadow:0 0 40px rgba(0,255,136,.1),0 20px 60px rgba(0,0,0,.6);transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+    #feedback-popup.show{transform:translateY(0);opacity:1;pointer-events:all;}
+    #feedback-popup::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:10px 10px 0 0;}
+    .fb-title{font-family:'Orbitron',sans-serif;font-size:.8rem;color:#fff;margin-bottom:.4rem;}
+    .fb-sub{font-size:.8rem;color:var(--dim);margin-bottom:1rem;}
+    .fb-stars{display:flex;gap:.3rem;margin-bottom:1rem;}
+    .fb-star{font-size:1.6rem;line-height:1;opacity:.35;transition:all .15s;}
+    .fb-star.active{opacity:1;filter:drop-shadow(0 0 6px #ffd700);}
+    .fb-actions{display:flex;gap:.5rem;}
+    .fb-submit{flex:1;font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.5rem;background:var(--green);color:#000;border:none;border-radius:3px;font-weight:700;transition:all .2s;}
+    .fb-submit:hover{background:var(--green2);box-shadow:0 0 16px rgba(0,255,136,.5);}
+    .fb-dismiss{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.5rem .8rem;background:transparent;border:1px solid var(--border);color:var(--dim);border-radius:3px;transition:all .2s;}
+    .fb-dismiss:hover{border-color:rgba(0,255,136,.3);color:var(--text);}
+    .fb-thanks{font-family:'Orbitron',sans-serif;font-size:.75rem;color:var(--green);text-align:center;padding:.5rem 0;display:none;}
   </style>
 </head>
 <body>
 
-  <!-- CUSTOM CURSOR -->
-  <div id="cursor-outer"></div>
-  <div id="cursor-inner"></div>
+<!-- CURSOR — rendered first, max z-index, works everywhere -->
+<div id="cursor-outer"></div>
+<div id="cursor-inner"></div>
 
-  <!-- LOADING SCREEN -->
-  <div id="loading">
-    <div class="load-logo">AXOLOTL PVP+</div>
-    <div class="load-bar-bg"><div class="load-bar"></div></div>
-    <div class="load-text">LOADING MODPACK DATA...</div>
+<!-- BACKGROUND -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- STATUS SCREEN — shown to ALL users when offline/maintenance, above auth gate -->
+<div id="status-screen">
+  <div class="ss-icon" id="ss-icon">⚠️</div>
+  <div class="ss-title" id="ss-title"></div>
+  <div class="ss-sub" id="ss-sub"></div>
+</div>
+
+<!-- OWNER FLOATING BADGE — always visible above status screen so owner can open dropdown even when site is offline/maintenance -->
+<div id="owner-floating-badge">
+  <div class="user-badge-wrap" id="owner-float-wrap" onclick="openOwnerDropdown('float')">
+    <div class="user-badge owner-clickable">👑 OpRGamerz15 <span class="user-badge-chevron">▼</span></div>
   </div>
+</div>
 
-  <!-- HEADER -->
+<!-- OWNER DROPDOWN — fixed positioned, above status screen -->
+<div id="owner-dropdown">
+  <div class="od-header">
+    <div class="od-title">👑 OWNER CONTROLS</div>
+    <div class="od-sub">OpRGamerz15 — Lead Developer</div>
+  </div>
+  <div class="od-section-label">SITE MODE</div>
+  <div class="od-modes">
+    <button class="op-btn mode-online"      id="op-online"      onclick="setSiteMode('online');closeOwnerDropdown()">🟢 ON</button>
+    <button class="op-btn mode-offline"     id="op-offline"     onclick="setSiteMode('offline');closeOwnerDropdown()">🔴 OFF</button>
+    <button class="op-btn mode-maintenance" id="op-maintenance" onclick="setSiteMode('maintenance');closeOwnerDropdown()">🟡 MAINT</button>
+  </div>
+  <button class="od-action" onclick="openUserManager();closeOwnerDropdown()">
+    <span class="od-action-icon">👥</span>Manage Users
+  </button>
+  <button class="od-action danger" onclick="ownerLogout();closeOwnerDropdown()">
+    <span class="od-action-icon">🚪</span>Logout
+  </button>
+</div>
+
+<!-- USER MANAGER MODAL -->
+<div id="user-manager">
+  <div class="um-box">
+    <div class="um-top-bar"></div>
+    <div class="um-head">
+      <div>
+        <div class="um-head-title">👥 USER MANAGEMENT</div>
+        <div class="um-head-sub">Manage accounts and roles</div>
+      </div>
+      <button class="um-close" onclick="closeUserManager()">✕</button>
+    </div>
+    <div class="um-tabs">
+      <button class="um-tab active" onclick="switchUmTab('users',this)">USERS</button>
+      <button class="um-tab" onclick="switchUmTab('roles',this)">ROLES</button>
+    </div>
+    <!-- USERS PANEL -->
+    <div class="um-panel active" id="um-panel-users">
+      <div id="um-body"><div class="um-empty">Loading...</div></div>
+    </div>
+    <!-- ROLES PANEL -->
+    <div class="um-panel" id="um-panel-roles">
+      <div class="um-create-role-form" id="um-role-form">
+        <div class="um-form-title" id="um-role-form-title">CREATE NEW ROLE</div>
+        <div class="um-form-row">
+          <div class="um-form-field" style="flex:2">
+            <label>ROLE NAME</label>
+            <input type="text" id="role-name-input" placeholder="e.g. Moderator"/>
+          </div>
+          <div class="um-form-field" style="flex:0 0 60px">
+            <label>COLOR</label>
+            <input type="color" id="role-color-input" value="#00ff88"/>
+          </div>
+          <button class="um-save-role-btn" id="um-save-role-btn" onclick="saveRole()">SAVE</button>
+        </div>
+      </div>
+      <div id="um-roles-list"><div class="um-empty">No roles created yet.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSIGN ROLE MODAL -->
+<div id="assign-role-modal">
+  <div class="arm-box">
+    <div class="arm-top"></div>
+    <div class="arm-head">
+      <div class="arm-title">ASSIGN ROLE</div>
+      <button class="arm-close" onclick="closeAssignRole()">✕</button>
+    </div>
+    <div class="arm-body">
+      <div class="arm-user-label">Assigning role to: <strong id="arm-username"></strong></div>
+      <div class="arm-roles-list" id="arm-roles-list"></div>
+    </div>
+    <div class="arm-footer">
+      <button class="arm-save-btn" onclick="saveAssignRole()">SAVE ROLE</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="um-del-confirm" id="um-del-confirm">
+  <div class="um-confirm-box">
+    <div class="um-confirm-title">⚠ CONFIRM DELETE</div>
+    <div class="um-confirm-sub" id="um-confirm-sub"></div>
+    <div class="um-confirm-btns">
+      <button class="um-confirm-yes" id="um-confirm-yes">DELETE</button>
+      <button class="um-confirm-no" onclick="document.getElementById('um-del-confirm').classList.remove('open')">CANCEL</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <div class="ag-glow"></div>
+  <div class="ag-logo">AXOLOTL PVP+</div>
+  <div class="ag-tagline">// PLAYER ACCESS REQUIRED</div>
+  <div class="auth-box">
+    <div class="auth-box-top"></div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="at-login">LOGIN</button>
+      <button class="auth-tab" id="at-signup">SIGN UP</button>
+    </div>
+    <div id="af-login">
+      <div class="auth-field"><label>USERNAME</label><input type="text" id="al-user" placeholder="Enter username" autocomplete="off"/></div>
+      <div class="auth-field"><label>PASSWORD</label><input type="password" id="al-pass" placeholder="••••••••"/></div>
+      <button class="auth-submit" id="do-login">LOGIN →</button>
+    </div>
+    <div id="af-signup" style="display:none">
+      <div class="auth-field"><label>USERNAME</label><input type="text" id="as-user" placeholder="Choose username" autocomplete="off"/></div>
+      <div class="auth-field"><label>PASSWORD</label><input type="password" id="as-pass" placeholder="Choose password"/></div>
+      <button class="auth-submit" id="do-signup">CREATE ACCOUNT →</button>
+    </div>
+    <div class="auth-msg" id="auth-msg"></div>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding" style="display:none">
+  <div class="ob-particles" id="ob-particles"></div>
+  <div class="ob-axo">🦎</div>
+  <div class="ob-title">WELCOME TO AXOLOTL PVP+</div>
+  <div class="ob-sub">⚡ Boost your FPS to <span>300+</span> — the ultimate PVP modpack</div>
+  <button class="ob-btn" id="ob-btn">ENTER THE ARENA →</button>
+</div>
+
+<!-- LOADING -->
+<div id="loading" style="display:none">
+  <div class="load-logo">AXOLOTL PVP+</div>
+  <div class="load-bar-bg"><div class="load-bar" id="load-bar"></div></div>
+  <div class="load-text" id="load-text">Initializing...</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main-content" style="display:none">
   <header>
-    <a class="logo" href="#">AXOLOTL PVP+</a>
+    <a class="logo" href="#" onclick="location.reload();return false;">AXOLOTL PVP+</a>
     <nav>
       <a href="#downloads">DOWNLOAD</a>
       <a href="#mods">MODS</a>
@@ -451,10 +619,11 @@
       <a href="https://github.com/OpRGamerz15/Axolotl-PVP" target="_blank">GITHUB</a>
       <a href="https://dcserver.link/nexterasmp" target="_blank" class="nav-discord">DISCORD</a>
       <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">MODRINTH</a>
+      <div class="status-badge" id="header-status-badge"><div class="status-dot"></div><span id="header-status-text">ONLINE</span></div>
+      <div id="header-user"></div>
     </nav>
   </header>
 
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-badge">MINECRAFT MODPACK</div>
     <h1>AXOLOTL <span>PVP+</span></h1>
@@ -464,35 +633,43 @@
       <a class="btn-secondary" href="https://dcserver.link/nexterasmp" target="_blank">JOIN DISCORD</a>
     </div>
   </div>
-
   <div class="divider"></div>
 
-  <!-- DOWNLOADS -->
   <section id="downloads">
     <div class="section-label">// GET STARTED</div>
     <h2>CHOOSE YOUR <span>LAUNCHER</span></h2>
     <div class="dl-grid">
-      <a class="dl-card" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">
-        <div class="dl-icon">🌿</div>
-        <h3>MODRINTH</h3>
-        <p>Official release on Modrinth. Recommended for Modrinth App, Prism Launcher, and ATLauncher users.</p>
-      </a>
-      <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank">
-        <div class="dl-icon">🎬</div>
-        <h3>SKLAUNCHER TUTORIAL</h3>
-        <p>Watch a step-by-step guide on how to install Axolotl PVP+ using SKLauncher.</p>
-      </a>
-      <a class="dl-card" href="https://github.com/OpRGamerz15/Axolotl-PVP/issues" target="_blank">
-        <div class="dl-icon">🐛</div>
-        <h3>REPORT A BUG</h3>
-        <p>Found an issue? Open a ticket on GitHub and help us improve the modpack for everyone.</p>
-      </a>
+      <a class="dl-card" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank"><div class="dl-icon">🌿</div><h3>MODRINTH</h3><p>Official release on Modrinth. Recommended for Modrinth App, Prism Launcher, and ATLauncher users.</p></a>
+      <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank"><div class="dl-icon">🎬</div><h3>SKLAUNCHER TUTORIAL</h3><p>Watch a step-by-step guide on how to install Axolotl PVP+ using SKLauncher.</p></a>
+      <div class="bug-card-wrap">
+        <div class="dl-card" id="bug-report-btn" style="cursor:pointer">
+          <div class="dl-icon">🐛</div>
+          <h3>REPORT A BUG</h3>
+          <p>Found an issue? Choose where to report it — Discord or GitHub.</p>
+        </div>
+        <div class="bug-dropdown" id="bug-dropdown">
+          <div class="bug-dropdown-top"></div>
+          <a class="bug-opt" href="https://discord.gg/RDn9uKSmez" target="_blank">
+            <span class="bug-opt-icon">💬</span>
+            <span>
+              <span class="bug-opt-label">Report in Discord</span>
+              <span class="bug-opt-sub">Join our server and post in #bug-reports</span>
+            </span>
+          </a>
+          <a class="bug-opt" href="https://github.com/OpRGamerz15/Axolotl-PVP/issues" target="_blank">
+            <span class="bug-opt-icon">🐙</span>
+            <span>
+              <span class="bug-opt-label">Report in GitHub</span>
+              <span class="bug-opt-sub">Open a detailed issue on our GitHub repo</span>
+            </span>
+          </a>
+        </div>
+      </div>
     </div>
+    <div class="device-guide-card" id="device-guide"></div>
   </section>
-
   <div class="divider"></div>
 
-  <!-- PERFORMANCE STATS -->
   <section id="stats">
     <div class="section-label">// PERFORMANCE</div>
     <h2>BUILT FOR <span>SPEED</span></h2>
@@ -503,103 +680,58 @@
       <div class="stat"><div class="stat-num">PVP</div><div class="stat-label">OPTIMIZED</div></div>
     </div>
   </section>
-
   <div class="divider"></div>
 
-  <!-- MOD LIST -->
   <section id="mods">
     <div class="section-label">// INCLUDED MODS</div>
     <h2>THE <span>ARSENAL</span></h2>
     <div class="mod-grid">
-      <div class="mod-item">Sodium</div>
-      <div class="mod-item">Iris Shaders</div>
-      <div class="mod-item">Lithium</div>
-      <div class="mod-item">FerriteCore</div>
-      <div class="mod-item">EntityCulling</div>
-      <div class="mod-item">Badoptimizations</div>
-      <div class="mod-item">ModernFix</div>
-      <div class="mod-item">Fabric API</div>
-      <div class="mod-item">Cloth Config</div>
-      <div class="mod-item">MidnightLib</div>
-      <div class="mod-item">YetAnotherConfigLib</div>
-      <div class="mod-item">Reese's Sodium Options</div>
-      <div class="mod-item">Sodium Extra</div>
-      <div class="mod-item">ImmediatelyFast</div>
-      <div class="mod-item">Nvidium</div>
-      <div class="mod-item">Very Many Players</div>
-      <div class="mod-item">Dynamic FPS</div>
-      <div class="mod-item">Krypton</div>
-      <div class="mod-item">Capes</div>
-      <div class="mod-item">Zoomify</div>
-      <div class="mod-item">Replay Mod</div>
-      <div class="mod-item">BetterF3</div>
-      <div class="mod-item">MinimapMod</div>
-      <div class="mod-item">AppleSkin</div>
+      <div class="mod-item">Sodium</div><div class="mod-item">Iris Shaders</div>
+      <div class="mod-item">Lithium</div><div class="mod-item">FerriteCore</div>
+      <div class="mod-item">EntityCulling</div><div class="mod-item">Badoptimizations</div>
+      <div class="mod-item">ModernFix</div><div class="mod-item">Fabric API</div>
+      <div class="mod-item">Cloth Config</div><div class="mod-item">MidnightLib</div>
+      <div class="mod-item">YetAnotherConfigLib</div><div class="mod-item">Reese's Sodium Options</div>
+      <div class="mod-item">Sodium Extra</div><div class="mod-item">ImmediatelyFast</div>
+      <div class="mod-item">Nvidium</div><div class="mod-item">Very Many Players</div>
+      <div class="mod-item">Dynamic FPS</div><div class="mod-item">Krypton</div>
+      <div class="mod-item">Capes</div><div class="mod-item">Zoomify</div>
+      <div class="mod-item">Replay Mod</div><div class="mod-item">BetterF3</div>
+      <div class="mod-item">MinimapMod</div><div class="mod-item">AppleSkin</div>
     </div>
   </section>
-
   <div class="divider"></div>
 
-  <!-- LIVE CHANGELOG -->
   <section id="changelog">
     <div class="section-label">// LIVE FROM MODRINTH</div>
     <h2>CHANGE<span>LOG</span></h2>
-    <div id="changelog-list"><div style="color:var(--dim)">Loading versions...</div></div>
+    <div id="changelog-list"><div style="color:var(--dim);font-size:.9rem">⏳ Fetching versions from Modrinth...</div></div>
   </section>
-
   <div class="divider"></div>
 
-  <!-- FAQ -->
   <section id="faq">
     <div class="section-label">// HELP</div>
     <h2>FAQ</h2>
     <div class="faq-list">
-      <details>
-        <summary>How do I install Axolotl PVP+?</summary>
-        <div class="faq-answer">You can install it via Modrinth App, Prism Launcher, or ATLauncher by searching "Axolotl PVP+". For SKLauncher, follow our <a href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank" style="color:var(--green)">video tutorial</a>.</div>
-      </details>
-      <details>
-        <summary>What Minecraft version does it support?</summary>
-        <div class="faq-answer">Check the Modrinth page for the latest supported version. We keep the pack updated with new MC releases.</div>
-      </details>
-      <details>
-        <summary>Can I use this on servers?</summary>
-        <div class="faq-answer">Yes! The modpack is designed for PVP servers. All mods are client-side and allowed on most competitive servers.</div>
-      </details>
-      <details>
-        <summary>My FPS is still low — what do I do?</summary>
-        <div class="faq-answer">Allocate at least 4GB of RAM to Minecraft, disable shaders in-game, and make sure your GPU drivers are up to date. Check our Discord for extra tips.</div>
-      </details>
-      <details>
-        <summary>I found a bug. How do I report it?</summary>
-        <div class="faq-answer">Open an issue on our <a href="https://github.com/OpRGamerz15/Axolotl-PVP/issues" target="_blank" style="color:var(--green)">GitHub Issues</a> page with as much detail as possible.</div>
-      </details>
+      <details><summary>How do I install Axolotl PVP+?</summary><div class="faq-answer">Install via Modrinth App, Prism Launcher, or ATLauncher by searching "Axolotl PVP+". For SKLauncher, follow our <a href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank" style="color:var(--green)">video tutorial</a>.</div></details>
+      <details><summary>What Minecraft version does it support?</summary><div class="faq-answer">Check the Modrinth page for the latest supported version. We keep the pack updated with new MC releases.</div></details>
+      <details><summary>Can I use this on servers?</summary><div class="faq-answer">Yes! All mods are client-side and allowed on most competitive PVP servers.</div></details>
+      <details><summary>My FPS is still low — what do I do?</summary><div class="faq-answer">Allocate at least 4GB of RAM, disable shaders in-game, and keep your GPU drivers up to date. Check Discord for extra tips.</div></details>
+      <details><summary>I found a bug. How do I report it?</summary><div class="faq-answer">Open an issue on our <a href="https://github.com/OpRGamerz15/Axolotl-PVP/issues" target="_blank" style="color:var(--green)">GitHub Issues</a> page with as much detail as possible.</div></details>
     </div>
   </section>
-
   <div class="divider"></div>
 
-  <!-- CREDITS -->
   <section id="credits">
     <div class="section-label">// THE TEAM</div>
     <h2>CRED<span>ITS</span></h2>
     <div class="credits-grid">
-      <div class="credit-card">
-        <div class="credit-name">OpRGamerz15</div>
-        <div class="credit-role">Lead Developer</div>
-      </div>
-      <div class="credit-card">
-        <div class="credit-name">Community</div>
-        <div class="credit-role">Feedback & Testing</div>
-      </div>
-      <div class="credit-card">
-        <div class="credit-name">Mod Authors</div>
-        <div class="credit-role">Amazing mods ❤️</div>
-      </div>
+      <div class="credit-card"><div class="credit-name">OpRGamerz15</div><div class="credit-role">Lead Developer</div></div>
+      <div class="credit-card"><div class="credit-name">Community</div><div class="credit-role">Feedback & Testing</div></div>
+      <div class="credit-card"><div class="credit-name">Mod Authors</div><div class="credit-role">Amazing mods ❤️</div></div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2025 Axolotl PVP+ · Not affiliated with Mojang or Microsoft ·
       <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">Modrinth</a> ·
@@ -607,112 +739,679 @@
       <a href="https://dcserver.link/nexterasmp" target="_blank">Discord</a>
     </p>
   </footer>
+</div>
 
-  <script>
-    /* ── LOADING SCREEN ─────────────────────────────────────── */
-    window.addEventListener('load', () => {
-      setTimeout(() => document.getElementById('loading').classList.add('hide'), 2000);
+<!-- FEEDBACK POPUP -->
+<div id="feedback-popup">
+  <div class="fb-title">Rate your experience ⚡</div>
+  <div class="fb-sub">How's Axolotl PVP+ treating you?</div>
+  <div class="fb-stars" id="fb-stars">
+    <span class="fb-star" data-v="1">⭐</span><span class="fb-star" data-v="2">⭐</span>
+    <span class="fb-star" data-v="3">⭐</span><span class="fb-star" data-v="4">⭐</span>
+    <span class="fb-star" data-v="5">⭐</span>
+  </div>
+  <div class="fb-actions">
+    <button class="fb-submit" id="fb-submit">SUBMIT</button>
+    <button class="fb-dismiss" id="fb-dismiss">LATER</button>
+  </div>
+  <div class="fb-thanks" id="fb-thanks">⚡ Thanks for the feedback!</div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   ANTI-COPY
+════════════════════════════════════════════ */
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+  if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(e.key.toUpperCase()))||(e.ctrlKey&&['U','S'].includes(e.key.toUpperCase()))){e.preventDefault();return false;}
+});
+
+/* ════════════════════════════════════════════
+   CURSOR — runs immediately, max z-index,
+   works on auth gate, status screen, everywhere
+════════════════════════════════════════════ */
+(()=>{
+  const outer=document.getElementById('cursor-outer');
+  const inner=document.getElementById('cursor-inner');
+  const TC=8; const trails=[];
+  for(let i=0;i<TC;i++){
+    const t=document.createElement('div');
+    t.className='cursor-trail';
+    t.style.width=t.style.height=(6-i*.5)+'px';
+    document.body.appendChild(t);
+    trails.push(t);
+  }
+  let mx=-100,my=-100,ox=-100,oy=-100;
+  let prev=Array.from({length:TC},()=>({x:-100,y:-100}));
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    inner.style.left=mx+'px'; inner.style.top=my+'px';
+  });
+  document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
+  document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
+  document.addEventListener('mouseleave',()=>{outer.style.opacity='0';inner.style.opacity='0';trails.forEach(t=>t.style.opacity='0');});
+  document.addEventListener('mouseenter',()=>{outer.style.opacity='1';inner.style.opacity='1';});
+
+  /* Delegated hover — works for elements added at any time */
+  document.addEventListener('mouseover',e=>{
+    if(e.target.closest('a,button,summary,details,.dl-card,.mod-item,.op-btn,.auth-tab,.auth-submit,.auth-guest,.fb-star,.fb-submit,.fb-dismiss'))
+      document.body.classList.add('cursor-hover');
+  });
+  document.addEventListener('mouseout',e=>{
+    if(e.target.closest('a,button,summary,details,.dl-card,.mod-item,.op-btn,.auth-tab,.auth-submit,.auth-guest,.fb-star,.fb-submit,.fb-dismiss'))
+      document.body.classList.remove('cursor-hover');
+  });
+
+  (function animCursor(){
+    ox+=(mx-ox)*.12; oy+=(my-oy)*.12;
+    outer.style.left=ox+'px'; outer.style.top=oy+'px';
+    prev[0]={x:mx,y:my};
+    for(let i=1;i<TC;i++) prev[i]={x:prev[i].x+(prev[i-1].x-prev[i].x)*.25,y:prev[i].y+(prev[i-1].y-prev[i].y)*.25};
+    trails.forEach((t,i)=>{
+      const idx=Math.min(i+1,TC-1);
+      t.style.left=prev[idx].x+'px'; t.style.top=prev[idx].y+'px';
+      t.style.opacity=(0.35-i*.04).toString();
+      t.style.transform=`translate(-50%,-50%) scale(${1-i*.08})`;
     });
+    requestAnimationFrame(animCursor);
+  })();
+})();
 
-    /* ── CUSTOM CURSOR ───────────────────────────────────────── */
-    const outer = document.getElementById('cursor-outer');
-    const inner = document.getElementById('cursor-inner');
-    const TRAIL_COUNT = 8;
-    const trails = [];
-
-    // Create trail dots
-    for (let i = 0; i < TRAIL_COUNT; i++) {
-      const t = document.createElement('div');
-      t.className = 'cursor-trail';
-      t.style.width = t.style.height = (6 - i * 0.5) + 'px';
-      document.body.appendChild(t);
-      trails.push({ el: t, x: 0, y: 0 });
+/* ════════════════════════════════════════════
+   BACKGROUND CANVAS
+════════════════════════════════════════════ */
+(()=>{
+  const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight;};
+  addEventListener('resize',resize); resize();
+  for(let i=0;i<80;i++) pts.push({x:Math.random()*3000,y:Math.random()*3000,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,r:Math.random()*1.4+.3,a:Math.random()*.4+.08});
+  (function frame(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(0,255,136,0.022)'; ctx.lineWidth=1;
+    const gs=80;
+    for(let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,255,136,${p.a})`; ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){ctx.beginPath();ctx.strokeStyle=`rgba(0,255,136,${.05*(1-d/110)})`;ctx.lineWidth=.5;ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke();}
     }
+    requestAnimationFrame(frame);
+  })();
+})();
 
-    let mouseX = -100, mouseY = -100;
-    // Lagged positions for outer ring
-    let outerX = -100, outerY = -100;
+/* ════════════════════════════════════════════
+   CONSTANTS & STORAGE
+════════════════════════════════════════════ */
+const OWNER={user:'OpRGamerz15',pass:'OpRGamerz15YT'};
+const K={mode:'axolotl_sitemode',session:'axolotl_session',users:'axolotl_users',visit:'axolotl_visited',rated:'axolotl_rated'};
+const getMode    = ()=>localStorage.getItem(K.mode)||'online';
+const setMode    = m=>localStorage.setItem(K.mode,m);
+const getSession = ()=>localStorage.getItem(K.session)||'';
+const setSession = u=>localStorage.setItem(K.session,u);
+const clearSession=()=>localStorage.removeItem(K.session);
+const getUsers   = ()=>{try{return JSON.parse(localStorage.getItem(K.users)||'{}')}catch{return{}}};
+const saveUsers  = u=>localStorage.setItem(K.users,JSON.stringify(u));
+const isOwner    = u=>u===OWNER.user;
 
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      inner.style.left = mouseX + 'px';
-      inner.style.top  = mouseY + 'px';
-    });
+/* Seed owner account */
+(()=>{const u=getUsers();if(!u[OWNER.user]){u[OWNER.user]=OWNER.pass;saveUsers(u);}})();
 
-    // Smooth outer ring + trail animation
-    let prevPositions = Array(TRAIL_COUNT).fill({ x: -100, y: -100 });
+/* ════════════════════════════════════════════
+   SITE MODE — applies to ALL visitors.
+   Status screen sits above auth gate so
+   non-logged-in users also see offline/maintenance.
+════════════════════════════════════════════ */
+function applyMode(mode){
+  const sc   = document.getElementById('status-screen');
+  const badge= document.getElementById('header-status-badge');
+  const btxt = document.getElementById('header-status-text');
 
-    function animateCursor() {
-      // Smooth outer ring
-      outerX += (mouseX - outerX) * 0.12;
-      outerY += (mouseY - outerY) * 0.12;
-      outer.style.left = outerX + 'px';
-      outer.style.top  = outerY + 'px';
+  /* Update header badge (only visible when main content is shown) */
+  if(badge){ badge.className='status-badge '+mode; btxt.textContent=mode.toUpperCase(); }
 
-      // Trail positions (each follows the previous)
-      prevPositions[0] = { x: mouseX, y: mouseY };
-      for (let i = 1; i < TRAIL_COUNT; i++) {
-        prevPositions[i] = {
-          x: prevPositions[i].x + (prevPositions[i-1].x - prevPositions[i].x) * 0.25,
-          y: prevPositions[i].y + (prevPositions[i-1].y - prevPositions[i].y) * 0.25,
-        };
+  /* Highlight active owner button */
+  document.querySelectorAll('.op-btn').forEach(b=>b.classList.remove('active'));
+  const ab=document.getElementById('op-'+mode); if(ab) ab.classList.add('active');
+
+  if(mode==='online'){
+    sc.className=''; sc.style.display='none';
+  } else if(mode==='offline'){
+    document.getElementById('ss-icon').textContent='📡';
+    document.getElementById('ss-title').textContent='THE WEB IS CURRENTLY OFFLINE';
+    document.getElementById('ss-sub').textContent='The Web Is Currently Offline, Try Again Later.';
+    sc.className='show offline'; sc.style.display='flex';
+  } else {
+    document.getElementById('ss-icon').textContent='🔧';
+    document.getElementById('ss-title').textContent='UNDER MAINTENANCE';
+    document.getElementById('ss-sub').textContent='The Web Currently Under Maintenance. We\'ll be back soon!';
+    sc.className='show maintenance'; sc.style.display='flex';
+  }
+}
+
+function setSiteMode(m){ setMode(m); applyMode(m); syncFloatingBadge(); }
+
+/* ════════════════════════════════════════════
+   STORAGE — add roles key
+════════════════════════════════════════════ */
+const getRoles=()=>{try{return JSON.parse(localStorage.getItem('axolotl_roles')||'[]')}catch{return[]}};
+const saveRoles=r=>localStorage.setItem('axolotl_roles',JSON.stringify(r));
+const getUserRoles=()=>{try{return JSON.parse(localStorage.getItem('axolotl_userroles')||'{}')}catch{return{}}};
+const saveUserRoles=r=>localStorage.setItem('axolotl_userroles',JSON.stringify(r));
+
+/* ════════════════════════════════════════════
+   OWNER DROPDOWN HELPERS
+   Works from both header badge AND floating badge
+════════════════════════════════════════════ */
+let _ddAnchor='header'; // 'header' or 'float'
+
+function closeOwnerDropdown(){
+  document.getElementById('owner-dropdown').classList.remove('open');
+  const hw=document.getElementById('owner-user-wrap');
+  const fw=document.getElementById('owner-float-wrap');
+  if(hw)hw.classList.remove('open');
+  if(fw)fw.classList.remove('open');
+}
+
+function openOwnerDropdown(anchor){
+  _ddAnchor=anchor||'header';
+  const dd=document.getElementById('owner-dropdown');
+  if(dd.classList.contains('open')){closeOwnerDropdown();return;}
+
+  // Pick anchor element to position below
+  const anchorEl=(_ddAnchor==='float')
+    ? document.getElementById('owner-float-wrap')
+    : document.getElementById('owner-user-wrap');
+
+  if(!anchorEl){closeOwnerDropdown();return;}
+  const rect=anchorEl.getBoundingClientRect();
+  dd.style.top=(rect.bottom+6)+'px';
+  dd.style.right=(window.innerWidth-rect.right)+'px';
+  dd.style.left='auto';
+  anchorEl.classList.add('open');
+  dd.classList.add('open');
+  applyMode(getMode()); // refresh active button
+}
+
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('owner-dropdown');
+  const hw=document.getElementById('owner-user-wrap');
+  const fw=document.getElementById('owner-float-wrap');
+  if(!dd)return;
+  if((!hw||!hw.contains(e.target))&&(!fw||!fw.contains(e.target))&&!dd.contains(e.target)){
+    closeOwnerDropdown();
+  }
+});
+
+/* Show/hide floating badge based on site mode and owner login */
+function syncFloatingBadge(){
+  const mode=getMode();
+  const fb=document.getElementById('owner-floating-badge');
+  if(!fb)return;
+  // Show floating badge when site is offline/maintenance so owner can still access dropdown
+  // Also show when owner is logged in regardless
+  fb.classList.toggle('visible', (mode!=='online') && isOwner(getSession()));
+}
+
+/* ════════════════════════════════════════════
+   USER MANAGER
+════════════════════════════════════════════ */
+function openUserManager(){
+  document.getElementById('user-manager').classList.add('open');
+  renderUserList();
+  renderRolesList();
+}
+function closeUserManager(){
+  document.getElementById('user-manager').classList.remove('open');
+  cancelRoleEdit();
+}
+document.getElementById('user-manager').addEventListener('click',e=>{
+  if(e.target===e.currentTarget)closeUserManager();
+});
+
+function switchUmTab(tab,btn){
+  document.querySelectorAll('.um-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.um-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('um-panel-'+tab).classList.add('active');
+}
+
+/* ── USERS TAB ── */
+function renderUserList(){
+  const body=document.getElementById('um-body');
+  const users=getUsers();
+  const userRoles=getUserRoles();
+  const roles=getRoles();
+  const usernames=Object.keys(users);
+  if(!usernames.length){body.innerHTML='<div class="um-empty">No registered users.</div>';return;}
+
+  const count=`<div class="um-count">${usernames.length} USER${usernames.length!==1?'S':''}</div>`;
+  const rows=usernames.map(u=>{
+    const owner=isOwner(u);
+    const initials=u.slice(0,2).toUpperCase();
+    const roleId=userRoles[u];
+    const role=roles.find(r=>r.id===roleId);
+    const roleChip=role
+      ? `<span class="um-role-chip" style="color:${role.color};border-color:${role.color}55;background:${role.color}15">● ${role.name}</span>`
+      : `<span style="color:var(--dim);font-size:.65rem">No role</span>`;
+    return `<div class="um-user-row${owner?' is-owner':''}">
+      <div class="um-user-info">
+        <div class="um-user-avatar${owner?' owner-av':''}">${owner?'👑':initials}</div>
+        <div>
+          <div class="um-user-name">${u}</div>
+          <div class="um-user-tag">${owner?'<span style="color:#ffd700">OWNER</span>':roleChip}</div>
+        </div>
+      </div>
+      <div class="um-user-actions">
+        ${!owner?`<button class="um-btn assign" onclick="openAssignRole('${u}')">ROLE</button>`:''}
+        ${!owner?`<button class="um-btn del" onclick="confirmDeleteUser('${u}')">DELETE</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  body.innerHTML=count+rows;
+}
+
+function confirmDeleteUser(username){
+  const c=document.getElementById('um-del-confirm');
+  document.getElementById('um-confirm-sub').textContent=`Delete "${username}"? They will need to sign up again to access the site.`;
+  c.classList.add('open');
+  document.getElementById('um-confirm-yes').onclick=()=>{
+    const users=getUsers(); delete users[username]; saveUsers(users);
+    const ur=getUserRoles(); delete ur[username]; saveUserRoles(ur);
+    if(getSession()===username)clearSession();
+    c.classList.remove('open');
+    renderUserList();
+  };
+}
+
+/* ── ROLES TAB ── */
+let _editingRoleId=null;
+
+function renderRolesList(){
+  const container=document.getElementById('um-roles-list');
+  const roles=getRoles();
+  const userRoles=getUserRoles();
+  if(!roles.length){container.innerHTML='<div class="um-empty">No roles created yet. Create your first role above.</div>';return;}
+
+  container.innerHTML=roles.map(r=>{
+    const useCount=Object.values(userRoles).filter(id=>id===r.id).length;
+    return `<div class="um-role-row">
+      <div class="um-role-info">
+        <div class="um-role-dot" style="background:${r.color};box-shadow:0 0 6px ${r.color}88"></div>
+        <div>
+          <div class="um-role-name" style="color:${r.color}">${r.name}</div>
+          <div class="um-role-meta">${useCount} member${useCount!==1?'s':''}</div>
+        </div>
+      </div>
+      <div class="um-role-actions">
+        <button class="um-btn edit-role" onclick="startEditRole('${r.id}')">EDIT</button>
+        <button class="um-btn del-role" onclick="confirmDeleteRole('${r.id}','${r.name}')">DELETE</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function saveRole(){
+  const name=document.getElementById('role-name-input').value.trim();
+  const color=document.getElementById('role-color-input').value;
+  if(!name)return;
+  const roles=getRoles();
+  if(_editingRoleId){
+    const i=roles.findIndex(r=>r.id===_editingRoleId);
+    if(i!==-1){roles[i].name=name;roles[i].color=color;}
+    _editingRoleId=null;
+    document.getElementById('um-role-form-title').textContent='CREATE NEW ROLE';
+    document.getElementById('um-save-role-btn').textContent='SAVE';
+  } else {
+    roles.push({id:'r_'+Date.now(),name,color});
+  }
+  saveRoles(roles);
+  document.getElementById('role-name-input').value='';
+  document.getElementById('role-color-input').value='#00ff88';
+  renderRolesList();
+  renderUserList();
+}
+
+function startEditRole(id){
+  const role=getRoles().find(r=>r.id===id);
+  if(!role)return;
+  _editingRoleId=id;
+  document.getElementById('role-name-input').value=role.name;
+  document.getElementById('role-color-input').value=role.color;
+  document.getElementById('um-role-form-title').textContent='EDIT ROLE';
+  document.getElementById('um-save-role-btn').textContent='UPDATE';
+  document.getElementById('role-name-input').focus();
+}
+
+function cancelRoleEdit(){
+  _editingRoleId=null;
+  document.getElementById('role-name-input').value='';
+  document.getElementById('role-color-input').value='#00ff88';
+  const ft=document.getElementById('um-role-form-title');
+  if(ft)ft.textContent='CREATE NEW ROLE';
+  const sb=document.getElementById('um-save-role-btn');
+  if(sb)sb.textContent='SAVE';
+}
+
+function confirmDeleteRole(id,name){
+  const c=document.getElementById('um-del-confirm');
+  document.getElementById('um-confirm-sub').textContent=`Delete role "${name}"? All users with this role will lose it.`;
+  c.classList.add('open');
+  document.getElementById('um-confirm-yes').onclick=()=>{
+    const roles=getRoles().filter(r=>r.id!==id); saveRoles(roles);
+    // Remove from all users
+    const ur=getUserRoles();
+    Object.keys(ur).forEach(u=>{if(ur[u]===id)delete ur[u];}); saveUserRoles(ur);
+    c.classList.remove('open');
+    renderRolesList(); renderUserList();
+  };
+}
+
+/* ── ASSIGN ROLE MODAL ── */
+let _assigningUser=null, _selectedRoleId=null;
+
+function openAssignRole(username){
+  _assigningUser=username;
+  const ur=getUserRoles();
+  _selectedRoleId=ur[username]||null;
+  document.getElementById('arm-username').textContent=username;
+  const roles=getRoles();
+  const list=document.getElementById('arm-roles-list');
+  if(!roles.length){list.innerHTML='<div class="um-empty" style="font-size:.8rem">No roles yet. Create roles in the Roles tab first.</div>';
+  } else {
+    list.innerHTML=`<button class="arm-none-option" onclick="selectArmRole(null)">✕ Remove role</button>`
+      +roles.map(r=>`<div class="arm-role-option${_selectedRoleId===r.id?' selected':''}" onclick="selectArmRole('${r.id}')">
+        <span class="arm-role-check">✓</span>
+        <div class="arm-role-dot" style="background:${r.color};box-shadow:0 0 5px ${r.color}88"></div>
+        <span class="arm-role-name" style="color:${r.color}">${r.name}</span>
+      </div>`).join('');
+  }
+  document.getElementById('assign-role-modal').classList.add('open');
+}
+
+function selectArmRole(id){
+  _selectedRoleId=id;
+  document.querySelectorAll('.arm-role-option').forEach(el=>{
+    el.classList.toggle('selected',el.querySelector('.arm-role-name')&&getRoles().find(r=>r.id===id&&el.querySelector('.arm-role-name').style.color===r.color)||false);
+  });
+  // Re-render options to reflect selection
+  if(_assigningUser) openAssignRole(_assigningUser);
+  // Re-open doesn't close, just refreshes
+}
+
+function saveAssignRole(){
+  if(!_assigningUser)return;
+  const ur=getUserRoles();
+  if(_selectedRoleId)ur[_assigningUser]=_selectedRoleId;
+  else delete ur[_assigningUser];
+  saveUserRoles(ur);
+  closeAssignRole();
+  renderUserList();
+}
+
+function closeAssignRole(){
+  document.getElementById('assign-role-modal').classList.remove('open');
+  _assigningUser=null;
+  _selectedRoleId=null;
+}
+document.getElementById('assign-role-modal').addEventListener('click',e=>{
+  if(e.target===e.currentTarget)closeAssignRole();
+});
+
+/* Logout */
+function ownerLogout(){
+  clearSession();
+  closeOwnerDropdown();
+  syncFloatingBadge();
+  document.getElementById('main-content').style.display='none';
+  document.getElementById('header-user').innerHTML='';
+  const gate=document.getElementById('auth-gate');
+  gate.classList.remove('hide');
+  gate.style.cssText='display:flex;opacity:1;visibility:visible;pointer-events:auto;';
+  document.getElementById('af-login').style.display='block';
+  document.getElementById('af-signup').style.display='none';
+  document.getElementById('at-login').classList.add('active');
+  document.getElementById('at-signup').classList.remove('active');
+  ['al-user','al-pass','as-user','as-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('auth-msg').textContent='';
+}
+
+function renderHeaderUser(u){
+  const el=document.getElementById('header-user'); if(!el)return;
+  if(u&&isOwner(u)){
+    el.innerHTML=`<div class="user-badge-wrap" id="owner-user-wrap" onclick="openOwnerDropdown('header')">
+      <div class="user-badge owner-clickable">👑 ${u} <span class="user-badge-chevron">▼</span></div>
+    </div>`;
+  } else if(u){
+    el.innerHTML=`<div class="user-badge">👤 ${u}</div>`;
+  } else { el.innerHTML=''; }
+  syncFloatingBadge();
+}
+
+/* ════════════════════════════════════════════
+   APPLY MODE IMMEDIATELY on page load —
+   so EVERY visitor (including non-logged-in)
+   sees the offline/maintenance screen right away
+════════════════════════════════════════════ */
+applyMode(getMode());
+// Early floating badge check — if owner is already logged in from a previous session
+(()=>{
+  if(isOwner(getSession())&&getMode()!=='online'){
+    const fb=document.getElementById('owner-floating-badge');
+    if(fb)fb.classList.add('visible');
+  }
+})();
+
+/* ════════════════════════════════════════════
+   MAIN APP FLOW
+════════════════════════════════════════════ */
+function startApp(username, isGuest){
+  renderHeaderUser(username);
+  syncFloatingBadge();
+  /* Re-apply mode to sync header badge now that header exists */
+  applyMode(getMode());
+
+  const firstVisit=!localStorage.getItem(K.visit);
+
+  function runLoading(cb){
+    const ld=document.getElementById('loading'); ld.style.display='flex';
+    const msgs=['Initializing engine...','Optimizing chunks...','Boosting FPS...','Loading assets...','Calibrating PVP...','Almost ready...'];
+    const bar=document.getElementById('load-bar'), txt=document.getElementById('load-text');
+    let s=0;
+    (function adv(){
+      if(s>=msgs.length){
+        setTimeout(()=>{ld.classList.add('hide');setTimeout(()=>{ld.style.display='none';cb();},800);},200);
+        return;
       }
+      txt.textContent=msgs[s]; bar.style.width=((s+1)/msgs.length*100)+'%'; s++;
+      setTimeout(adv,400);
+    })();
+  }
 
-      trails.forEach((t, i) => {
-        const idx = i + 1 < TRAIL_COUNT ? i + 1 : TRAIL_COUNT - 1;
-        t.el.style.left = prevPositions[idx].x + 'px';
-        t.el.style.top  = prevPositions[idx].y + 'px';
-        t.el.style.opacity = (0.35 - i * 0.04).toString();
-        const scale = 1 - i * 0.08;
-        t.el.style.transform = `translate(-50%, -50%) scale(${scale})`;
-      });
+  function showMain(){
+    document.getElementById('main-content').style.display='block';
+    initMainFeatures();
+  }
 
-      requestAnimationFrame(animateCursor);
+  if(firstVisit&&!isGuest){
+    localStorage.setItem(K.visit,'1');
+    const ob=document.getElementById('onboarding'); ob.style.display='flex';
+    /* particles */
+    const pc=document.getElementById('ob-particles');
+    for(let i=0;i<28;i++){
+      const p=document.createElement('div'); p.className='ob-particle';
+      p.style.left=Math.random()*100+'%';
+      p.style.animationDuration=(4+Math.random()*6)+'s';
+      p.style.animationDelay=(Math.random()*4)+'s';
+      p.style.width=p.style.height=(1+Math.random()*3)+'px';
+      pc.appendChild(p);
     }
-    animateCursor();
-
-    // Hover state
-    document.querySelectorAll('a, button, summary, details, .dl-card, .mod-item').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    document.getElementById('ob-btn').addEventListener('click',()=>{
+      ob.classList.add('hide');
+      setTimeout(()=>{ob.style.display='none'; runLoading(showMain);},800);
     });
+  } else {
+    runLoading(showMain);
+  }
+}
 
-    // Click pulse
-    document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-    document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+/* ════════════════════════════════════════════
+   AUTH GATE LOGIC
+════════════════════════════════════════════ */
+(()=>{
+  const saved=getSession();
+  if(saved){
+    /* Already logged in — skip gate */
+    document.getElementById('auth-gate').style.display='none';
+    startApp(saved,false);
+    return;
+  }
 
-    // Hide cursor when leaving window
-    document.addEventListener('mouseleave', () => {
-      outer.style.opacity = '0';
-      inner.style.opacity = '0';
-      trails.forEach(t => t.el.style.opacity = '0');
+  /* Tab switching */
+  document.getElementById('at-login').addEventListener('click',()=>{
+    document.getElementById('at-login').classList.add('active');
+    document.getElementById('at-signup').classList.remove('active');
+    document.getElementById('af-login').style.display='block';
+    document.getElementById('af-signup').style.display='none';
+    document.getElementById('auth-msg').textContent='';
+  });
+  document.getElementById('at-signup').addEventListener('click',()=>{
+    document.getElementById('at-signup').classList.add('active');
+    document.getElementById('at-login').classList.remove('active');
+    document.getElementById('af-signup').style.display='block';
+    document.getElementById('af-login').style.display='none';
+    document.getElementById('auth-msg').textContent='';
+  });
+
+  function msg(t,err=false){
+    const el=document.getElementById('auth-msg');
+    el.textContent=t; el.className='auth-msg'+(err?' err':'');
+  }
+
+  function proceed(u,guest){
+    const gate=document.getElementById('auth-gate');
+    gate.classList.add('hide');
+    setTimeout(()=>{ gate.style.display='none'; startApp(u,guest); },700);
+  }
+
+  document.getElementById('do-login').addEventListener('click',()=>{
+    const u=document.getElementById('al-user').value.trim();
+    const p=document.getElementById('al-pass').value;
+    if(!u||!p){msg('Please fill all fields.',true);return;}
+    const users=getUsers();
+    if(!users[u]||users[u]!==p){msg('Wrong username or password.',true);return;}
+    setSession(u); msg('Welcome back, '+u+'! ⚡');
+    setTimeout(()=>proceed(u,false),900);
+  });
+
+  document.getElementById('do-signup').addEventListener('click',()=>{
+    const u=document.getElementById('as-user').value.trim();
+    const p=document.getElementById('as-pass').value;
+    if(!u||!p){msg('Please fill all fields.',true);return;}
+    if(u.length<3){msg('Username must be 3+ characters.',true);return;}
+    if(u===OWNER.user){msg('That username is reserved.',true);return;}
+    const users=getUsers();
+    if(users[u]){msg('Username already taken.',true);return;}
+    users[u]=p; saveUsers(users); setSession(u);
+    msg('Account created! Welcome, '+u+' ⚡');
+    setTimeout(()=>proceed(u,false),900);
+  });
+
+  document.getElementById('al-pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('do-login').click();});
+  document.getElementById('as-pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('do-signup').click();});
+})();
+
+/* ════════════════════════════════════════════
+   MAIN FEATURES (runs after loading completes)
+════════════════════════════════════════════ */
+function initMainFeatures(){
+
+  /* BUG REPORT DROPDOWN */
+  (()=>{
+    const btn=document.getElementById('bug-report-btn');
+    const dd =document.getElementById('bug-dropdown');
+    if(!btn||!dd)return;
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      dd.classList.toggle('open');
     });
-    document.addEventListener('mouseenter', () => {
-      outer.style.opacity = '1';
-      inner.style.opacity = '1';
-    });
+    // Close when clicking anywhere else
+    document.addEventListener('click',()=>dd.classList.remove('open'));
+    // Prevent closing when clicking inside dropdown
+    dd.addEventListener('click',e=>e.stopPropagation());
+  })();
 
-    /* ── LIVE CHANGELOG ─────────────────────────────────────── */
-    async function loadChangelog() {
-      const container = document.getElementById('changelog-list');
-      try {
-        const res = await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+/version');
-        if (!res.ok) throw new Error('API error');
-        const versions = await res.json();
-        if (!versions.length) { container.innerHTML = '<p style="color:var(--dim)">No versions found.</p>'; return; }
-        container.innerHTML = versions.slice(0, 5).map(v => `
-          <div class="cl-entry">
-            <div class="cl-version">${v.version_number} — ${v.name || ''}</div>
-            <div class="cl-date">${new Date(v.date_published).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'})}</div>
-            <div class="cl-body">${(v.changelog || 'No changelog provided.').substring(0, 600)}${(v.changelog || '').length > 600 ? '…' : ''}</div>
-          </div>
-        `).join('');
-      } catch {
-        container.innerHTML = '<p style="color:var(--dim)">Could not load changelog. <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank" style="color:var(--green)">View on Modrinth →</a></p>';
-      }
+  /* DEVICE GUIDE */
+  (()=>{
+    const mob=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent)||(innerWidth<=768);
+    document.getElementById('device-guide').innerHTML=mob
+      ?`<div class="device-badge mobile">⚠️ MOBILE DEVICE DETECTED</div><div class="device-guide-title">Mobile Installation Guide</div><p style="color:var(--dim);font-size:.9rem;margin-bottom:1rem;line-height:1.6">You're on mobile. Installation requires a few extra steps, but it's doable!</p><ol class="install-steps"><li>Visit <strong style="color:var(--green)">modrinth.com</strong> and download the <strong>.mrpack</strong> file for Axolotl PVP+.</li><li>Install a mobile launcher — <strong style="color:var(--green)">PojavLauncher</strong> or <strong style="color:var(--green)">SKLauncher</strong> recommended.</li><li>Open the launcher and log in to your Minecraft account.</li><li>Navigate to <strong>Import / Modpack</strong> and select the <strong>.mrpack</strong> file.</li><li>Wait for install, then hit <strong style="color:var(--green)">Launch</strong> — dominate! ⚡</li></ol>`
+      :`<div class="device-badge pc">✅ PC / DESKTOP DETECTED</div><div class="device-guide-title">Recommended: Modrinth App Installation</div><p style="color:var(--dim);font-size:.9rem;margin-bottom:1rem;line-height:1.6">You're on PC — the easiest way is through the Modrinth App.</p><ol class="install-steps"><li>Download the <a href="https://modrinth.com/app" target="_blank" style="color:var(--green)">Modrinth App</a> from <strong>modrinth.com/app</strong>.</li><li>Open the app and sign in or continue as guest.</li><li>Click <strong style="color:var(--green)">"Browse"</strong> or <strong style="color:var(--green)">"Add Instance"</strong>.</li><li>Search for <strong style="color:var(--green)">"Axolotl PVP+"</strong> and select it.</li><li>Click <strong style="color:var(--green)">Install</strong>, wait, then hit <strong>Play</strong> — enjoy 300+ FPS! ⚡</li></ol>`;
+  })();
+
+  /* CHANGELOG */
+  (async()=>{
+    const container=document.getElementById('changelog-list');
+    function md(text){
+      if(!text)return'No changelog provided.';
+      return text
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/\*\*(.+?)\*\*/g,'<strong style="color:#c8f0d8">$1</strong>')
+        .replace(/^#{1,3}\s+(.+)$/gm,'<div style="font-family:Orbitron,sans-serif;font-size:.73rem;color:var(--green);margin:.6rem 0 .2rem;letter-spacing:.06em">$1</div>')
+        .replace(/^[-*]\s+(.+)$/gm,'<div style="padding:.12rem 0 .12rem 1rem">◆ $1</div>')
+        .replace(/\n{2,}/g,'<br/>').replace(/\n/g,'<br/>');
     }
-    loadChangelog();
-  </script>
+    try{
+      const r=await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+/version');
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const vs=await r.json();
+      if(!vs||!vs.length){container.innerHTML='<div class="cl-entry"><div class="cl-version">No versions found</div></div>';return;}
+      container.innerHTML=vs.slice(0,6).map(v=>{
+        const cl=(v.changelog||'').trim();
+        const body=cl.length>700?cl.slice(0,700)+'…':cl;
+        const name=v.name&&v.name!==v.version_number?' — '+v.name:'';
+        return `<div class="cl-entry">
+          <div class="cl-version">v${v.version_number}${name}</div>
+          <div class="cl-date">${new Date(v.date_published).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
+          <div class="cl-body">${md(body)}</div>
+        </div>`;
+      }).join('');
+    }catch(e){
+      container.innerHTML=`<div class="cl-entry"><div class="cl-version" style="color:#ff9900">⚠ Could not load changelog</div><div class="cl-date">Modrinth API may be temporarily unavailable</div><div class="cl-body"><a href="https://modrinth.com/modpack/axolotl-pvp+/versions" target="_blank" style="color:var(--green)">→ View all versions on Modrinth</a></div></div>`;
+    }
+  })();
+
+  /* FEEDBACK */
+  (()=>{
+    if(localStorage.getItem(K.rated))return;
+    const popup=document.getElementById('feedback-popup');
+    const stars=document.querySelectorAll('.fb-star');
+    let rating=0;
+    setTimeout(()=>popup.classList.add('show'),13000);
+    stars.forEach(s=>{
+      s.addEventListener('mouseenter',()=>{const v=+s.dataset.v;stars.forEach(x=>x.classList.toggle('active',+x.dataset.v<=v));});
+      s.addEventListener('mouseleave',()=>{stars.forEach(x=>x.classList.toggle('active',+x.dataset.v<=rating));});
+      s.addEventListener('click',()=>{rating=+s.dataset.v;stars.forEach(x=>x.classList.toggle('active',+x.dataset.v<=rating));});
+    });
+    document.getElementById('fb-submit').addEventListener('click',()=>{
+      if(!rating)return;
+      localStorage.setItem(K.rated,rating);
+      document.querySelector('.fb-actions').style.display='none';
+      document.getElementById('fb-stars').style.display='none';
+      document.querySelector('.fb-sub').style.display='none';
+      document.getElementById('fb-thanks').style.display='block';
+      setTimeout(()=>popup.classList.remove('show'),2500);
+    });
+    document.getElementById('fb-dismiss').addEventListener('click',()=>popup.classList.remove('show'));
+  })();
+}
+</script>
 </body>
 </html>
