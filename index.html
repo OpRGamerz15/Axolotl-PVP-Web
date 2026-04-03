@@ -393,6 +393,24 @@
     .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
     .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
 
+    /* ── Member list ── */
+    .member-card{
+      background:var(--card);border:1px solid var(--border);border-radius:6px;
+      padding:.85rem 1rem;display:flex;align-items:center;gap:.7rem;
+      transition:all .2s;
+    }
+    .member-card:hover{border-color:rgba(0,255,136,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
+    .member-avatar{
+      width:34px;height:34px;border-radius:50%;flex-shrink:0;
+      background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.25);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.72rem;font-family:'Orbitron',sans-serif;color:var(--green);font-weight:700;
+    }
+    .member-avatar.owner-av{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.35);color:#ffd700;}
+    .member-name{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--text);letter-spacing:.04em;word-break:break-all;}
+    .member-tag{font-size:.6rem;color:var(--dim);margin-top:.12rem;}
+    #dl-edit-btn:hover{background:var(--card);border-color:var(--green);}
+
     #feedback-popup{position:fixed;bottom:2rem;right:2rem;z-index:77777;background:#080e0a;border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:1.5rem;width:280px;box-shadow:0 0 40px rgba(0,255,136,.1),0 20px 60px rgba(0,0,0,.6);transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
     #feedback-popup.show{transform:translateY(0);opacity:1;pointer-events:all;}
     #feedback-popup::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:10px 10px 0 0;}
@@ -549,7 +567,7 @@
     <div class="section-label">// GET STARTED</div>
     <h2>CHOOSE YOUR <span>LAUNCHER</span></h2>
     <div class="dl-grid">
-      <a class="dl-card" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank"><div class="dl-icon">🌿</div><h3>MODRINTH</h3><p>Official release on Modrinth. Recommended for Modrinth App, Prism Launcher, and ATLauncher users.</p></a>
+      <a class="dl-card" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank"><div class="dl-icon">⬇️</div><h3>DOWNLOAD</h3><p>Official release on Modrinth. Compatible with Modrinth App, Prism Launcher, and ATLauncher.</p></a>
       <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank"><div class="dl-icon">🎬</div><h3>SKLAUNCHER TUTORIAL</h3><p>Watch a step-by-step guide on how to install Axolotl PVP+ using SKLauncher.</p></a>
       <div class="bug-card-wrap">
         <div class="dl-card" id="bug-report-btn" style="cursor:pointer">
@@ -576,21 +594,33 @@
         </div>
       </div>
     </div>
-    <div class="device-guide-card" id="device-guide"></div>
   </section>
   <div class="divider"></div>
 
   <section id="stats">
     <div class="section-label">// PERFORMANCE</div>
     <h2>BUILT FOR <span>SPEED</span></h2>
+
+    <!-- DOWNLOAD COUNTER — owner can edit, everyone can see -->
     <div class="dl-counter-card" style="margin-bottom:1.5rem">
       <div class="dl-counter-icon">⬇️</div>
-      <div>
-        <div class="dl-counter-num" id="dl-count">—</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap">
+          <div class="dl-counter-num" id="dl-count">—</div>
+          <div id="dl-edit-wrap" style="display:none">
+            <input id="dl-edit-input" type="text" placeholder="e.g. 12500"
+              style="background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.3);border-radius:4px;color:var(--green);font-family:Orbitron,sans-serif;font-size:.75rem;padding:.3rem .6rem;outline:none;width:120px"/>
+            <button onclick="saveDlCount()" style="margin-left:.4rem;font-family:Orbitron,sans-serif;font-size:.58rem;letter-spacing:.08em;padding:.3rem .7rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .2s">SAVE</button>
+          </div>
+        </div>
         <div class="dl-counter-label">TOTAL DOWNLOADS</div>
-        <div class="dl-counter-sub" id="dl-sub">Loading from Modrinth...</div>
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <div class="dl-counter-sub" id="dl-sub">Set by owner</div>
+          <button id="dl-edit-btn" style="display:none;font-family:Orbitron,sans-serif;font-size:.52rem;letter-spacing:.08em;padding:.2rem .55rem;border:1px solid rgba(0,255,136,.3);border-radius:3px;color:var(--green);background:transparent;transition:all .2s" onclick="toggleDlEdit()">✏ EDIT</button>
+        </div>
       </div>
     </div>
+
     <div class="stats-grid">
       <div class="stat"><div class="stat-num">2×</div><div class="stat-label">FPS BOOST</div></div>
       <div class="stat"><div class="stat-num">60+</div><div class="stat-label">MODS INCLUDED</div></div>
@@ -599,6 +629,19 @@
     </div>
   </section>
   <div class="divider"></div>
+
+  <!-- PUBLIC MEMBER LIST -->
+  <section id="members">
+    <div class="section-label">// COMMUNITY</div>
+    <h2>OUR <span>MEMBERS</span></h2>
+    <div id="member-list-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem"></div>
+    <div id="member-see-more-wrap" style="text-align:center;margin-top:1.2rem;display:none">
+      <button id="member-see-more-btn" onclick="loadMoreMembers()"
+        style="font-family:Orbitron,sans-serif;font-size:.65rem;letter-spacing:.12em;padding:.6rem 1.6rem;border:1px solid var(--border);border-radius:4px;color:var(--green);background:var(--card);transition:all .2s">
+        SEE MORE ↓
+      </button>
+    </div>
+  </section>
 
   <section id="mods">
     <div class="section-label">// INCLUDED MODS</div>
@@ -1077,6 +1120,13 @@ function startApp(username, isGuest){
   function showMain(){
     document.getElementById('main-content').style.display='block';
     initMainFeatures();
+    // Show download edit button if owner
+    if(isOwner(username)){
+      setTimeout(()=>{
+        const b=document.getElementById('dl-edit-btn');
+        if(b)b.style.display='inline-block';
+      },100);
+    }
   }
 
   if(firstVisit&&!isGuest){
@@ -1206,30 +1256,93 @@ function startApp(username, isGuest){
 ════════════════════════════════════════════ */
 function initMainFeatures(){
 
-  /* DOWNLOAD COUNTER — real data from Modrinth */
-  (async()=>{
+  /* DOWNLOAD COUNTER — manual, owner-editable */
+  (()=>{
+    const DL_KEY='axolotl_dl_count';
     const numEl=document.getElementById('dl-count');
     const subEl=document.getElementById('dl-sub');
-    if(!numEl)return;
-    try{
-      const r=await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+');
-      if(!r.ok)throw new Error('HTTP '+r.status);
-      const data=await r.json();
-      const total=data.downloads||0;
+    const editBtn=document.getElementById('dl-edit-btn');
+    const editWrap=document.getElementById('dl-edit-wrap');
+    const editInput=document.getElementById('dl-edit-input');
+
+    function displayCount(raw){
+      if(!raw){numEl.textContent='—';return;}
+      const n=parseInt(raw.replace(/[^0-9]/g,''),10);
+      if(isNaN(n)){numEl.textContent=raw;return;}
       // Animate count up
-      const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':n.toString();
-      let cur=0; const step=Math.ceil(total/60);
+      let cur=0; const step=Math.ceil(n/60);
       const anim=setInterval(()=>{
-        cur=Math.min(cur+step,total);
-        numEl.textContent=fmt(cur);
-        if(cur>=total){clearInterval(anim);numEl.textContent=fmt(total);}
-      },20);
-      if(subEl) subEl.textContent='Live from Modrinth · Updated just now';
-    }catch(e){
-      if(numEl)numEl.textContent='—';
-      if(subEl)subEl.textContent='Could not load · View on Modrinth';
+        cur=Math.min(cur+step,n);
+        numEl.textContent=n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K — counting...':cur.toLocaleString();
+        if(cur>=n){clearInterval(anim);numEl.textContent=n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':n.toLocaleString();}
+      },18);
     }
+
+    const saved=localStorage.getItem(DL_KEY)||'';
+    displayCount(saved);
+    if(subEl)subEl.textContent=saved?'Set by owner':'Not set yet';
+
+    // Show edit button for owner only
+    if(isOwner(getSession())&&editBtn) editBtn.style.display='inline-block';
+
+    window.toggleDlEdit=function(){
+      const open=editWrap.style.display!=='none'&&editWrap.style.display!=='';
+      if(open){editWrap.style.display='none';}
+      else{editWrap.style.display='flex';editInput.value=saved;editInput.focus();}
+    };
+    window.saveDlCount=function(){
+      const val=editInput.value.trim();
+      if(!val)return;
+      localStorage.setItem(DL_KEY,val);
+      displayCount(val);
+      if(subEl)subEl.textContent='Set by owner';
+      editWrap.style.display='none';
+    };
+    if(editInput) editInput.addEventListener('keydown',e=>{if(e.key==='Enter')window.saveDlCount();});
   })();
+
+  /* MEMBER LIST — public, visible to everyone */
+  const MEMBERS_PER_PAGE=12;
+  let _membersShown=MEMBERS_PER_PAGE;
+
+  function buildMemberCards(usernames, meta, shown){
+    const grid=document.getElementById('member-list-grid');
+    const seeMoreWrap=document.getElementById('member-see-more-wrap');
+    if(!grid)return;
+    const slice=usernames.slice(0,shown);
+    grid.innerHTML=slice.map(u=>{
+      const owner=isOwner(u);
+      const initials=u.slice(0,2).toUpperCase();
+      const joinTs=meta[u]?(meta[u].ts||meta[u]):0;
+      const joinStr=joinTs?new Date(joinTs).toLocaleDateString('en-US',{month:'short',year:'numeric'}):'';
+      return `<div class="member-card">
+        <div class="member-avatar${owner?' owner-av':''}">${owner?'👑':initials}</div>
+        <div>
+          <div class="member-name">${u}</div>
+          <div class="member-tag">${owner?'Owner':joinStr?'Since '+joinStr:'Member'}</div>
+        </div>
+      </div>`;
+    }).join('');
+    if(seeMoreWrap) seeMoreWrap.style.display=usernames.length>shown?'block':'none';
+  }
+
+  function initMemberList(){
+    const users=getUsers();
+    const meta=getUserMeta();
+    // Sort: owner first, then by join date desc
+    const usernames=Object.keys(users).sort((a,b)=>{
+      if(isOwner(a))return -1; if(isOwner(b))return 1;
+      const ta=meta[a]?(meta[a].ts||meta[a]):0;
+      const tb=meta[b]?(meta[b].ts||meta[b]):0;
+      return tb-ta;
+    });
+    buildMemberCards(usernames,meta,_membersShown);
+    window.loadMoreMembers=function(){
+      _membersShown+=MEMBERS_PER_PAGE;
+      buildMemberCards(usernames,meta,_membersShown);
+    };
+  }
+  initMemberList();
 
   /* BUG REPORT DROPDOWN */
   (()=>{
@@ -1244,14 +1357,6 @@ function initMainFeatures(){
     document.addEventListener('click',()=>dd.classList.remove('open'));
     // Prevent closing when clicking inside dropdown
     dd.addEventListener('click',e=>e.stopPropagation());
-  })();
-
-  /* DEVICE GUIDE */
-  (()=>{
-    const mob=/Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent)||(innerWidth<=768);
-    document.getElementById('device-guide').innerHTML=mob
-      ?`<div class="device-badge mobile">⚠️ MOBILE DEVICE DETECTED</div><div class="device-guide-title">Mobile Installation Guide</div><p style="color:var(--dim);font-size:.9rem;margin-bottom:1rem;line-height:1.6">You're on mobile. Installation requires a few extra steps, but it's doable!</p><ol class="install-steps"><li>Visit <strong style="color:var(--green)">modrinth.com</strong> and download the <strong>.mrpack</strong> file for Axolotl PVP+.</li><li>Install a mobile launcher — <strong style="color:var(--green)">PojavLauncher</strong> or <strong style="color:var(--green)">SKLauncher</strong> recommended.</li><li>Open the launcher and log in to your Minecraft account.</li><li>Navigate to <strong>Import / Modpack</strong> and select the <strong>.mrpack</strong> file.</li><li>Wait for install, then hit <strong style="color:var(--green)">Launch</strong> — dominate! ⚡</li></ol>`
-      :`<div class="device-badge pc">✅ PC / DESKTOP DETECTED</div><div class="device-guide-title">Recommended: Modrinth App Installation</div><p style="color:var(--dim);font-size:.9rem;margin-bottom:1rem;line-height:1.6">You're on PC — the easiest way is through the Modrinth App.</p><ol class="install-steps"><li>Download the <a href="https://modrinth.com/app" target="_blank" style="color:var(--green)">Modrinth App</a> from <strong>modrinth.com/app</strong>.</li><li>Open the app and sign in or continue as guest.</li><li>Click <strong style="color:var(--green)">"Browse"</strong> or <strong style="color:var(--green)">"Add Instance"</strong>.</li><li>Search for <strong style="color:var(--green)">"Axolotl PVP+"</strong> and select it.</li><li>Click <strong style="color:var(--green)">Install</strong>, wait, then hit <strong>Play</strong> — enjoy 300+ FPS! ⚡</li></ol>`;
   })();
 
   /* CHANGELOG */
