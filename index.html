@@ -27,28 +27,10 @@
     #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
     header,section,.hero,footer,.divider{position:relative;z-index:2;}
 
-    /* ── STATUS SCREEN — sits above EVERYTHING including auth gate ── */
-    #status-screen{
-      display:none;position:fixed;inset:0;
-      z-index:2147483600; /* below cursor but above every other layer */
-      align-items:center;justify-content:center;flex-direction:column;
-      text-align:center;padding:2rem;background:#000;
-    }
-    #status-screen.show{display:flex;}
-    .ss-icon{font-size:5rem;margin-bottom:1.5rem;animation:ssFloat 3s ease-in-out infinite;}
-    @keyframes ssFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-    .ss-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.2rem,4vw,2rem);font-weight:900;margin-bottom:1rem;letter-spacing:.08em;}
-    .ss-sub{font-size:1rem;color:var(--dim);max-width:500px;line-height:1.7;}
-    #status-screen.offline{background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(255,30,30,.09),#000);}
-    #status-screen.offline .ss-title{color:#ff4444;text-shadow:0 0 40px #ff4444;}
-    #status-screen.maintenance{background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(255,140,0,.09),#000);}
-    #status-screen.maintenance .ss-title{color:#ff9900;text-shadow:0 0 40px #ff9900;}
-    #status-screen::after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.07) 3px,rgba(0,0,0,.07) 4px);}
-
-    /* ── OWNER FLOATING BADGE — always visible above status screen ── */
+    /* ── OWNER FLOATING BADGE — always visible, fixed top-right ── */
     #owner-floating-badge{
       display:none;position:fixed;top:1rem;right:1.5rem;
-      z-index:2147483645; /* above status screen, below cursor */
+      z-index:2147483645;
     }
     #owner-floating-badge.visible{display:block;}
 
@@ -114,16 +96,8 @@
     .od-title{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:#ffd700;margin-bottom:.15rem;}
     .od-sub{font-size:.72rem;color:var(--dim);}
 
-    /* Site mode section */
-    .od-section-label{font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.2em;color:var(--dim);padding:.7rem 1rem .3rem;opacity:.7;}
-    .od-modes{display:flex;gap:.4rem;padding:0 1rem .8rem;}
-    .op-btn{font-family:'Orbitron',sans-serif;font-size:.54rem;letter-spacing:.08em;padding:.35rem .7rem;border-radius:20px;border:1px solid;font-weight:700;transition:all .2s;white-space:nowrap;flex:1;text-align:center;}
-    .op-btn.mode-online{color:#00ff88;border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.06);}
-    .op-btn.mode-online.active,.op-btn.mode-online:hover{background:rgba(0,255,136,.22);box-shadow:0 0 12px rgba(0,255,136,.4);}
-    .op-btn.mode-offline{color:#ff4444;border-color:rgba(255,68,68,.4);background:rgba(255,68,68,.04);}
-    .op-btn.mode-offline.active,.op-btn.mode-offline:hover{background:rgba(255,68,68,.2);box-shadow:0 0 12px rgba(255,68,68,.4);}
-    .op-btn.mode-maintenance{color:#ff9900;border-color:rgba(255,153,0,.4);background:rgba(255,153,0,.04);}
-    .op-btn.mode-maintenance.active,.op-btn.mode-maintenance:hover{background:rgba(255,153,0,.18);box-shadow:0 0 12px rgba(255,153,0,.4);}
+    /* Site mode section — removed */
+    .op-btn{display:none;}/* kept for compat but unused */
 
     /* Action rows */
     .od-action{
@@ -136,6 +110,54 @@
     .od-action:hover{background:rgba(0,255,136,.06);color:var(--green);}
     .od-action.danger:hover{background:rgba(255,107,107,.06);color:#ff6b6b;}
     .od-action-icon{font-size:1rem;}
+
+    /* ── Download counter ── */
+    .dl-counter-card{
+      background:var(--card);border:1px solid rgba(0,255,136,.22);
+      border-radius:8px;padding:1.5rem 2rem;
+      display:flex;align-items:center;gap:1.5rem;
+      position:relative;overflow:hidden;
+    }
+    .dl-counter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));}
+    .dl-counter-icon{font-size:2.2rem;flex-shrink:0;}
+    .dl-counter-num{
+      font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);
+      font-weight:900;color:var(--green);text-shadow:0 0 20px var(--green);line-height:1;
+    }
+    .dl-counter-label{font-size:.78rem;color:var(--dim);letter-spacing:.08em;margin-top:.2rem;}
+    .dl-counter-sub{font-size:.7rem;color:var(--dim);opacity:.6;margin-top:.15rem;}
+
+    /* ── Ban/Kick buttons in user manager ── */
+    .um-actions-wrap{display:flex;gap:.35rem;flex-shrink:0;}
+    .um-kick-btn{
+      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
+      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(255,153,0,.35);
+      color:#ff9900;background:rgba(255,153,0,.06);transition:all .18s;
+    }
+    .um-kick-btn:hover{background:rgba(255,153,0,.18);box-shadow:0 0 10px rgba(255,153,0,.3);}
+    .um-ban-btn{
+      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
+      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(255,68,68,.35);
+      color:#ff4444;background:rgba(255,68,68,.06);transition:all .18s;
+    }
+    .um-ban-btn:hover{background:rgba(255,68,68,.18);box-shadow:0 0 10px rgba(255,68,68,.3);}
+    .um-unban-btn{
+      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
+      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(0,255,136,.35);
+      color:var(--green);background:rgba(0,255,136,.06);transition:all .18s;
+    }
+    .um-unban-btn:hover{background:rgba(0,255,136,.18);}
+    .um-del-btn{
+      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
+      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(180,0,255,.35);
+      color:#c44dff;background:rgba(180,0,255,.06);transition:all .18s;flex-shrink:0;
+    }
+    .um-del-btn:hover{background:rgba(180,0,255,.18);box-shadow:0 0 10px rgba(180,0,255,.3);}
+    .um-banned-tag{
+      font-size:.58rem;font-family:'Orbitron',sans-serif;letter-spacing:.06em;
+      color:#ff4444;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3);
+      padding:.1rem .4rem;border-radius:3px;
+    }
 
     /* ── USER MANAGER MODAL ── */
     #user-manager{
@@ -396,31 +418,18 @@
 <!-- BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
 
-<!-- STATUS SCREEN — shown to ALL users when offline/maintenance, above auth gate -->
-<div id="status-screen">
-  <div class="ss-icon" id="ss-icon">⚠️</div>
-  <div class="ss-title" id="ss-title"></div>
-  <div class="ss-sub" id="ss-sub"></div>
-</div>
-
-<!-- OWNER FLOATING BADGE — always visible above status screen so owner can open dropdown even when site is offline/maintenance -->
+<!-- OWNER FLOATING BADGE -->
 <div id="owner-floating-badge">
   <div class="user-badge-wrap" id="owner-float-wrap" onclick="openOwnerDropdown('float')">
     <div class="user-badge owner-clickable">👑 OpRGamerz15 <span class="user-badge-chevron">▼</span></div>
   </div>
 </div>
 
-<!-- OWNER DROPDOWN — fixed positioned, above status screen -->
+<!-- OWNER DROPDOWN — fixed positioned -->
 <div id="owner-dropdown">
   <div class="od-header">
     <div class="od-title">👑 OWNER CONTROLS</div>
     <div class="od-sub">OpRGamerz15 — Lead Developer</div>
-  </div>
-  <div class="od-section-label">SITE MODE</div>
-  <div class="od-modes">
-    <button class="op-btn mode-online"      id="op-online"      onclick="setSiteMode('online');closeOwnerDropdown()">🟢 ON</button>
-    <button class="op-btn mode-offline"     id="op-offline"     onclick="setSiteMode('offline');closeOwnerDropdown()">🔴 OFF</button>
-    <button class="op-btn mode-maintenance" id="op-maintenance" onclick="setSiteMode('maintenance');closeOwnerDropdown()">🟡 MAINT</button>
   </div>
   <button class="od-action" onclick="openUserManager();closeOwnerDropdown()">
     <span class="od-action-icon">👥</span>Manage Users
@@ -459,11 +468,10 @@
   </div>
 </div>
 
-<!-- USER DROPDOWN — regular logged-in users click their name to get this -->
+<!-- USER DROPDOWN -->
 <div class="user-dropdown" id="user-dropdown">
   <div class="ud-header">
     <div class="ud-name" id="ud-name">USERNAME</div>
-    <div class="ud-role" id="ud-role">Member</div>
   </div>
   <button class="ud-action danger" onclick="userLogout()">🚪 &nbsp;Logout</button>
 </div>
@@ -480,12 +488,13 @@
       <button class="auth-tab" id="at-signup">SIGN UP</button>
     </div>
     <div id="af-login">
-      <div class="auth-field"><label>USERNAME</label><input type="text" id="al-user" placeholder="Enter username" autocomplete="off"/></div>
+      <div class="auth-field"><label>USERNAME OR EMAIL</label><input type="text" id="al-user" placeholder="Enter username or email" autocomplete="off"/></div>
       <div class="auth-field"><label>PASSWORD</label><input type="password" id="al-pass" placeholder="••••••••"/></div>
       <button class="auth-submit" id="do-login">LOGIN →</button>
     </div>
     <div id="af-signup" style="display:none">
       <div class="auth-field"><label>USERNAME</label><input type="text" id="as-user" placeholder="Choose username" autocomplete="off"/></div>
+      <div class="auth-field"><label>EMAIL</label><input type="email" id="as-email" placeholder="Enter your email"/></div>
       <div class="auth-field"><label>PASSWORD</label><input type="password" id="as-pass" placeholder="Choose password"/></div>
       <button class="auth-submit" id="do-signup">CREATE ACCOUNT →</button>
     </div>
@@ -521,7 +530,6 @@
       <a href="https://github.com/OpRGamerz15/Axolotl-PVP" target="_blank">GITHUB</a>
       <a href="https://dcserver.link/nexterasmp" target="_blank" class="nav-discord">DISCORD</a>
       <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">MODRINTH</a>
-      <div class="status-badge" id="header-status-badge"><div class="status-dot"></div><span id="header-status-text">ONLINE</span></div>
       <div id="header-user"></div>
     </nav>
   </header>
@@ -575,6 +583,14 @@
   <section id="stats">
     <div class="section-label">// PERFORMANCE</div>
     <h2>BUILT FOR <span>SPEED</span></h2>
+    <div class="dl-counter-card" style="margin-bottom:1.5rem">
+      <div class="dl-counter-icon">⬇️</div>
+      <div>
+        <div class="dl-counter-num" id="dl-count">—</div>
+        <div class="dl-counter-label">TOTAL DOWNLOADS</div>
+        <div class="dl-counter-sub" id="dl-sub">Loading from Modrinth...</div>
+      </div>
+    </div>
     <div class="stats-grid">
       <div class="stat"><div class="stat-num">2×</div><div class="stat-label">FPS BOOST</div></div>
       <div class="stat"><div class="stat-num">60+</div><div class="stat-label">MODS INCLUDED</div></div>
@@ -786,45 +802,11 @@ const isOwner    = u=>u===OWNER.user;
     // session expired — will show auth gate naturally
   }
 })();
-function applyMode(mode){
-  const sc   = document.getElementById('status-screen');
-  const badge= document.getElementById('header-status-badge');
-  const btxt = document.getElementById('header-status-text');
-
-  /* Update header badge (only visible when main content is shown) */
-  if(badge){ badge.className='status-badge '+mode; btxt.textContent=mode.toUpperCase(); }
-
-  /* Highlight active owner button */
-  document.querySelectorAll('.op-btn').forEach(b=>b.classList.remove('active'));
-  const ab=document.getElementById('op-'+mode); if(ab) ab.classList.add('active');
-
-  if(mode==='online'){
-    sc.className=''; sc.style.display='none';
-  } else if(mode==='offline'){
-    document.getElementById('ss-icon').textContent='📡';
-    document.getElementById('ss-title').textContent='THE WEB IS CURRENTLY OFFLINE';
-    document.getElementById('ss-sub').textContent='The Web Is Currently Offline, Try Again Later.';
-    sc.className='show offline'; sc.style.display='flex';
-  } else {
-    document.getElementById('ss-icon').textContent='🔧';
-    document.getElementById('ss-title').textContent='UNDER MAINTENANCE';
-    document.getElementById('ss-sub').textContent='The Web Currently Under Maintenance. We\'ll be back soon!';
-    sc.className='show maintenance'; sc.style.display='flex';
-  }
+function syncFloatingBadge(){
+  const fb=document.getElementById('owner-floating-badge');
+  if(!fb)return;
+  fb.classList.toggle('visible', isOwner(getSession()));
 }
-
-function setSiteMode(m){ setMode(m); applyMode(m); syncFloatingBadge(); }
-
-/* ════════════════════════════════════════════
-   SITE MODE — applies to ALL visitors.
-   Status screen z-index is above auth gate so
-   everyone (logged in or not) sees offline/maintenance.
-════════════════════════════════════════════ */
-
-/* ════════════════════════════════════════════
-   OWNER DROPDOWN HELPERS
-   Works from both header badge AND floating badge
-════════════════════════════════════════════ */
 let _ddAnchor='header'; // 'header' or 'float'
 
 function closeOwnerDropdown(){
@@ -852,7 +834,6 @@ function openOwnerDropdown(anchor){
   dd.style.left='auto';
   anchorEl.classList.add('open');
   dd.classList.add('open');
-  applyMode(getMode()); // refresh active button
 }
 
 document.addEventListener('click',e=>{
@@ -876,10 +857,13 @@ function syncFloatingBadge(){
 }
 
 /* ════════════════════════════════════════════
-   USER META (signup timestamps)
+   USER META (signup timestamps) & BAN LIST
 ════════════════════════════════════════════ */
 const getUserMeta  =()=>{try{return JSON.parse(localStorage.getItem('axolotl_usermeta')||'{}')}catch{return{}}};
 const saveUserMeta =m=>localStorage.setItem('axolotl_usermeta',JSON.stringify(m));
+const getBanned    =()=>{try{return JSON.parse(localStorage.getItem('axolotl_banned')||'[]')}catch{return[]}};
+const saveBanned   =b=>localStorage.setItem('axolotl_banned',JSON.stringify(b));
+const isBanned     =u=>getBanned().includes(u);
 
 /* ════════════════════════════════════════════
    USER MANAGER
@@ -899,37 +883,99 @@ function renderUserList(){
   const body=document.getElementById('um-body');
   const users=getUsers();
   const meta=getUserMeta();
+  const banned=getBanned();
+  // Show all users EXCEPT owner mixed in — owner first, then rest sorted by join date
   const usernames=Object.keys(users);
   if(!usernames.length){body.innerHTML='<div class="um-empty">No registered users.</div>';return;}
 
-  const count=`<div class="um-count">${usernames.length} REGISTERED USER${usernames.length!==1?'S':''}</div>`;
-  const rows=usernames.map(u=>{
+  // Sort: owner first, then by signup date desc
+  const sorted=[...usernames].sort((a,b)=>{
+    if(isOwner(a)) return -1;
+    if(isOwner(b)) return 1;
+    return (meta[b]||0)-(meta[a]||0);
+  });
+
+  const memberCount=usernames.filter(u=>!isOwner(u)).length;
+  const count=`<div class="um-count">${memberCount} MEMBER${memberCount!==1?'S':''} · ${usernames.length} TOTAL</div>`;
+
+  const rows=sorted.map(u=>{
     const owner=isOwner(u);
     const initials=u.slice(0,2).toUpperCase();
+    const banned_=banned.includes(u);
     const joined=meta[u]
-      ? new Date(meta[u]).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
+      ? new Date(meta[u].ts||meta[u]).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
       : 'Unknown';
-    return `<div class="um-user-row${owner?' is-owner':''}">
+    const statusTag=banned_?`<span class="um-banned-tag">BANNED</span>`:'';
+    const rowStyle=banned_?'border-color:rgba(255,68,68,.2);background:rgba(255,68,68,.03);':'';
+    return `<div class="um-user-row${owner?' is-owner':''}" style="${rowStyle}">
       <div class="um-user-info">
-        <div class="um-user-avatar${owner?' owner-av':''}">${owner?'👑':initials}</div>
+        <div class="um-user-avatar${owner?' owner-av':''}" style="${banned_?'border-color:rgba(255,68,68,.4);color:#ff4444;background:rgba(255,68,68,.1);':''}">${owner?'👑':initials}</div>
         <div>
-          <div class="um-user-name">${u}</div>
+          <div class="um-user-name" style="display:flex;align-items:center;gap:.5rem">${u} ${statusTag}</div>
           <div class="um-user-meta">${owner?'Owner · Lead Developer':'Joined '+joined}</div>
         </div>
       </div>
-      ${!owner?`<button class="um-del-btn" onclick="confirmDeleteUser('${u}')">DELETE</button>`:''}
+      ${!owner?`<div class="um-actions-wrap">
+        <button class="um-kick-btn" onclick="kickUser('${u}')" title="Force logout">KICK</button>
+        ${banned_
+          ? `<button class="um-unban-btn" onclick="unbanUser('${u}')">UNBAN</button>`
+          : `<button class="um-ban-btn"   onclick="banUser('${u}')">BAN</button>`}
+        <button class="um-del-btn" onclick="confirmDeleteUser('${u}')">DELETE</button>
+      </div>`:''}
     </div>`;
   }).join('');
   body.innerHTML=count+rows;
 }
 
+function kickUser(username){
+  // If this user is currently logged in, force their session to expire
+  if(getSession()===username){ clearSession(); }
+  // Store a kick flag — when they try to load, they'll be kicked out
+  localStorage.setItem('axolotl_kicked_'+username, Date.now());
+  showActionToast(`⚡ ${username} has been kicked`);
+  renderUserList();
+}
+
+function banUser(username){
+  const banned=getBanned();
+  if(!banned.includes(username)) banned.push(username);
+  saveBanned(banned);
+  // Also kick them if currently logged in
+  if(getSession()===username) clearSession();
+  localStorage.setItem('axolotl_kicked_'+username, Date.now());
+  showActionToast(`🔴 ${username} has been banned`);
+  renderUserList();
+}
+
+function unbanUser(username){
+  saveBanned(getBanned().filter(u=>u!==username));
+  showActionToast(`✅ ${username} has been unbanned`);
+  renderUserList();
+}
+
+function showActionToast(msg){
+  let t=document.getElementById('action-toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='action-toast';
+    t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(60px);background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.3);border-radius:8px;padding:.7rem 1.4rem;font-family:Orbitron,sans-serif;font-size:.65rem;color:var(--green);letter-spacing:.1em;z-index:2147483640;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.6)';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.transform='translateX(-50%) translateY(0)';
+  t.style.opacity='1';
+  clearTimeout(t._tm);
+  t._tm=setTimeout(()=>{t.style.transform='translateX(-50%) translateY(60px)';t.style.opacity='0';},2500);
+}
+
 function confirmDeleteUser(username){
   const c=document.getElementById('um-del-confirm');
-  document.getElementById('um-confirm-sub').textContent=`Delete "${username}"? Their account will be removed permanently.`;
+  document.getElementById('um-confirm-sub').textContent=`Permanently delete "${username}"? This cannot be undone.`;
   c.classList.add('open');
   document.getElementById('um-confirm-yes').onclick=()=>{
     const users=getUsers(); delete users[username]; saveUsers(users);
     const m=getUserMeta(); delete m[username]; saveUserMeta(m);
+    saveBanned(getBanned().filter(u=>u!==username));
     if(getSession()===username)clearSession();
     if(localStorage.getItem(K.deviceReg)===username)localStorage.removeItem(K.deviceReg);
     c.classList.remove('open');
@@ -956,8 +1002,6 @@ function openUserDropdown(wrapId){
   dd.classList.add('open');
   const u=getSession();
   document.getElementById('ud-name').textContent=u;
-  document.getElementById('ud-role').textContent='Member';
-  document.getElementById('ud-role').style.color='var(--dim)';
 }
 function closeUserDropdown(){
   const dd=document.getElementById('user-dropdown');
@@ -986,7 +1030,7 @@ function doLogout(){
   document.getElementById('af-signup').style.display='none';
   document.getElementById('at-login').classList.add('active');
   document.getElementById('at-signup').classList.remove('active');
-  ['al-user','al-pass','as-user','as-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['al-user','al-pass','as-user','as-email','as-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
   document.getElementById('auth-msg').textContent='';
 }
 function userLogout(){ doLogout(); }
@@ -1007,27 +1051,11 @@ function renderHeaderUser(u){
 }
 
 /* ════════════════════════════════════════════
-   APPLY MODE IMMEDIATELY on page load —
-   so EVERY visitor (including non-logged-in)
-   sees the offline/maintenance screen right away
-════════════════════════════════════════════ */
-applyMode(getMode());
-// Early floating badge check — if owner is already logged in from a previous session
-(()=>{
-  if(isOwner(getSession())&&getMode()!=='online'){
-    const fb=document.getElementById('owner-floating-badge');
-    if(fb)fb.classList.add('visible');
-  }
-})();
-
-/* ════════════════════════════════════════════
    MAIN APP FLOW
 ════════════════════════════════════════════ */
 function startApp(username, isGuest){
   renderHeaderUser(username);
   syncFloatingBadge();
-  /* Re-apply mode to sync header badge now that header exists */
-  applyMode(getMode());
 
   const firstVisit=!localStorage.getItem(K.visit);
 
@@ -1079,10 +1107,19 @@ function startApp(username, isGuest){
 (()=>{
   const saved=getSession();
   if(saved){
-    /* Already logged in — skip gate */
-    document.getElementById('auth-gate').style.display='none';
-    startApp(saved,false);
-    return;
+    // Check if banned or kicked since last login
+    if(!isOwner(saved) && isBanned(saved)){ clearSession(); }
+    else if(!isOwner(saved)){
+      const kickTime=parseInt(localStorage.getItem('axolotl_kicked_'+saved)||'0',10);
+      const loginTime=parseInt(localStorage.getItem(K.sessionTime)||'0',10);
+      if(kickTime>loginTime){ clearSession(); }
+    }
+    if(getSession()){
+      /* Already logged in — skip gate */
+      document.getElementById('auth-gate').style.display='none';
+      startApp(getSession(),false);
+      return;
+    }
   }
 
   /* Tab switching */
@@ -1113,29 +1150,46 @@ function startApp(username, isGuest){
   }
 
   document.getElementById('do-login').addEventListener('click',()=>{
-    const u=document.getElementById('al-user').value.trim();
+    const input=document.getElementById('al-user').value.trim();
     const p=document.getElementById('al-pass').value;
-    if(!u||!p){msg('Please fill all fields.',true);return;}
+    if(!input||!p){msg('Please fill all fields.',true);return;}
+    // Resolve: input could be username or email
     const users=getUsers();
-    if(!users[u]||users[u]!==p){msg('Wrong username or password.',true);return;}
-    setSession(u);
-    msg('Welcome Back! '+u+' ⚡');
-    setTimeout(()=>proceed(u,false),900);
+    const meta=getUserMeta();
+    let resolvedUser=null;
+    if(users[input]){
+      // Direct username match
+      resolvedUser=input;
+    } else {
+      // Try email lookup
+      resolvedUser=Object.keys(meta).find(u=>meta[u]&&meta[u].email&&meta[u].email.toLowerCase()===input.toLowerCase())||null;
+    }
+    if(!resolvedUser||users[resolvedUser]!==p){msg('Wrong username, email or password.',true);return;}
+    if(isBanned(resolvedUser)){msg('Your account has been banned.',true);return;}
+    setSession(resolvedUser);
+    msg('Welcome Back! '+resolvedUser+' ⚡');
+    setTimeout(()=>proceed(resolvedUser,false),900);
   });
 
   document.getElementById('do-signup').addEventListener('click',()=>{
     const u=document.getElementById('as-user').value.trim();
+    const email=document.getElementById('as-email').value.trim();
     const p=document.getElementById('as-pass').value;
-    if(!u||!p){msg('Please fill all fields.',true);return;}
+    if(!u||!email||!p){msg('Please fill all fields.',true);return;}
     if(u.length<3){msg('Username must be 3+ characters.',true);return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg('Please enter a valid email address.',true);return;}
     if(u===OWNER.user){msg('That username is reserved.',true);return;}
     const existingReg=localStorage.getItem(K.deviceReg);
     if(existingReg){msg(`This device already has an account: "${existingReg}". Please login instead.`,true);return;}
     const users=getUsers();
     if(users[u]){msg('Username already taken.',true);return;}
+    // Check email not already used
+    const meta=getUserMeta();
+    const emailTaken=Object.values(meta).some(m=>m&&m.email&&m.email.toLowerCase()===email.toLowerCase());
+    if(emailTaken){msg('That email is already registered.',true);return;}
     users[u]=p; saveUsers(users);
-    // Save signup timestamp
-    const m=getUserMeta(); m[u]=Date.now(); saveUserMeta(m);
+    // Save signup timestamp + email
+    meta[u]={ts:Date.now(),email}; saveUserMeta(meta);
     localStorage.setItem(K.deviceReg,u);
     setSession(u);
     msg('Welcome '+u+'! ⚡');
@@ -1143,6 +1197,7 @@ function startApp(username, isGuest){
   });
 
   document.getElementById('al-pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('do-login').click();});
+  document.getElementById('as-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('as-pass').focus();});
   document.getElementById('as-pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('do-signup').click();});
 })();
 
@@ -1150,6 +1205,31 @@ function startApp(username, isGuest){
    MAIN FEATURES (runs after loading completes)
 ════════════════════════════════════════════ */
 function initMainFeatures(){
+
+  /* DOWNLOAD COUNTER — real data from Modrinth */
+  (async()=>{
+    const numEl=document.getElementById('dl-count');
+    const subEl=document.getElementById('dl-sub');
+    if(!numEl)return;
+    try{
+      const r=await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+');
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const data=await r.json();
+      const total=data.downloads||0;
+      // Animate count up
+      const fmt=n=>n>=1000?(n/1000).toFixed(1).replace(/\.0$/,'')+'K':n.toString();
+      let cur=0; const step=Math.ceil(total/60);
+      const anim=setInterval(()=>{
+        cur=Math.min(cur+step,total);
+        numEl.textContent=fmt(cur);
+        if(cur>=total){clearInterval(anim);numEl.textContent=fmt(total);}
+      },20);
+      if(subEl) subEl.textContent='Live from Modrinth · Updated just now';
+    }catch(e){
+      if(numEl)numEl.textContent='—';
+      if(subEl)subEl.textContent='Could not load · View on Modrinth';
+    }
+  })();
 
   /* BUG REPORT DROPDOWN */
   (()=>{
