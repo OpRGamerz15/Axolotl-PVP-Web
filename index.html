@@ -52,19 +52,47 @@
     }
     #owner-floating-badge.visible{display:block;}
 
-    /* ── USER BADGE WRAPPER (clickable, opens owner dropdown) ── */
+    /* ── USER DROPDOWN (regular users - click name to get logout menu) ── */
     .user-badge-wrap{position:relative;}
     .user-badge{
       font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;
       padding:.35rem .9rem;border:1px solid rgba(0,255,136,.3);border-radius:4px;
       background:rgba(0,255,136,.06);color:var(--green);
-      display:flex;align-items:center;gap:.4rem;
-      transition:all .2s;
+      display:flex;align-items:center;gap:.4rem;transition:all .2s;
     }
+    .user-badge.clickable{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.08);}
+    .user-badge.clickable:hover{background:rgba(0,255,136,.14);box-shadow:0 0 14px rgba(0,255,136,.2);}
     .user-badge.owner-clickable{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.06);color:#ffd700;box-shadow:0 0 12px rgba(255,215,0,.15);}
     .user-badge.owner-clickable:hover{background:rgba(255,215,0,.12);box-shadow:0 0 20px rgba(255,215,0,.3);}
     .user-badge-chevron{font-size:.5rem;opacity:.7;transition:transform .2s;}
     .user-badge-wrap.open .user-badge-chevron{transform:rotate(180deg);}
+
+    /* Generic user dropdown */
+    .user-dropdown{
+      display:none;position:fixed;
+      min-width:190px;
+      background:rgba(5,12,8,.99);border:1px solid rgba(0,255,136,.25);
+      border-radius:10px;overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,.85),0 0 30px rgba(0,255,136,.07);
+      z-index:2147483640;animation:dropIn .2s ease;
+    }
+    .user-dropdown.open{display:block;}
+    .ud-header{
+      padding:.7rem 1rem .5rem;
+      background:linear-gradient(135deg,rgba(0,255,136,.07),transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .ud-name{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--green);letter-spacing:.08em;}
+    .ud-role{font-size:.68rem;color:var(--dim);margin-top:.15rem;}
+    .ud-action{
+      display:flex;align-items:center;gap:.7rem;
+      padding:.7rem 1rem;border-top:1px solid var(--border);
+      font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.1em;
+      color:var(--dim);background:transparent;width:100%;text-align:left;transition:all .18s;
+    }
+    .ud-action:first-of-type{border-top:none;}
+    .ud-action:hover{background:rgba(0,255,136,.05);color:var(--green);}
+    .ud-action.danger:hover{background:rgba(255,107,107,.05);color:#ff6b6b;}
 
     /* ── OWNER DROPDOWN — z-index above status screen ── */
     #owner-dropdown{
@@ -118,7 +146,7 @@
     #user-manager.open{display:flex;}
     .um-box{
       background:rgba(5,15,8,.99);border:1px solid rgba(0,255,136,.25);
-      border-radius:12px;width:620px;max-width:95vw;
+      border-radius:12px;width:520px;max-width:95vw;
       display:flex;flex-direction:column;
       box-shadow:0 0 80px rgba(0,255,136,.12),0 40px 100px rgba(0,0,0,.9);
       position:relative;overflow:hidden;margin:auto;
@@ -132,131 +160,37 @@
     .um-head-sub{font-size:.78rem;color:var(--dim);margin-top:.15rem;}
     .um-close{background:none;border:none;color:var(--dim);font-size:1.2rem;line-height:1;transition:color .2s;padding:.2rem;}
     .um-close:hover{color:#ff6b6b;}
-
-    /* UM inner tabs */
-    .um-tabs{display:flex;border-bottom:1px solid var(--border);}
-    .um-tab{
-      font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;
-      padding:.8rem 1.4rem;color:var(--dim);background:transparent;border:none;
-      border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px;
-    }
-    .um-tab.active{color:var(--green);border-bottom-color:var(--green);}
-    .um-tab:hover{color:var(--text);}
-
-    .um-panel{display:none;padding:1rem 1.5rem;}
-    .um-panel.active{display:block;}
+    .um-body{padding:1.2rem 1.5rem;}
     .um-empty{text-align:center;color:var(--dim);font-size:.9rem;padding:2rem 0;}
-
-    /* User rows */
+    .um-count{font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--dim);letter-spacing:.1em;padding:.4rem 0 .6rem;margin-bottom:.5rem;border-bottom:1px solid var(--border);}
     .um-user-row{
       display:flex;align-items:center;justify-content:space-between;
       padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;
       margin-bottom:.45rem;background:var(--card);transition:border-color .2s;
-      flex-wrap:wrap;gap:.4rem;
     }
     .um-user-row:hover{border-color:rgba(0,255,136,.25);}
     .um-user-row.is-owner{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.04);}
-    .um-user-info{display:flex;align-items:center;gap:.6rem;min-width:0;}
+    .um-user-info{display:flex;align-items:center;gap:.7rem;}
     .um-user-avatar{
-      width:30px;height:30px;border-radius:50%;flex-shrink:0;
-      background:rgba(0,255,136,.15);border:1px solid rgba(0,255,136,.3);
+      width:32px;height:32px;border-radius:50%;flex-shrink:0;
+      background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.3);
       display:flex;align-items:center;justify-content:center;
       font-size:.75rem;font-family:'Orbitron',sans-serif;color:var(--green);
     }
-    .um-user-avatar.owner-av{background:rgba(255,215,0,.15);border-color:rgba(255,215,0,.4);color:#ffd700;}
+    .um-user-avatar.owner-av{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.4);color:#ffd700;}
     .um-user-name{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--text);letter-spacing:.05em;}
-    .um-user-tag{font-size:.65rem;color:var(--dim);margin-top:.1rem;display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;}
-    .um-role-chip{
-      display:inline-flex;align-items:center;gap:.2rem;
-      font-size:.6rem;font-family:'Orbitron',sans-serif;letter-spacing:.05em;
-      padding:.1rem .45rem;border-radius:20px;border:1px solid;
-      font-weight:700;
+    .um-user-meta{font-size:.65rem;color:var(--dim);margin-top:.1rem;}
+    .um-del-btn{
+      font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.08em;
+      padding:.3rem .7rem;border-radius:4px;border:1px solid rgba(255,68,68,.35);
+      color:#ff6b6b;background:rgba(255,68,68,.06);transition:all .18s;flex-shrink:0;
     }
-    .um-user-actions{display:flex;gap:.35rem;flex-shrink:0;flex-wrap:wrap;}
-    .um-btn{
-      font-family:'Orbitron',sans-serif;font-size:.53rem;letter-spacing:.08em;
-      padding:.28rem .65rem;border-radius:4px;border:1px solid;transition:all .18s;
-    }
-    .um-btn.assign{color:#7289da;border-color:rgba(114,137,218,.35);background:rgba(114,137,218,.06);}
-    .um-btn.assign:hover{background:rgba(114,137,218,.2);box-shadow:0 0 10px rgba(114,137,218,.3);}
-    .um-btn.del{color:#ff6b6b;border-color:rgba(255,68,68,.35);background:rgba(255,68,68,.06);}
-    .um-btn.del:hover{background:rgba(255,68,68,.18);box-shadow:0 0 10px rgba(255,68,68,.3);}
-    .um-count{font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--dim);letter-spacing:.1em;padding:.4rem 0 .5rem;margin-bottom:.4rem;border-bottom:1px solid var(--border);}
+    .um-del-btn:hover{background:rgba(255,68,68,.2);box-shadow:0 0 12px rgba(255,68,68,.3);}
 
-    /* Roles tab */
-    .um-role-row{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:.6rem .9rem;border:1px solid var(--border);border-radius:6px;
-      margin-bottom:.4rem;background:var(--card);transition:border-color .2s;
-    }
-    .um-role-row:hover{border-color:rgba(0,255,136,.2);}
-    .um-role-info{display:flex;align-items:center;gap:.6rem;}
-    .um-role-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-    .um-role-name{font-family:'Orbitron',sans-serif;font-size:.7rem;color:var(--text);letter-spacing:.05em;}
-    .um-role-meta{font-size:.65rem;color:var(--dim);}
-    .um-role-actions{display:flex;gap:.35rem;}
-    .um-btn.edit-role{color:#00ffcc;border-color:rgba(0,255,204,.35);background:rgba(0,255,204,.05);}
-    .um-btn.edit-role:hover{background:rgba(0,255,204,.15);}
-    .um-btn.del-role{color:#ff6b6b;border-color:rgba(255,68,68,.35);background:rgba(255,68,68,.06);}
-    .um-btn.del-role:hover{background:rgba(255,68,68,.18);}
-
-    /* Create role form */
-    .um-create-role-form{
-      background:rgba(0,255,136,.03);border:1px solid rgba(0,255,136,.15);
-      border-radius:8px;padding:1rem;margin-bottom:1rem;
-    }
-    .um-form-title{font-family:'Orbitron',sans-serif;font-size:.62rem;color:var(--green);letter-spacing:.1em;margin-bottom:.8rem;}
-    .um-form-row{display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap;}
-    .um-form-field{flex:1;min-width:120px;}
-    .um-form-field label{display:block;font-size:.62rem;letter-spacing:.1em;color:var(--dim);margin-bottom:.3rem;}
-    .um-form-field input[type=text]{width:100%;padding:.5rem .7rem;background:rgba(0,255,136,.04);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;}
-    .um-form-field input[type=text]:focus{border-color:rgba(0,255,136,.4);}
-    .um-form-field input[type=color]{width:100%;height:32px;border-radius:4px;border:1px solid var(--border);background:transparent;padding:2px;cursor:pointer;}
-    .um-save-role-btn{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.5rem 1rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .2s;white-space:nowrap;flex-shrink:0;}
-    .um-save-role-btn:hover{background:var(--green2);box-shadow:0 0 14px rgba(0,255,136,.5);}
-
-    /* Assign role modal */
-    #assign-role-modal{
-      display:none;position:fixed;inset:0;z-index:2147483632;
-      background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
-      align-items:center;justify-content:center;
-    }
-    #assign-role-modal.open{display:flex;}
-    .arm-box{
-      background:rgba(5,15,8,.99);border:1px solid rgba(114,137,218,.3);
-      border-radius:10px;width:320px;max-width:90vw;
-      box-shadow:0 20px 60px rgba(0,0,0,.8);overflow:hidden;
-    }
-    .arm-top{height:2px;background:linear-gradient(90deg,#7289da,var(--green));}
-    .arm-head{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-    .arm-title{font-family:'Orbitron',sans-serif;font-size:.75rem;color:#7289da;letter-spacing:.1em;}
-    .arm-close{background:none;border:none;color:var(--dim);font-size:1rem;transition:color .2s;}
-    .arm-close:hover{color:#ff6b6b;}
-    .arm-body{padding:1rem 1.2rem;}
-    .arm-user-label{font-size:.78rem;color:var(--dim);margin-bottom:.8rem;}
-    .arm-user-label strong{color:var(--text);}
-    .arm-roles-list{display:flex;flex-direction:column;gap:.35rem;max-height:220px;overflow-y:auto;}
-    .arm-role-option{
-      display:flex;align-items:center;gap:.6rem;
-      padding:.5rem .7rem;border-radius:5px;border:1px solid var(--border);
-      background:var(--card);transition:all .18s;
-    }
-    .arm-role-option:hover{border-color:rgba(0,255,136,.3);background:rgba(0,255,136,.06);}
-    .arm-role-option.selected{border-color:rgba(0,255,136,.5);background:rgba(0,255,136,.1);}
-    .arm-role-check{font-size:.7rem;color:var(--green);opacity:0;}
-    .arm-role-option.selected .arm-role-check{opacity:1;}
-    .arm-role-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-    .arm-role-name{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--text);letter-spacing:.05em;flex:1;}
-    .arm-none-option{font-size:.75rem;color:var(--dim);padding:.5rem .7rem;border-radius:5px;border:1px solid var(--border);background:var(--card);transition:all .18s;}
-    .arm-none-option:hover{border-color:rgba(255,107,107,.3);color:#ff6b6b;}
-    .arm-footer{padding:.8rem 1.2rem;border-top:1px solid var(--border);}
-    .arm-save-btn{width:100%;font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.12em;padding:.6rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .2s;}
-    .arm-save-btn:hover{background:var(--green2);box-shadow:0 0 14px rgba(0,255,136,.5);}
-
-    /* Delete confirms */
+    /* Delete confirm */
     .um-del-confirm{
       position:fixed;inset:0;z-index:2147483633;
-      background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;
+      background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;
     }
     .um-del-confirm.open{display:flex;}
     .um-confirm-box{
@@ -503,53 +437,12 @@
     <div class="um-head">
       <div>
         <div class="um-head-title">👥 USER MANAGEMENT</div>
-        <div class="um-head-sub">Manage accounts and roles</div>
+        <div class="um-head-sub">All registered accounts</div>
       </div>
       <button class="um-close" onclick="closeUserManager()">✕</button>
     </div>
-    <div class="um-tabs">
-      <button class="um-tab active" onclick="switchUmTab('users',this)">USERS</button>
-      <button class="um-tab" onclick="switchUmTab('roles',this)">ROLES</button>
-    </div>
-    <!-- USERS PANEL -->
-    <div class="um-panel active" id="um-panel-users">
-      <div id="um-body"><div class="um-empty">Loading...</div></div>
-    </div>
-    <!-- ROLES PANEL -->
-    <div class="um-panel" id="um-panel-roles">
-      <div class="um-create-role-form" id="um-role-form">
-        <div class="um-form-title" id="um-role-form-title">CREATE NEW ROLE</div>
-        <div class="um-form-row">
-          <div class="um-form-field" style="flex:2">
-            <label>ROLE NAME</label>
-            <input type="text" id="role-name-input" placeholder="e.g. Moderator"/>
-          </div>
-          <div class="um-form-field" style="flex:0 0 60px">
-            <label>COLOR</label>
-            <input type="color" id="role-color-input" value="#00ff88"/>
-          </div>
-          <button class="um-save-role-btn" id="um-save-role-btn" onclick="saveRole()">SAVE</button>
-        </div>
-      </div>
-      <div id="um-roles-list"><div class="um-empty">No roles created yet.</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- ASSIGN ROLE MODAL -->
-<div id="assign-role-modal">
-  <div class="arm-box">
-    <div class="arm-top"></div>
-    <div class="arm-head">
-      <div class="arm-title">ASSIGN ROLE</div>
-      <button class="arm-close" onclick="closeAssignRole()">✕</button>
-    </div>
-    <div class="arm-body">
-      <div class="arm-user-label">Assigning role to: <strong id="arm-username"></strong></div>
-      <div class="arm-roles-list" id="arm-roles-list"></div>
-    </div>
-    <div class="arm-footer">
-      <button class="arm-save-btn" onclick="saveAssignRole()">SAVE ROLE</button>
+    <div class="um-body" id="um-body">
+      <div class="um-empty">Loading...</div>
     </div>
   </div>
 </div>
@@ -564,6 +457,15 @@
       <button class="um-confirm-no" onclick="document.getElementById('um-del-confirm').classList.remove('open')">CANCEL</button>
     </div>
   </div>
+</div>
+
+<!-- USER DROPDOWN — regular logged-in users click their name to get this -->
+<div class="user-dropdown" id="user-dropdown">
+  <div class="ud-header">
+    <div class="ud-name" id="ud-name">USERNAME</div>
+    <div class="ud-role" id="ud-role">Member</div>
+  </div>
+  <button class="ud-action danger" onclick="userLogout()">🚪 &nbsp;Logout</button>
 </div>
 
 <!-- AUTH GATE -->
@@ -851,12 +753,22 @@ document.addEventListener('keydown',e=>{
    CONSTANTS & STORAGE
 ════════════════════════════════════════════ */
 const OWNER={user:'OpRGamerz15',pass:'OpRGamerz15YT'};
-const K={mode:'axolotl_sitemode',session:'axolotl_session',users:'axolotl_users',visit:'axolotl_visited',rated:'axolotl_rated'};
+const K={
+  mode:'axolotl_sitemode',
+  session:'axolotl_session',
+  sessionTime:'axolotl_session_time',
+  users:'axolotl_users',
+  visit:'axolotl_visited',
+  rated:'axolotl_rated',
+  deviceReg:'axolotl_device_registered'
+};
+const WEEK_MS = 7*24*60*60*1000;
+
 const getMode    = ()=>localStorage.getItem(K.mode)||'online';
 const setMode    = m=>localStorage.setItem(K.mode,m);
 const getSession = ()=>localStorage.getItem(K.session)||'';
-const setSession = u=>localStorage.setItem(K.session,u);
-const clearSession=()=>localStorage.removeItem(K.session);
+const setSession = u=>{ localStorage.setItem(K.session,u); if(!isOwner(u)) localStorage.setItem(K.sessionTime,Date.now()); };
+const clearSession=()=>{ localStorage.removeItem(K.session); localStorage.removeItem(K.sessionTime); };
 const getUsers   = ()=>{try{return JSON.parse(localStorage.getItem(K.users)||'{}')}catch{return{}}};
 const saveUsers  = u=>localStorage.setItem(K.users,JSON.stringify(u));
 const isOwner    = u=>u===OWNER.user;
@@ -864,11 +776,16 @@ const isOwner    = u=>u===OWNER.user;
 /* Seed owner account */
 (()=>{const u=getUsers();if(!u[OWNER.user]){u[OWNER.user]=OWNER.pass;saveUsers(u);}})();
 
-/* ════════════════════════════════════════════
-   SITE MODE — applies to ALL visitors.
-   Status screen sits above auth gate so
-   non-logged-in users also see offline/maintenance.
-════════════════════════════════════════════ */
+/* ── Check & enforce 1-week session expiry (non-owner only) ── */
+(()=>{
+  const saved=getSession();
+  if(!saved||isOwner(saved))return; // owner never auto-expires
+  const loginTime=parseInt(localStorage.getItem(K.sessionTime)||'0',10);
+  if(!loginTime||(Date.now()-loginTime>WEEK_MS)){
+    clearSession();
+    // session expired — will show auth gate naturally
+  }
+})();
 function applyMode(mode){
   const sc   = document.getElementById('status-screen');
   const badge= document.getElementById('header-status-badge');
@@ -899,12 +816,10 @@ function applyMode(mode){
 function setSiteMode(m){ setMode(m); applyMode(m); syncFloatingBadge(); }
 
 /* ════════════════════════════════════════════
-   STORAGE — add roles key
+   SITE MODE — applies to ALL visitors.
+   Status screen z-index is above auth gate so
+   everyone (logged in or not) sees offline/maintenance.
 ════════════════════════════════════════════ */
-const getRoles=()=>{try{return JSON.parse(localStorage.getItem('axolotl_roles')||'[]')}catch{return[]}};
-const saveRoles=r=>localStorage.setItem('axolotl_roles',JSON.stringify(r));
-const getUserRoles=()=>{try{return JSON.parse(localStorage.getItem('axolotl_userroles')||'{}')}catch{return{}}};
-const saveUserRoles=r=>localStorage.setItem('axolotl_userroles',JSON.stringify(r));
 
 /* ════════════════════════════════════════════
    OWNER DROPDOWN HELPERS
@@ -961,58 +876,48 @@ function syncFloatingBadge(){
 }
 
 /* ════════════════════════════════════════════
+   USER META (signup timestamps)
+════════════════════════════════════════════ */
+const getUserMeta  =()=>{try{return JSON.parse(localStorage.getItem('axolotl_usermeta')||'{}')}catch{return{}}};
+const saveUserMeta =m=>localStorage.setItem('axolotl_usermeta',JSON.stringify(m));
+
+/* ════════════════════════════════════════════
    USER MANAGER
 ════════════════════════════════════════════ */
 function openUserManager(){
   document.getElementById('user-manager').classList.add('open');
   renderUserList();
-  renderRolesList();
 }
 function closeUserManager(){
   document.getElementById('user-manager').classList.remove('open');
-  cancelRoleEdit();
 }
 document.getElementById('user-manager').addEventListener('click',e=>{
   if(e.target===e.currentTarget)closeUserManager();
 });
 
-function switchUmTab(tab,btn){
-  document.querySelectorAll('.um-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.um-panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('um-panel-'+tab).classList.add('active');
-}
-
-/* ── USERS TAB ── */
 function renderUserList(){
   const body=document.getElementById('um-body');
   const users=getUsers();
-  const userRoles=getUserRoles();
-  const roles=getRoles();
+  const meta=getUserMeta();
   const usernames=Object.keys(users);
   if(!usernames.length){body.innerHTML='<div class="um-empty">No registered users.</div>';return;}
 
-  const count=`<div class="um-count">${usernames.length} USER${usernames.length!==1?'S':''}</div>`;
+  const count=`<div class="um-count">${usernames.length} REGISTERED USER${usernames.length!==1?'S':''}</div>`;
   const rows=usernames.map(u=>{
     const owner=isOwner(u);
     const initials=u.slice(0,2).toUpperCase();
-    const roleId=userRoles[u];
-    const role=roles.find(r=>r.id===roleId);
-    const roleChip=role
-      ? `<span class="um-role-chip" style="color:${role.color};border-color:${role.color}55;background:${role.color}15">● ${role.name}</span>`
-      : `<span style="color:var(--dim);font-size:.65rem">No role</span>`;
+    const joined=meta[u]
+      ? new Date(meta[u]).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
+      : 'Unknown';
     return `<div class="um-user-row${owner?' is-owner':''}">
       <div class="um-user-info">
         <div class="um-user-avatar${owner?' owner-av':''}">${owner?'👑':initials}</div>
         <div>
           <div class="um-user-name">${u}</div>
-          <div class="um-user-tag">${owner?'<span style="color:#ffd700">OWNER</span>':roleChip}</div>
+          <div class="um-user-meta">${owner?'Owner · Lead Developer':'Joined '+joined}</div>
         </div>
       </div>
-      <div class="um-user-actions">
-        ${!owner?`<button class="um-btn assign" onclick="openAssignRole('${u}')">ROLE</button>`:''}
-        ${!owner?`<button class="um-btn del" onclick="confirmDeleteUser('${u}')">DELETE</button>`:''}
-      </div>
+      ${!owner?`<button class="um-del-btn" onclick="confirmDeleteUser('${u}')">DELETE</button>`:''}
     </div>`;
   }).join('');
   body.innerHTML=count+rows;
@@ -1020,154 +925,56 @@ function renderUserList(){
 
 function confirmDeleteUser(username){
   const c=document.getElementById('um-del-confirm');
-  document.getElementById('um-confirm-sub').textContent=`Delete "${username}"? They will need to sign up again to access the site.`;
+  document.getElementById('um-confirm-sub').textContent=`Delete "${username}"? Their account will be removed permanently.`;
   c.classList.add('open');
   document.getElementById('um-confirm-yes').onclick=()=>{
     const users=getUsers(); delete users[username]; saveUsers(users);
-    const ur=getUserRoles(); delete ur[username]; saveUserRoles(ur);
+    const m=getUserMeta(); delete m[username]; saveUserMeta(m);
     if(getSession()===username)clearSession();
+    if(localStorage.getItem(K.deviceReg)===username)localStorage.removeItem(K.deviceReg);
     c.classList.remove('open');
     renderUserList();
   };
 }
 
-/* ── ROLES TAB ── */
-let _editingRoleId=null;
+/* ════════════════════════════════════════════
+   USER DROPDOWN (regular users)
+════════════════════════════════════════════ */
+let _userDropWrap=null;
 
-function renderRolesList(){
-  const container=document.getElementById('um-roles-list');
-  const roles=getRoles();
-  const userRoles=getUserRoles();
-  if(!roles.length){container.innerHTML='<div class="um-empty">No roles created yet. Create your first role above.</div>';return;}
-
-  container.innerHTML=roles.map(r=>{
-    const useCount=Object.values(userRoles).filter(id=>id===r.id).length;
-    return `<div class="um-role-row">
-      <div class="um-role-info">
-        <div class="um-role-dot" style="background:${r.color};box-shadow:0 0 6px ${r.color}88"></div>
-        <div>
-          <div class="um-role-name" style="color:${r.color}">${r.name}</div>
-          <div class="um-role-meta">${useCount} member${useCount!==1?'s':''}</div>
-        </div>
-      </div>
-      <div class="um-role-actions">
-        <button class="um-btn edit-role" onclick="startEditRole('${r.id}')">EDIT</button>
-        <button class="um-btn del-role" onclick="confirmDeleteRole('${r.id}','${r.name}')">DELETE</button>
-      </div>
-    </div>`;
-  }).join('');
+function openUserDropdown(wrapId){
+  const dd=document.getElementById('user-dropdown');
+  const wrap=document.getElementById(wrapId);
+  if(!dd||!wrap)return;
+  if(dd.classList.contains('open')&&_userDropWrap===wrapId){closeUserDropdown();return;}
+  _userDropWrap=wrapId;
+  const rect=wrap.getBoundingClientRect();
+  dd.style.top=(rect.bottom+6)+'px';
+  dd.style.right=(window.innerWidth-rect.right)+'px';
+  dd.style.left='auto';
+  wrap.classList.add('open');
+  dd.classList.add('open');
+  const u=getSession();
+  document.getElementById('ud-name').textContent=u;
+  document.getElementById('ud-role').textContent='Member';
+  document.getElementById('ud-role').style.color='var(--dim)';
 }
-
-function saveRole(){
-  const name=document.getElementById('role-name-input').value.trim();
-  const color=document.getElementById('role-color-input').value;
-  if(!name)return;
-  const roles=getRoles();
-  if(_editingRoleId){
-    const i=roles.findIndex(r=>r.id===_editingRoleId);
-    if(i!==-1){roles[i].name=name;roles[i].color=color;}
-    _editingRoleId=null;
-    document.getElementById('um-role-form-title').textContent='CREATE NEW ROLE';
-    document.getElementById('um-save-role-btn').textContent='SAVE';
-  } else {
-    roles.push({id:'r_'+Date.now(),name,color});
-  }
-  saveRoles(roles);
-  document.getElementById('role-name-input').value='';
-  document.getElementById('role-color-input').value='#00ff88';
-  renderRolesList();
-  renderUserList();
+function closeUserDropdown(){
+  const dd=document.getElementById('user-dropdown');
+  if(dd)dd.classList.remove('open');
+  if(_userDropWrap){const w=document.getElementById(_userDropWrap);if(w)w.classList.remove('open');}
+  _userDropWrap=null;
 }
-
-function startEditRole(id){
-  const role=getRoles().find(r=>r.id===id);
-  if(!role)return;
-  _editingRoleId=id;
-  document.getElementById('role-name-input').value=role.name;
-  document.getElementById('role-color-input').value=role.color;
-  document.getElementById('um-role-form-title').textContent='EDIT ROLE';
-  document.getElementById('um-save-role-btn').textContent='UPDATE';
-  document.getElementById('role-name-input').focus();
-}
-
-function cancelRoleEdit(){
-  _editingRoleId=null;
-  document.getElementById('role-name-input').value='';
-  document.getElementById('role-color-input').value='#00ff88';
-  const ft=document.getElementById('um-role-form-title');
-  if(ft)ft.textContent='CREATE NEW ROLE';
-  const sb=document.getElementById('um-save-role-btn');
-  if(sb)sb.textContent='SAVE';
-}
-
-function confirmDeleteRole(id,name){
-  const c=document.getElementById('um-del-confirm');
-  document.getElementById('um-confirm-sub').textContent=`Delete role "${name}"? All users with this role will lose it.`;
-  c.classList.add('open');
-  document.getElementById('um-confirm-yes').onclick=()=>{
-    const roles=getRoles().filter(r=>r.id!==id); saveRoles(roles);
-    // Remove from all users
-    const ur=getUserRoles();
-    Object.keys(ur).forEach(u=>{if(ur[u]===id)delete ur[u];}); saveUserRoles(ur);
-    c.classList.remove('open');
-    renderRolesList(); renderUserList();
-  };
-}
-
-/* ── ASSIGN ROLE MODAL ── */
-let _assigningUser=null, _selectedRoleId=null;
-
-function openAssignRole(username){
-  _assigningUser=username;
-  const ur=getUserRoles();
-  _selectedRoleId=ur[username]||null;
-  document.getElementById('arm-username').textContent=username;
-  const roles=getRoles();
-  const list=document.getElementById('arm-roles-list');
-  if(!roles.length){list.innerHTML='<div class="um-empty" style="font-size:.8rem">No roles yet. Create roles in the Roles tab first.</div>';
-  } else {
-    list.innerHTML=`<button class="arm-none-option" onclick="selectArmRole(null)">✕ Remove role</button>`
-      +roles.map(r=>`<div class="arm-role-option${_selectedRoleId===r.id?' selected':''}" onclick="selectArmRole('${r.id}')">
-        <span class="arm-role-check">✓</span>
-        <div class="arm-role-dot" style="background:${r.color};box-shadow:0 0 5px ${r.color}88"></div>
-        <span class="arm-role-name" style="color:${r.color}">${r.name}</span>
-      </div>`).join('');
-  }
-  document.getElementById('assign-role-modal').classList.add('open');
-}
-
-function selectArmRole(id){
-  _selectedRoleId=id;
-  document.querySelectorAll('.arm-role-option').forEach(el=>{
-    el.classList.toggle('selected',el.querySelector('.arm-role-name')&&getRoles().find(r=>r.id===id&&el.querySelector('.arm-role-name').style.color===r.color)||false);
-  });
-  // Re-render options to reflect selection
-  if(_assigningUser) openAssignRole(_assigningUser);
-  // Re-open doesn't close, just refreshes
-}
-
-function saveAssignRole(){
-  if(!_assigningUser)return;
-  const ur=getUserRoles();
-  if(_selectedRoleId)ur[_assigningUser]=_selectedRoleId;
-  else delete ur[_assigningUser];
-  saveUserRoles(ur);
-  closeAssignRole();
-  renderUserList();
-}
-
-function closeAssignRole(){
-  document.getElementById('assign-role-modal').classList.remove('open');
-  _assigningUser=null;
-  _selectedRoleId=null;
-}
-document.getElementById('assign-role-modal').addEventListener('click',e=>{
-  if(e.target===e.currentTarget)closeAssignRole();
+document.addEventListener('click',e=>{
+  const dd=document.getElementById('user-dropdown');
+  if(!dd||!dd.classList.contains('open'))return;
+  const wrap=_userDropWrap?document.getElementById(_userDropWrap):null;
+  if((!wrap||!wrap.contains(e.target))&&!dd.contains(e.target)) closeUserDropdown();
 });
 
-/* Logout */
-function ownerLogout(){
+function doLogout(){
   clearSession();
+  closeUserDropdown();
   closeOwnerDropdown();
   syncFloatingBadge();
   document.getElementById('main-content').style.display='none';
@@ -1182,6 +989,8 @@ function ownerLogout(){
   ['al-user','al-pass','as-user','as-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('auth-msg').textContent='';
 }
+function userLogout(){ doLogout(); }
+function ownerLogout(){ doLogout(); }
 
 function renderHeaderUser(u){
   const el=document.getElementById('header-user'); if(!el)return;
@@ -1190,7 +999,9 @@ function renderHeaderUser(u){
       <div class="user-badge owner-clickable">👑 ${u} <span class="user-badge-chevron">▼</span></div>
     </div>`;
   } else if(u){
-    el.innerHTML=`<div class="user-badge">👤 ${u}</div>`;
+    el.innerHTML=`<div class="user-badge-wrap" id="user-badge-wrap-main" onclick="openUserDropdown('user-badge-wrap-main')">
+      <div class="user-badge clickable">👤 ${u} <span class="user-badge-chevron">▼</span></div>
+    </div>`;
   } else { el.innerHTML=''; }
   syncFloatingBadge();
 }
@@ -1307,7 +1118,8 @@ function startApp(username, isGuest){
     if(!u||!p){msg('Please fill all fields.',true);return;}
     const users=getUsers();
     if(!users[u]||users[u]!==p){msg('Wrong username or password.',true);return;}
-    setSession(u); msg('Welcome back, '+u+'! ⚡');
+    setSession(u);
+    msg('Welcome Back! '+u+' ⚡');
     setTimeout(()=>proceed(u,false),900);
   });
 
@@ -1317,10 +1129,16 @@ function startApp(username, isGuest){
     if(!u||!p){msg('Please fill all fields.',true);return;}
     if(u.length<3){msg('Username must be 3+ characters.',true);return;}
     if(u===OWNER.user){msg('That username is reserved.',true);return;}
+    const existingReg=localStorage.getItem(K.deviceReg);
+    if(existingReg){msg(`This device already has an account: "${existingReg}". Please login instead.`,true);return;}
     const users=getUsers();
     if(users[u]){msg('Username already taken.',true);return;}
-    users[u]=p; saveUsers(users); setSession(u);
-    msg('Account created! Welcome, '+u+' ⚡');
+    users[u]=p; saveUsers(users);
+    // Save signup timestamp
+    const m=getUserMeta(); m[u]=Date.now(); saveUserMeta(m);
+    localStorage.setItem(K.deviceReg,u);
+    setSession(u);
+    msg('Welcome '+u+'! ⚡');
     setTimeout(()=>proceed(u,false),900);
   });
 
