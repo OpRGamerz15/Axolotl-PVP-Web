@@ -27,252 +27,30 @@
     #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
     header,section,.hero,footer,.divider{position:relative;z-index:2;}
 
-    /* ── OWNER FLOATING BADGE — always visible, fixed top-right ── */
-    #owner-floating-badge{
-      display:none;position:fixed;top:1rem;right:1.5rem;
-      z-index:2147483645;
-    }
-    #owner-floating-badge.visible{display:block;}
-
-    /* ── USER DROPDOWN (regular users - click name to get logout menu) ── */
-    .user-badge-wrap{position:relative;}
-    .user-badge{
-      font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;
-      padding:.35rem .9rem;border:1px solid rgba(0,255,136,.3);border-radius:4px;
-      background:rgba(0,255,136,.06);color:var(--green);
-      display:flex;align-items:center;gap:.4rem;transition:all .2s;
-    }
-    .user-badge.clickable{border-color:rgba(0,255,136,.4);background:rgba(0,255,136,.08);}
-    .user-badge.clickable:hover{background:rgba(0,255,136,.14);box-shadow:0 0 14px rgba(0,255,136,.2);}
-    .user-badge.owner-clickable{border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.06);color:#ffd700;box-shadow:0 0 12px rgba(255,215,0,.15);}
-    .user-badge.owner-clickable:hover{background:rgba(255,215,0,.12);box-shadow:0 0 20px rgba(255,215,0,.3);}
-    .user-badge-chevron{font-size:.5rem;opacity:.7;transition:transform .2s;}
-    .user-badge-wrap.open .user-badge-chevron{transform:rotate(180deg);}
-
-    /* Generic user dropdown */
-    .user-dropdown{
-      display:none;position:fixed;
-      min-width:190px;
-      background:rgba(5,12,8,.99);border:1px solid rgba(0,255,136,.25);
-      border-radius:10px;overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,.85),0 0 30px rgba(0,255,136,.07);
-      z-index:2147483640;animation:dropIn .2s ease;
-    }
-    .user-dropdown.open{display:block;}
-    .ud-header{
-      padding:.7rem 1rem .5rem;
-      background:linear-gradient(135deg,rgba(0,255,136,.07),transparent);
-      border-bottom:1px solid var(--border);
-    }
-    .ud-name{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--green);letter-spacing:.08em;}
-    .ud-role{font-size:.68rem;color:var(--dim);margin-top:.15rem;}
-    .ud-action{
-      display:flex;align-items:center;gap:.7rem;
-      padding:.7rem 1rem;border-top:1px solid var(--border);
-      font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.1em;
-      color:var(--dim);background:transparent;width:100%;text-align:left;transition:all .18s;
-    }
-    .ud-action:first-of-type{border-top:none;}
-    .ud-action:hover{background:rgba(0,255,136,.05);color:var(--green);}
-    .ud-action.danger:hover{background:rgba(255,107,107,.05);color:#ff6b6b;}
-
-    /* ── OWNER DROPDOWN — z-index above status screen ── */
-    #owner-dropdown{
-      display:none;position:fixed;
-      width:270px;
-      background:rgba(5,12,8,.99);border:1px solid rgba(255,215,0,.28);
-      border-radius:10px;overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,.9),0 0 40px rgba(255,215,0,.1);
-      z-index:2147483645;
-      animation:dropIn .2s ease;
-    }
-    @keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-    #owner-dropdown.open{display:block;}
-    .od-header{
-      padding:.8rem 1rem .6rem;
-      background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(0,255,136,.06));
-      border-bottom:1px solid rgba(255,215,0,.15);
-    }
-    .od-title{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;color:#ffd700;margin-bottom:.15rem;}
-    .od-sub{font-size:.72rem;color:var(--dim);}
-
-    /* Site mode section — removed */
-    .op-btn{display:none;}/* kept for compat but unused */
-
-    /* Action rows */
-    .od-action{
-      display:flex;align-items:center;gap:.7rem;
-      padding:.75rem 1rem;border-top:1px solid var(--border);
-      font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;
-      color:var(--dim);background:transparent;width:100%;text-align:left;
-      transition:all .18s;
-    }
-    .od-action:hover{background:rgba(0,255,136,.06);color:var(--green);}
-    .od-action.danger:hover{background:rgba(255,107,107,.06);color:#ff6b6b;}
-    .od-action-icon{font-size:1rem;}
-
-    /* ── Download counter ── */
-    .dl-counter-card{
-      background:var(--card);border:1px solid rgba(0,255,136,.22);
-      border-radius:8px;padding:1.5rem 2rem;
-      display:flex;align-items:center;gap:1.5rem;
-      position:relative;overflow:hidden;
-    }
-    .dl-counter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));}
-    .dl-counter-icon{font-size:2.2rem;flex-shrink:0;}
-    .dl-counter-num{
-      font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);
-      font-weight:900;color:var(--green);text-shadow:0 0 20px var(--green);line-height:1;
-    }
-    .dl-counter-label{font-size:.78rem;color:var(--dim);letter-spacing:.08em;margin-top:.2rem;}
-    .dl-counter-sub{font-size:.7rem;color:var(--dim);opacity:.6;margin-top:.15rem;}
-
-    /* ── Ban/Kick buttons in user manager ── */
-    .um-actions-wrap{display:flex;gap:.35rem;flex-shrink:0;}
-    .um-kick-btn{
-      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
-      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(255,153,0,.35);
-      color:#ff9900;background:rgba(255,153,0,.06);transition:all .18s;
-    }
-    .um-kick-btn:hover{background:rgba(255,153,0,.18);box-shadow:0 0 10px rgba(255,153,0,.3);}
-    .um-ban-btn{
-      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
-      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(255,68,68,.35);
-      color:#ff4444;background:rgba(255,68,68,.06);transition:all .18s;
-    }
-    .um-ban-btn:hover{background:rgba(255,68,68,.18);box-shadow:0 0 10px rgba(255,68,68,.3);}
-    .um-unban-btn{
-      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
-      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(0,255,136,.35);
-      color:var(--green);background:rgba(0,255,136,.06);transition:all .18s;
-    }
-    .um-unban-btn:hover{background:rgba(0,255,136,.18);}
-    .um-del-btn{
-      font-family:'Orbitron',sans-serif;font-size:.5rem;letter-spacing:.08em;
-      padding:.28rem .6rem;border-radius:4px;border:1px solid rgba(180,0,255,.35);
-      color:#c44dff;background:rgba(180,0,255,.06);transition:all .18s;flex-shrink:0;
-    }
-    .um-del-btn:hover{background:rgba(180,0,255,.18);box-shadow:0 0 10px rgba(180,0,255,.3);}
-    .um-banned-tag{
-      font-size:.58rem;font-family:'Orbitron',sans-serif;letter-spacing:.06em;
-      color:#ff4444;background:rgba(255,68,68,.1);border:1px solid rgba(255,68,68,.3);
-      padding:.1rem .4rem;border-radius:3px;
-    }
-
-    /* ── USER MANAGER MODAL ── */
-    #user-manager{
-      display:none;position:fixed;inset:0;z-index:2147483630;
-      background:rgba(0,0,0,.88);backdrop-filter:blur(10px);
-      align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto;
-    }
-    #user-manager.open{display:flex;}
-    .um-box{
-      background:rgba(5,15,8,.99);border:1px solid rgba(0,255,136,.25);
-      border-radius:12px;width:520px;max-width:95vw;
-      display:flex;flex-direction:column;
-      box-shadow:0 0 80px rgba(0,255,136,.12),0 40px 100px rgba(0,0,0,.9);
-      position:relative;overflow:hidden;margin:auto;
-    }
-    .um-top-bar{height:2px;background:linear-gradient(90deg,#ffd700,var(--green));}
-    .um-head{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0;
-    }
-    .um-head-title{font-family:'Orbitron',sans-serif;font-size:.9rem;color:#ffd700;letter-spacing:.1em;}
-    .um-head-sub{font-size:.78rem;color:var(--dim);margin-top:.15rem;}
-    .um-close{background:none;border:none;color:var(--dim);font-size:1.2rem;line-height:1;transition:color .2s;padding:.2rem;}
-    .um-close:hover{color:#ff6b6b;}
-    .um-body{padding:1.2rem 1.5rem;}
-    .um-empty{text-align:center;color:var(--dim);font-size:.9rem;padding:2rem 0;}
-    .um-count{font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--dim);letter-spacing:.1em;padding:.4rem 0 .6rem;margin-bottom:.5rem;border-bottom:1px solid var(--border);}
-    .um-user-row{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;
-      margin-bottom:.45rem;background:var(--card);transition:border-color .2s;
-    }
-    .um-user-row:hover{border-color:rgba(0,255,136,.25);}
-    .um-user-row.is-owner{border-color:rgba(255,215,0,.25);background:rgba(255,215,0,.04);}
-    .um-user-info{display:flex;align-items:center;gap:.7rem;}
-    .um-user-avatar{
-      width:32px;height:32px;border-radius:50%;flex-shrink:0;
-      background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.3);
-      display:flex;align-items:center;justify-content:center;
-      font-size:.75rem;font-family:'Orbitron',sans-serif;color:var(--green);
-    }
-    .um-user-avatar.owner-av{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.4);color:#ffd700;}
-    .um-user-name{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--text);letter-spacing:.05em;}
-    .um-user-meta{font-size:.65rem;color:var(--dim);margin-top:.1rem;}
-    .um-del-btn{
-      font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.08em;
-      padding:.3rem .7rem;border-radius:4px;border:1px solid rgba(255,68,68,.35);
-      color:#ff6b6b;background:rgba(255,68,68,.06);transition:all .18s;flex-shrink:0;
-    }
-    .um-del-btn:hover{background:rgba(255,68,68,.2);box-shadow:0 0 12px rgba(255,68,68,.3);}
-
-    /* Delete confirm */
-    .um-del-confirm{
-      position:fixed;inset:0;z-index:2147483633;
-      background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;
-    }
-    .um-del-confirm.open{display:flex;}
-    .um-confirm-box{
-      background:rgba(5,15,8,.99);border:1px solid rgba(255,68,68,.3);border-radius:10px;
-      padding:2rem;max-width:360px;width:90%;text-align:center;
-      box-shadow:0 20px 60px rgba(0,0,0,.8);
-    }
-    .um-confirm-title{font-family:'Orbitron',sans-serif;font-size:.85rem;color:#ff6b6b;margin-bottom:.6rem;}
-    .um-confirm-sub{font-size:.9rem;color:var(--dim);margin-bottom:1.5rem;line-height:1.6;}
-    .um-confirm-btns{display:flex;gap:.6rem;justify-content:center;}
-    .um-confirm-yes{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.1em;padding:.6rem 1.4rem;background:#ff4444;color:#fff;border:none;border-radius:4px;transition:all .2s;}
-    .um-confirm-yes:hover{background:#ff6666;box-shadow:0 0 16px rgba(255,68,68,.5);}
-    .um-confirm-no{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.1em;padding:.6rem 1.4rem;background:transparent;color:var(--dim);border:1px solid var(--border);border-radius:4px;transition:all .2s;}
-    .um-confirm-no:hover{color:var(--text);border-color:rgba(0,255,136,.3);}
-
-    /* ── AUTH GATE ── */
-    #auth-gate{position:fixed;inset:0;z-index:88800;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:2rem;transition:opacity .7s,visibility .7s;}
-    #auth-gate.hide{opacity:0;visibility:hidden;pointer-events:none;}
-    .ag-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(0,255,136,.07),transparent);pointer-events:none;}
-    .ag-logo{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,5vw,2.5rem);font-weight:900;color:var(--green);text-shadow:0 0 40px var(--green);letter-spacing:.2em;margin-bottom:.4rem;text-align:center;position:relative;}
-    .ag-tagline{font-size:.78rem;color:var(--dim);letter-spacing:.18em;margin-bottom:2.5rem;text-align:center;position:relative;}
-    .auth-box{background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.22);border-radius:12px;padding:2.2rem;width:360px;max-width:90vw;position:relative;box-shadow:0 0 60px rgba(0,255,136,.1),0 30px 80px rgba(0,0,0,.8);}
-    .auth-box-top{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:12px 12px 0 0;}
-    .auth-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;}
-    .auth-tab{flex:1;font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;padding:.5rem;border:1px solid var(--border);border-radius:3px;background:transparent;color:var(--dim);transition:all .2s;}
-    .auth-tab.active{background:var(--card);border-color:rgba(0,255,136,.4);color:var(--green);}
-    .auth-field{margin-bottom:1rem;}
-    .auth-field label{display:block;font-size:.68rem;letter-spacing:.12em;color:var(--dim);margin-bottom:.4rem;}
-    .auth-field input{width:100%;padding:.7rem 1rem;background:rgba(0,255,136,.03);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s,box-shadow .2s;}
-    .auth-field input:focus{border-color:rgba(0,255,136,.5);box-shadow:0 0 14px rgba(0,255,136,.1);}
-    .auth-submit{width:100%;padding:.85rem;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.14em;font-weight:700;background:var(--green);color:#000;border:none;border-radius:3px;margin-top:.4rem;transition:all .2s;box-shadow:0 0 20px rgba(0,255,136,.3);position:relative;overflow:hidden;}
-    .auth-submit::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
-    .auth-submit:hover{background:var(--green2);box-shadow:0 0 40px rgba(0,255,136,.6);}
-    .auth-submit:hover::after{transform:translateX(100%);}
-    .auth-msg{font-size:.82rem;text-align:center;margin-top:.8rem;min-height:1em;color:var(--green);}
-    .auth-msg.err{color:#ff6b6b;}
-
     /* ── ONBOARDING ── */
     #onboarding{position:fixed;inset:0;z-index:88700;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity .8s,visibility .8s;}
     #onboarding.hide{opacity:0;visibility:hidden;pointer-events:none;}
     .ob-axo{font-size:5rem;margin-bottom:1rem;animation:obFloat 3s ease-in-out infinite;}
     @keyframes obFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
     .ob-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.4rem,5vw,2.6rem);font-weight:900;color:var(--green);text-shadow:0 0 40px var(--green),0 0 80px rgba(0,255,136,.3);margin-bottom:.8rem;letter-spacing:.1em;}
-    .ob-sub{font-size:1.1rem;color:var(--dim);margin-bottom:2.5rem;letter-spacing:.06em;max-width:480px;}
+    .ob-sub{font-size:1rem;color:var(--dim);margin-bottom:2rem;letter-spacing:.06em;max-width:500px;}
     .ob-sub span{color:var(--green);font-weight:700;}
-    .ob-btn{font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.15em;padding:1rem 2.5rem;background:var(--green);color:#000;border:none;border-radius:3px;font-weight:700;box-shadow:0 0 30px rgba(0,255,136,.5);transition:all .2s;position:relative;overflow:hidden;}
-    .ob-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
-    .ob-btn:hover{background:var(--green2);box-shadow:0 0 50px rgba(0,255,200,.8);transform:scale(1.05);}
-    .ob-btn:hover::after{transform:translateX(100%);}
+    /* Choice cards */
+    .ob-choices{display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;}
+    .ob-choice{
+      width:200px;padding:1.8rem 1rem;background:rgba(0,255,136,.04);
+      border:1px solid rgba(0,255,136,.2);border-radius:12px;
+      transition:all .25s;position:relative;overflow:hidden;
+    }
+    .ob-choice::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));opacity:0;transition:opacity .25s;}
+    .ob-choice:hover{border-color:rgba(0,255,136,.5);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5),0 0 32px rgba(0,255,136,.12);background:rgba(0,255,136,.08);}
+    .ob-choice:hover::before{opacity:1;}
+    .ob-choice-icon{font-size:2.8rem;margin-bottom:.8rem;}
+    .ob-choice-title{font-family:'Orbitron',sans-serif;font-size:.85rem;color:var(--green);letter-spacing:.1em;margin-bottom:.4rem;}
+    .ob-choice-desc{font-size:.78rem;color:var(--dim);line-height:1.5;}
     .ob-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
     .ob-particle{position:absolute;background:var(--green);border-radius:50%;animation:obPart linear infinite;opacity:0;}
     @keyframes obPart{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
-
-    /* ── LOADING ── */
-    #loading{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:88600;transition:opacity .8s,visibility .8s;}
-    #loading.hide{opacity:0;visibility:hidden;pointer-events:none;}
-    .load-logo{font-family:'Orbitron',sans-serif;font-size:2.5rem;font-weight:900;color:var(--green);text-shadow:0 0 30px var(--green);margin-bottom:1.5rem;letter-spacing:.3em;}
-    .load-bar-bg{width:260px;height:3px;background:rgba(0,255,136,.15);border-radius:2px;overflow:hidden;}
-    .load-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--green2));width:0%;box-shadow:0 0 12px var(--green);transition:width .4s ease;}
-    .load-text{margin-top:.8rem;font-size:.8rem;letter-spacing:.2em;color:var(--dim);min-height:1.2em;}
 
     /* ── HEADER ── */
     header{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(5,10,7,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
@@ -393,24 +171,6 @@
     .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
     .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
 
-    /* ── Member list ── */
-    .member-card{
-      background:var(--card);border:1px solid var(--border);border-radius:6px;
-      padding:.85rem 1rem;display:flex;align-items:center;gap:.7rem;
-      transition:all .2s;
-    }
-    .member-card:hover{border-color:rgba(0,255,136,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
-    .member-avatar{
-      width:34px;height:34px;border-radius:50%;flex-shrink:0;
-      background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.25);
-      display:flex;align-items:center;justify-content:center;
-      font-size:.72rem;font-family:'Orbitron',sans-serif;color:var(--green);font-weight:700;
-    }
-    .member-avatar.owner-av{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.35);color:#ffd700;}
-    .member-name{font-family:'Orbitron',sans-serif;font-size:.65rem;color:var(--text);letter-spacing:.04em;word-break:break-all;}
-    .member-tag{font-size:.6rem;color:var(--dim);margin-top:.12rem;}
-    #dl-edit-btn:hover{background:var(--card);border-color:var(--green);}
-
     #feedback-popup{position:fixed;bottom:2rem;right:2rem;z-index:77777;background:#080e0a;border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:1.5rem;width:280px;box-shadow:0 0 40px rgba(0,255,136,.1),0 20px 60px rgba(0,0,0,.6);transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
     #feedback-popup.show{transform:translateY(0);opacity:1;pointer-events:all;}
     #feedback-popup::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:10px 10px 0 0;}
@@ -436,108 +196,58 @@
 <!-- BACKGROUND -->
 <canvas id="bg-canvas"></canvas>
 
-<!-- OWNER FLOATING BADGE -->
-<div id="owner-floating-badge">
-  <div class="user-badge-wrap" id="owner-float-wrap" onclick="openOwnerDropdown('float')">
-    <div class="user-badge owner-clickable">👑 OpRGamerz15 <span class="user-badge-chevron">▼</span></div>
-  </div>
-</div>
-
-<!-- OWNER DROPDOWN — fixed positioned -->
-<div id="owner-dropdown">
-  <div class="od-header">
-    <div class="od-title">👑 OWNER CONTROLS</div>
-    <div class="od-sub">OpRGamerz15 — Lead Developer</div>
-  </div>
-  <button class="od-action" onclick="openUserManager();closeOwnerDropdown()">
-    <span class="od-action-icon">👥</span>Manage Users
-  </button>
-  <button class="od-action danger" onclick="ownerLogout();closeOwnerDropdown()">
-    <span class="od-action-icon">🚪</span>Logout
-  </button>
-</div>
-
-<!-- USER MANAGER MODAL -->
-<div id="user-manager">
-  <div class="um-box">
-    <div class="um-top-bar"></div>
-    <div class="um-head">
-      <div>
-        <div class="um-head-title">👥 USER MANAGEMENT</div>
-        <div class="um-head-sub">All registered accounts</div>
-      </div>
-      <button class="um-close" onclick="closeUserManager()">✕</button>
-    </div>
-    <div class="um-body" id="um-body">
-      <div class="um-empty">Loading...</div>
-    </div>
-  </div>
-</div>
-
-<!-- DELETE CONFIRM -->
-<div class="um-del-confirm" id="um-del-confirm">
-  <div class="um-confirm-box">
-    <div class="um-confirm-title">⚠ CONFIRM DELETE</div>
-    <div class="um-confirm-sub" id="um-confirm-sub"></div>
-    <div class="um-confirm-btns">
-      <button class="um-confirm-yes" id="um-confirm-yes">DELETE</button>
-      <button class="um-confirm-no" onclick="document.getElementById('um-del-confirm').classList.remove('open')">CANCEL</button>
-    </div>
-  </div>
-</div>
-
-<!-- USER DROPDOWN -->
-<div class="user-dropdown" id="user-dropdown">
-  <div class="ud-header">
-    <div class="ud-name" id="ud-name">USERNAME</div>
-  </div>
-  <button class="ud-action danger" onclick="userLogout()">🚪 &nbsp;Logout</button>
-</div>
-
-<!-- AUTH GATE -->
-<div id="auth-gate">
-  <div class="ag-glow"></div>
-  <div class="ag-logo">AXOLOTL PVP+</div>
-  <div class="ag-tagline">// PLAYER ACCESS REQUIRED</div>
-  <div class="auth-box">
-    <div class="auth-box-top"></div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="at-login">LOGIN</button>
-      <button class="auth-tab" id="at-signup">SIGN UP</button>
-    </div>
-    <div id="af-login">
-      <div class="auth-field"><label>USERNAME OR EMAIL</label><input type="text" id="al-user" placeholder="Enter username or email" autocomplete="off"/></div>
-      <div class="auth-field"><label>PASSWORD</label><input type="password" id="al-pass" placeholder="••••••••"/></div>
-      <button class="auth-submit" id="do-login">LOGIN →</button>
-    </div>
-    <div id="af-signup" style="display:none">
-      <div class="auth-field"><label>USERNAME</label><input type="text" id="as-user" placeholder="Choose username" autocomplete="off"/></div>
-      <div class="auth-field"><label>EMAIL</label><input type="email" id="as-email" placeholder="Enter your email"/></div>
-      <div class="auth-field"><label>PASSWORD</label><input type="password" id="as-pass" placeholder="Choose password"/></div>
-      <button class="auth-submit" id="do-signup">CREATE ACCOUNT →</button>
-    </div>
-    <div class="auth-msg" id="auth-msg"></div>
-  </div>
-</div>
-
 <!-- ONBOARDING -->
 <div id="onboarding" style="display:none">
   <div class="ob-particles" id="ob-particles"></div>
   <div class="ob-axo">🦎</div>
   <div class="ob-title">WELCOME TO AXOLOTL PVP+</div>
-  <div class="ob-sub">⚡ Boost your FPS to <span>300+</span> — the ultimate PVP modpack</div>
-  <button class="ob-btn" id="ob-btn">ENTER THE ARENA →</button>
+  <div class="ob-sub">What are you looking for?</div>
+  <div class="ob-choices">
+    <div class="ob-choice" id="ob-modpack-btn">
+      <div class="ob-choice-icon">⚔️</div>
+      <div class="ob-choice-label">MODPACK</div>
+      <div class="ob-choice-desc">High-performance PVP modpack. Boost your FPS to 300+.</div>
+    </div>
+    <div class="ob-choice" id="ob-rp-btn">
+      <div class="ob-choice-icon">🎨</div>
+      <div class="ob-choice-label">RESOURCE PACK</div>
+      <div class="ob-choice-desc">Clean PVP textures and visuals for Minecraft.</div>
+    </div>
+  </div>
 </div>
 
-<!-- LOADING -->
-<div id="loading" style="display:none">
-  <div class="load-logo">AXOLOTL PVP+</div>
-  <div class="load-bar-bg"><div class="load-bar" id="load-bar"></div></div>
-  <div class="load-text" id="load-text">Initializing...</div>
+<!-- RESOURCE PACK PAGE -->
+<div id="rp-page" style="display:none;position:fixed;inset:0;z-index:88500;background:var(--bg);overflow-y:auto">
+  <header style="position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(5,10,7,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)">
+    <div style="font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:900;color:var(--green);text-shadow:0 0 14px var(--green);letter-spacing:.12em">AXOLOTL PVP+ <span style="color:var(--dim);font-size:.55rem;letter-spacing:.18em">RESOURCE PACK</span></div>
+    <button onclick="switchToModpack()" style="font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;padding:.4rem 1rem;border:1px solid rgba(0,255,136,.3);border-radius:4px;color:var(--green);background:var(--card);transition:all .2s">⚔️ SWITCH TO MODPACK</button>
+  </header>
+  <div style="min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 3rem;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(0,255,136,.07),transparent)">
+    <div style="font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.25em;color:var(--green);border:1px solid var(--border);padding:.35rem 1rem;border-radius:2px;margin-bottom:1.5rem;background:var(--card);display:inline-block">MINECRAFT RESOURCE PACK</div>
+    <h1 style="font-family:'Orbitron',sans-serif;font-size:clamp(2rem,7vw,4.5rem);font-weight:900;color:#fff;text-shadow:0 0 40px rgba(0,255,136,.5);margin-bottom:1rem;line-height:1.1">AXOLOTL <span style="color:var(--green)">PVP+ PACK</span></h1>
+    <p style="font-size:1.1rem;color:var(--dim);max-width:520px;line-height:1.7;margin-bottom:2.5rem">Clean, optimized PVP textures designed to give you the competitive edge. Smooth animations, clear hitboxes, crisp visuals.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <a class="btn-primary" href="https://modrinth.com/resourcepack/axolotl-pvp-pack" target="_blank" style="text-decoration:none">DOWNLOAD ON MODRINTH</a>
+      <a class="btn-secondary" href="https://dcserver.link/nexterasmp" target="_blank" style="text-decoration:none">JOIN DISCORD</a>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div style="max-width:960px;margin:0 auto;padding:4rem 2rem">
+    <div class="section-label">// GET THE PACK</div>
+    <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:900;color:#fff;margin-bottom:2rem">DOWNLOAD <span style="color:var(--green)">OPTIONS</span></h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem">
+      <a class="dl-card" href="https://modrinth.com/resourcepack/axolotl-pvp-pack" target="_blank"><div class="dl-icon">⬇️</div><h3>DOWNLOAD</h3><p>Official release on Modrinth. Compatible with Vanilla, Optifine, and Sodium.</p></a>
+      <a class="dl-card" href="https://dcserver.link/nexterasmp" target="_blank"><div class="dl-icon">💬</div><h3>DISCORD</h3><p>Join the community for support, previews, and updates.</p></a>
+      <a class="dl-card" href="https://github.com/OpRGamerz15/Axolotl-PVP/issues" target="_blank"><div class="dl-icon">🐛</div><h3>REPORT A BUG</h3><p>Found a texture issue? Open a report on GitHub.</p></a>
+    </div>
+  </div>
+  <footer style="text-align:center;padding:2rem;border-top:1px solid var(--border);color:var(--dim);font-size:.85rem">
+    © 2025 Axolotl PVP+ · Not affiliated with Mojang or Microsoft
+  </footer>
 </div>
 
 <!-- MAIN CONTENT -->
-<div id="main-content" style="display:none">
+<div id="main-content">
   <header>
     <a class="logo" href="#" onclick="location.reload();return false;">AXOLOTL PVP+</a>
     <nav>
@@ -548,7 +258,6 @@
       <a href="https://github.com/OpRGamerz15/Axolotl-PVP" target="_blank">GITHUB</a>
       <a href="https://dcserver.link/nexterasmp" target="_blank" class="nav-discord">DISCORD</a>
       <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">MODRINTH</a>
-      <div id="header-user"></div>
     </nav>
   </header>
 
@@ -600,27 +309,6 @@
   <section id="stats">
     <div class="section-label">// PERFORMANCE</div>
     <h2>BUILT FOR <span>SPEED</span></h2>
-
-    <!-- DOWNLOAD COUNTER — owner can edit, everyone can see -->
-    <div class="dl-counter-card" style="margin-bottom:1.5rem">
-      <div class="dl-counter-icon">⬇️</div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap">
-          <div class="dl-counter-num" id="dl-count">—</div>
-          <div id="dl-edit-wrap" style="display:none">
-            <input id="dl-edit-input" type="text" placeholder="e.g. 12500"
-              style="background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.3);border-radius:4px;color:var(--green);font-family:Orbitron,sans-serif;font-size:.75rem;padding:.3rem .6rem;outline:none;width:120px"/>
-            <button onclick="saveDlCount()" style="margin-left:.4rem;font-family:Orbitron,sans-serif;font-size:.58rem;letter-spacing:.08em;padding:.3rem .7rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .2s">SAVE</button>
-          </div>
-        </div>
-        <div class="dl-counter-label">TOTAL DOWNLOADS</div>
-        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
-          <div class="dl-counter-sub" id="dl-sub">Set by owner</div>
-          <button id="dl-edit-btn" style="display:none;font-family:Orbitron,sans-serif;font-size:.52rem;letter-spacing:.08em;padding:.2rem .55rem;border:1px solid rgba(0,255,136,.3);border-radius:3px;color:var(--green);background:transparent;transition:all .2s" onclick="toggleDlEdit()">✏ EDIT</button>
-        </div>
-      </div>
-    </div>
-
     <div class="stats-grid">
       <div class="stat"><div class="stat-num">2×</div><div class="stat-label">FPS BOOST</div></div>
       <div class="stat"><div class="stat-num">60+</div><div class="stat-label">MODS INCLUDED</div></div>
@@ -629,19 +317,6 @@
     </div>
   </section>
   <div class="divider"></div>
-
-  <!-- PUBLIC MEMBER LIST -->
-  <section id="members">
-    <div class="section-label">// COMMUNITY</div>
-    <h2>OUR <span>MEMBERS</span></h2>
-    <div id="member-list-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem"></div>
-    <div id="member-see-more-wrap" style="text-align:center;margin-top:1.2rem;display:none">
-      <button id="member-see-more-btn" onclick="loadMoreMembers()"
-        style="font-family:Orbitron,sans-serif;font-size:.65rem;letter-spacing:.12em;padding:.6rem 1.6rem;border:1px solid var(--border);border-radius:4px;color:var(--green);background:var(--card);transition:all .2s">
-        SEE MORE ↓
-      </button>
-    </div>
-  </section>
 
   <section id="mods">
     <div class="section-label">// INCLUDED MODS</div>
@@ -809,614 +484,74 @@ document.addEventListener('keydown',e=>{
 })();
 
 /* ════════════════════════════════════════════
-   CONSTANTS & STORAGE
-   Private (per-user): session, visit, rated, deviceReg
-   Shared (all users): users db, user meta, banned, dl count
+   SIMPLE STATE
 ════════════════════════════════════════════ */
-const OWNER={user:'OpRGamerz15',pass:'OpRGamerz15YT',email:'oprgamerz15yt@gmail.com'};
-const K={
-  session:'axolotl_session',
-  sessionTime:'axolotl_session_time',
-  visit:'axolotl_visited',
-  rated:'axolotl_rated',
-  deviceReg:'axolotl_device_registered'
-};
-const WEEK_MS = 7*24*60*60*1000;
-
-/* ── Private localStorage helpers ── */
-const getSession  = ()=>localStorage.getItem(K.session)||'';
-const setSession  = u=>{ localStorage.setItem(K.session,u); if(!isOwner(u)) localStorage.setItem(K.sessionTime,Date.now()); };
-const clearSession= ()=>{ localStorage.removeItem(K.session); localStorage.removeItem(K.sessionTime); };
-const isOwner     = u=>u===OWNER.user;
-
-/* ── Shared storage helpers (window.storage — shared across all users) ── */
-async function shGet(key){ try{ const r=await window.storage.get(key,true); return r?r.value:null; }catch{ return null; } }
-async function shSet(key,val){ try{ await window.storage.set(key,val,true); }catch{} }
-
-/* Synchronous in-memory cache so UI doesn't need to be fully async */
-const _cache={users:null,meta:null,banned:null};
-
-async function loadSharedData(){
-  const [u,m,b]=await Promise.all([shGet('ax_users'),shGet('ax_meta'),shGet('ax_banned')]);
-  _cache.users=u?JSON.parse(u):{};
-  _cache.meta =m?JSON.parse(m):{};
-  _cache.banned=b?JSON.parse(b):[];
-  // Seed owner into shared users if not there
-  if(!_cache.users[OWNER.user]){ _cache.users[OWNER.user]=OWNER.pass; await flushUsers(); }
-  // Seed owner meta with email
-  if(!_cache.meta[OWNER.user]||!_cache.meta[OWNER.user].email){
-    _cache.meta[OWNER.user]={ts:_cache.meta[OWNER.user]?.ts||Date.now(),email:OWNER.email};
-    await flushMeta();
-  }
-}
-
-async function flushUsers(){ await shSet('ax_users',JSON.stringify(_cache.users)); }
-async function flushMeta(){  await shSet('ax_meta', JSON.stringify(_cache.meta));  }
-async function flushBanned(){await shSet('ax_banned',JSON.stringify(_cache.banned));}
-
-const getUsers   = ()=>_cache.users||{};
-const saveUsers  = async u=>{ _cache.users=u; await flushUsers(); };
-const getUserMeta= ()=>_cache.meta||{};
-const saveUserMeta=async m=>{ _cache.meta=m; await flushMeta(); };
-const getBanned  = ()=>_cache.banned||[];
-const saveBanned = async b=>{ _cache.banned=b; await flushBanned(); };
-const isBanned   = u=>getBanned().includes(u);
-function syncFloatingBadge(){
-  const fb=document.getElementById('owner-floating-badge');
-  if(!fb)return;
-  fb.classList.toggle('visible', isOwner(getSession()));
-}
-
-let _ddAnchor='header';
-
-function closeOwnerDropdown(){
-  document.getElementById('owner-dropdown').classList.remove('open');
-  const hw=document.getElementById('owner-user-wrap');
-  const fw=document.getElementById('owner-float-wrap');
-  if(hw)hw.classList.remove('open');
-  if(fw)fw.classList.remove('open');
-}
-
-function openOwnerDropdown(anchor){
-  _ddAnchor=anchor||'header';
-  const dd=document.getElementById('owner-dropdown');
-  if(dd.classList.contains('open')){closeOwnerDropdown();return;}
-
-  // Pick anchor element to position below
-  const anchorEl=(_ddAnchor==='float')
-    ? document.getElementById('owner-float-wrap')
-    : document.getElementById('owner-user-wrap');
-
-  if(!anchorEl){closeOwnerDropdown();return;}
-  const rect=anchorEl.getBoundingClientRect();
-  dd.style.top=(rect.bottom+6)+'px';
-  dd.style.right=(window.innerWidth-rect.right)+'px';
-  dd.style.left='auto';
-  anchorEl.classList.add('open');
-  dd.classList.add('open');
-}
-
-document.addEventListener('click',e=>{
-  const dd=document.getElementById('owner-dropdown');
-  const hw=document.getElementById('owner-user-wrap');
-  const fw=document.getElementById('owner-float-wrap');
-  if(!dd)return;
-  if((!hw||!hw.contains(e.target))&&(!fw||!fw.contains(e.target))&&!dd.contains(e.target)){
-    closeOwnerDropdown();
-  }
-});
+const K={visit:'axolotl_visited',rated:'axolotl_rated'};
 
 /* ════════════════════════════════════════════
-   USER META & BAN LIST helpers (now async via shared storage above)
-════════════════════════════════════════════ */
-
-/* ════════════════════════════════════════════
-   USER MANAGER
-════════════════════════════════════════════ */
-function openUserManager(){
-  document.getElementById('user-manager').classList.add('open');
-  renderUserList();
-}
-function closeUserManager(){
-  document.getElementById('user-manager').classList.remove('open');
-}
-document.getElementById('user-manager').addEventListener('click',e=>{
-  if(e.target===e.currentTarget)closeUserManager();
-});
-
-function renderUserList(){
-  const body=document.getElementById('um-body');
-  const users=getUsers();
-  const meta=getUserMeta();
-  const banned=getBanned();
-  // Show all users EXCEPT owner mixed in — owner first, then rest sorted by join date
-  const usernames=Object.keys(users);
-  if(!usernames.length){body.innerHTML='<div class="um-empty">No registered users.</div>';return;}
-
-  // Sort: owner first, then by signup date desc
-  const sorted=[...usernames].sort((a,b)=>{
-    if(isOwner(a)) return -1;
-    if(isOwner(b)) return 1;
-    return (meta[b]||0)-(meta[a]||0);
-  });
-
-  const memberCount=usernames.filter(u=>!isOwner(u)).length;
-  const count=`<div class="um-count">${memberCount} MEMBER${memberCount!==1?'S':''} · ${usernames.length} TOTAL</div>`;
-
-  const rows=sorted.map(u=>{
-    const owner=isOwner(u);
-    const initials=u.slice(0,2).toUpperCase();
-    const banned_=banned.includes(u);
-    const joined=meta[u]
-      ? new Date(meta[u].ts||meta[u]).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
-      : 'Unknown';
-    const statusTag=banned_?`<span class="um-banned-tag">BANNED</span>`:'';
-    const rowStyle=banned_?'border-color:rgba(255,68,68,.2);background:rgba(255,68,68,.03);':'';
-    return `<div class="um-user-row${owner?' is-owner':''}" style="${rowStyle}">
-      <div class="um-user-info">
-        <div class="um-user-avatar${owner?' owner-av':''}" style="${banned_?'border-color:rgba(255,68,68,.4);color:#ff4444;background:rgba(255,68,68,.1);':''}">${owner?'👑':initials}</div>
-        <div>
-          <div class="um-user-name" style="display:flex;align-items:center;gap:.5rem">${u} ${statusTag}</div>
-          <div class="um-user-meta">${owner?'Owner · Lead Developer':'Joined '+joined}</div>
-        </div>
-      </div>
-      ${!owner?`<div class="um-actions-wrap">
-        <button class="um-kick-btn" onclick="kickUser('${u}')" title="Force logout">KICK</button>
-        ${banned_
-          ? `<button class="um-unban-btn" onclick="unbanUser('${u}')">UNBAN</button>`
-          : `<button class="um-ban-btn"   onclick="banUser('${u}')">BAN</button>`}
-        <button class="um-del-btn" onclick="confirmDeleteUser('${u}')">DELETE</button>
-      </div>`:''}
-    </div>`;
-  }).join('');
-  body.innerHTML=count+rows;
-}
-
-function kickUser(username){
-  // If this user is currently logged in, force their session to expire
-  if(getSession()===username){ clearSession(); }
-  // Store a kick flag — when they try to load, they'll be kicked out
-  localStorage.setItem('axolotl_kicked_'+username, Date.now());
-  showActionToast(`⚡ ${username} has been kicked`);
-  renderUserList();
-}
-
-function banUser(username){
-  const banned=getBanned();
-  if(!banned.includes(username)) banned.push(username);
-  saveBanned(banned);
-  // Also kick them if currently logged in
-  if(getSession()===username) clearSession();
-  localStorage.setItem('axolotl_kicked_'+username, Date.now());
-  showActionToast(`🔴 ${username} has been banned`);
-  renderUserList();
-}
-
-function unbanUser(username){
-  saveBanned(getBanned().filter(u=>u!==username));
-  showActionToast(`✅ ${username} has been unbanned`);
-  renderUserList();
-}
-
-function showActionToast(msg){
-  let t=document.getElementById('action-toast');
-  if(!t){
-    t=document.createElement('div');
-    t.id='action-toast';
-    t.style.cssText='position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(60px);background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.3);border-radius:8px;padding:.7rem 1.4rem;font-family:Orbitron,sans-serif;font-size:.65rem;color:var(--green);letter-spacing:.1em;z-index:2147483640;transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.6)';
-    document.body.appendChild(t);
-  }
-  t.textContent=msg;
-  t.style.transform='translateX(-50%) translateY(0)';
-  t.style.opacity='1';
-  clearTimeout(t._tm);
-  t._tm=setTimeout(()=>{t.style.transform='translateX(-50%) translateY(60px)';t.style.opacity='0';},2500);
-}
-
-function confirmDeleteUser(username){
-  const c=document.getElementById('um-del-confirm');
-  document.getElementById('um-confirm-sub').textContent=`Permanently delete "${username}"? This cannot be undone.`;
-  c.classList.add('open');
-  document.getElementById('um-confirm-yes').onclick=()=>{
-    const users=getUsers(); delete users[username]; saveUsers(users);
-    const m=getUserMeta(); delete m[username]; saveUserMeta(m);
-    saveBanned(getBanned().filter(u=>u!==username));
-    if(getSession()===username)clearSession();
-    if(localStorage.getItem(K.deviceReg)===username)localStorage.removeItem(K.deviceReg);
-    c.classList.remove('open');
-    renderUserList();
-  };
-}
-
-/* ════════════════════════════════════════════
-   USER DROPDOWN (regular users)
-════════════════════════════════════════════ */
-let _userDropWrap=null;
-
-function openUserDropdown(wrapId){
-  const dd=document.getElementById('user-dropdown');
-  const wrap=document.getElementById(wrapId);
-  if(!dd||!wrap)return;
-  if(dd.classList.contains('open')&&_userDropWrap===wrapId){closeUserDropdown();return;}
-  _userDropWrap=wrapId;
-  const rect=wrap.getBoundingClientRect();
-  dd.style.top=(rect.bottom+6)+'px';
-  dd.style.right=(window.innerWidth-rect.right)+'px';
-  dd.style.left='auto';
-  wrap.classList.add('open');
-  dd.classList.add('open');
-  const u=getSession();
-  document.getElementById('ud-name').textContent=u;
-}
-function closeUserDropdown(){
-  const dd=document.getElementById('user-dropdown');
-  if(dd)dd.classList.remove('open');
-  if(_userDropWrap){const w=document.getElementById(_userDropWrap);if(w)w.classList.remove('open');}
-  _userDropWrap=null;
-}
-document.addEventListener('click',e=>{
-  const dd=document.getElementById('user-dropdown');
-  if(!dd||!dd.classList.contains('open'))return;
-  const wrap=_userDropWrap?document.getElementById(_userDropWrap):null;
-  if((!wrap||!wrap.contains(e.target))&&!dd.contains(e.target)) closeUserDropdown();
-});
-
-function doLogout(){
-  clearSession();
-  closeUserDropdown();
-  closeOwnerDropdown();
-  syncFloatingBadge();
-  document.getElementById('main-content').style.display='none';
-  document.getElementById('header-user').innerHTML='';
-  const gate=document.getElementById('auth-gate');
-  gate.classList.remove('hide');
-  gate.style.cssText='display:flex;opacity:1;visibility:visible;pointer-events:auto;';
-  document.getElementById('af-login').style.display='block';
-  document.getElementById('af-signup').style.display='none';
-  document.getElementById('at-login').classList.add('active');
-  document.getElementById('at-signup').classList.remove('active');
-  ['al-user','al-pass','as-user','as-email','as-pass'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
-  document.getElementById('auth-msg').textContent='';
-}
-function userLogout(){ doLogout(); }
-function ownerLogout(){ doLogout(); }
-
-function renderHeaderUser(u){
-  const el=document.getElementById('header-user'); if(!el)return;
-  if(u&&isOwner(u)){
-    el.innerHTML=`<div class="user-badge-wrap" id="owner-user-wrap" onclick="openOwnerDropdown('header')">
-      <div class="user-badge owner-clickable">👑 ${u} <span class="user-badge-chevron">▼</span></div>
-    </div>`;
-  } else if(u){
-    el.innerHTML=`<div class="user-badge-wrap" id="user-badge-wrap-main" onclick="openUserDropdown('user-badge-wrap-main')">
-      <div class="user-badge clickable">👤 ${u} <span class="user-badge-chevron">▼</span></div>
-    </div>`;
-  } else { el.innerHTML=''; }
-  syncFloatingBadge();
-}
-
-/* ════════════════════════════════════════════
-   MAIN APP FLOW
-════════════════════════════════════════════ */
-function startApp(username, isGuest){
-  renderHeaderUser(username);
-  syncFloatingBadge();
-
-  const firstVisit=!localStorage.getItem(K.visit);
-
-  function runLoading(cb){
-    const ld=document.getElementById('loading'); ld.style.display='flex';
-    const msgs=['Initializing engine...','Optimizing chunks...','Boosting FPS...','Loading assets...','Calibrating PVP...','Almost ready...'];
-    const bar=document.getElementById('load-bar'), txt=document.getElementById('load-text');
-    let s=0;
-    (function adv(){
-      if(s>=msgs.length){
-        setTimeout(()=>{ld.classList.add('hide');setTimeout(()=>{ld.style.display='none';cb();},800);},200);
-        return;
-      }
-      txt.textContent=msgs[s]; bar.style.width=((s+1)/msgs.length*100)+'%'; s++;
-      setTimeout(adv,400);
-    })();
-  }
-
-  function showMain(){
-    document.getElementById('main-content').style.display='block';
-    initMainFeatures();
-  }
-
-  if(firstVisit&&!isGuest){
-    localStorage.setItem(K.visit,'1');
-    const ob=document.getElementById('onboarding'); ob.style.display='flex';
-    /* particles */
-    const pc=document.getElementById('ob-particles');
-    for(let i=0;i<28;i++){
-      const p=document.createElement('div'); p.className='ob-particle';
-      p.style.left=Math.random()*100+'%';
-      p.style.animationDuration=(4+Math.random()*6)+'s';
-      p.style.animationDelay=(Math.random()*4)+'s';
-      p.style.width=p.style.height=(1+Math.random()*3)+'px';
-      pc.appendChild(p);
-    }
-    document.getElementById('ob-btn').addEventListener('click',()=>{
-      ob.classList.add('hide');
-      setTimeout(()=>{ob.style.display='none'; runLoading(showMain);},800);
-    });
-  } else {
-    runLoading(showMain);
-  }
-}
-
-/* ════════════════════════════════════════════
-   AUTH GATE LOGIC
+   ONBOARDING — show on first visit
 ════════════════════════════════════════════ */
 (()=>{
-  const saved=getSession();
-  if(saved){
-    if(isOwner(saved)){
-      // Owner session never expires and needs no cache check
-      document.getElementById('auth-gate').style.display='none';
-      startApp(saved,false);
-      return;
-    }
-    // Check if banned or kicked since last login
-    if(isBanned(saved)){ clearSession(); }
-    else {
-      const kickTime=parseInt(localStorage.getItem('axolotl_kicked_'+saved)||'0',10);
-      const loginTime=parseInt(localStorage.getItem(K.sessionTime)||'0',10);
-      if(kickTime>loginTime){ clearSession(); }
-    }
-    if(getSession()){
-      document.getElementById('auth-gate').style.display='none';
-      startApp(getSession(),false);
-      return;
-    }
+  const firstVisit=!localStorage.getItem(K.visit);
+  if(!firstVisit) return; // skip straight to site
+
+  const ob=document.getElementById('onboarding');
+  ob.style.display='flex';
+
+  // Spawn particles
+  const pc=document.getElementById('ob-particles');
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div'); p.className='ob-particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(4+Math.random()*6)+'s';
+    p.style.animationDelay=(Math.random()*4)+'s';
+    p.style.width=p.style.height=(1+Math.random()*3)+'px';
+    pc.appendChild(p);
   }
 
-  /* Tab switching */
-  document.getElementById('at-login').addEventListener('click',()=>{
-    document.getElementById('at-login').classList.add('active');
-    document.getElementById('at-signup').classList.remove('active');
-    document.getElementById('af-login').style.display='block';
-    document.getElementById('af-signup').style.display='none';
-    document.getElementById('auth-msg').textContent='';
-  });
-  document.getElementById('at-signup').addEventListener('click',()=>{
-    document.getElementById('at-signup').classList.add('active');
-    document.getElementById('at-login').classList.remove('active');
-    document.getElementById('af-signup').style.display='block';
-    document.getElementById('af-login').style.display='none';
-    document.getElementById('auth-msg').textContent='';
-  });
-
-  function msg(t,err=false){
-    const el=document.getElementById('auth-msg');
-    el.textContent=t; el.className='auth-msg'+(err?' err':'');
+  function dismissOnboarding(){
+    ob.classList.add('hide');
+    setTimeout(()=>ob.style.display='none',800);
+    localStorage.setItem(K.visit,'1');
   }
 
-  function proceed(u,guest){
-    const gate=document.getElementById('auth-gate');
-    gate.classList.add('hide');
-    setTimeout(()=>{ gate.style.display='none'; startApp(u,guest); },700);
-  }
-
-  document.getElementById('do-login').addEventListener('click',()=>{
-    const input=document.getElementById('al-user').value.trim();
-    const p=document.getElementById('al-pass').value;
-    if(!input||!p){msg('Please fill all fields.',true);return;}
-
-    // Owner check — case-insensitive username or email, exact password
-    const ownerMatch=
-      input.toLowerCase()===OWNER.user.toLowerCase() ||
-      input.toLowerCase()===OWNER.email.toLowerCase();
-    if(ownerMatch){
-      if(p!==OWNER.pass){msg('Wrong password.',true);return;}
-      setSession(OWNER.user);
-      msg('Welcome Back! '+OWNER.user+' ⚡');
-      setTimeout(()=>proceed(OWNER.user,false),900);
-      return;
-    }
-
-    // Regular users — use cache
-    const users=getUsers();
-    const meta=getUserMeta();
-    let resolvedUser=null;
-    if(users[input]){
-      resolvedUser=input;
-    } else {
-      resolvedUser=Object.keys(meta).find(u=>meta[u]&&meta[u].email&&meta[u].email.toLowerCase()===input.toLowerCase())||null;
-    }
-    if(!resolvedUser||users[resolvedUser]!==p){msg('Wrong username, email or password.',true);return;}
-    if(isBanned(resolvedUser)){msg('Your account has been banned.',true);return;}
-    setSession(resolvedUser);
-    msg('Welcome Back! '+resolvedUser+' ⚡');
-    setTimeout(()=>proceed(resolvedUser,false),900);
+  document.getElementById('ob-modpack-btn').addEventListener('click',()=>{
+    dismissOnboarding();
+    // Main content already visible — nothing else needed
   });
 
-  document.getElementById('do-signup').addEventListener('click',()=>{
-    const u=document.getElementById('as-user').value.trim();
-    const email=document.getElementById('as-email').value.trim();
-    const p=document.getElementById('as-pass').value;
-    if(!u||!email||!p){msg('Please fill all fields.',true);return;}
-    if(u.length<3){msg('Username must be 3+ characters.',true);return;}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg('Please enter a valid email address.',true);return;}
-    if(u===OWNER.user){msg('That username is reserved.',true);return;}
-    const existingReg=localStorage.getItem(K.deviceReg);
-    if(existingReg){msg(`This device already has an account: "${existingReg}". Please login instead.`,true);return;}
-    const users=getUsers();
-    if(users[u]){msg('Username already taken.',true);return;}
-    // Check email not already used
-    const meta=getUserMeta();
-    const emailTaken=Object.values(meta).some(m=>m&&m.email&&m.email.toLowerCase()===email.toLowerCase());
-    if(emailTaken){msg('That email is already registered.',true);return;}
-    users[u]=p; saveUsers(users);
-    // Save signup timestamp + email
-    meta[u]={ts:Date.now(),email}; saveUserMeta(meta);
-    localStorage.setItem(K.deviceReg,u);
-    // Add to shared roster so member list updates for everyone
-    try{
-      const roster=JSON.parse(localStorage.getItem('axolotl_roster')||'[]');
-      if(!roster.find(r=>r.u===u)) roster.push({u,ts:Date.now()});
-      localStorage.setItem('axolotl_roster',JSON.stringify(roster));
-    }catch{}
-    setSession(u);
-    msg('Welcome '+u+'! ⚡');
-    setTimeout(()=>proceed(u,false),900);
+  document.getElementById('ob-rp-btn').addEventListener('click',()=>{
+    dismissOnboarding();
+    const rp=document.getElementById('rp-page');
+    rp.style.display='block';
+    setTimeout(()=>rp.classList.add('show'),50);
   });
-
-  document.getElementById('al-pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('do-login').click();});
-  document.getElementById('as-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('as-pass').focus();});
-  document.getElementById('as-pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('do-signup').click();});
 })();
 
+/* Resource pack → modpack switch */
+function switchToModpack(){
+  const rp=document.getElementById('rp-page');
+  rp.classList.remove('show');
+  setTimeout(()=>rp.style.display='none',400);
+}
+
 /* ════════════════════════════════════════════
-   MAIN FEATURES (runs after loading completes)
+   MAIN FEATURES — run immediately
 ════════════════════════════════════════════ */
-function initMainFeatures(){
-
-  /* ══════════════════════════════════
-     DOWNLOAD COUNTER
-     Owner sets the number via EDIT → SAVE.
-     Stored in localStorage so every user
-     on the same browser/device sees it.
-     To update the default for ALL fresh
-     visitors: change DOWNLOADS_DEFAULT below
-     and re-upload this file.
-  ══════════════════════════════════ */
-  const DOWNLOADS_DEFAULT = 0;
-
-  (()=>{
-    const DL_KEY='axolotl_dl_count';
-    const numEl=document.getElementById('dl-count');
-    const subEl=document.getElementById('dl-sub');
-    const editBtn=document.getElementById('dl-edit-btn');
-    const editWrap=document.getElementById('dl-edit-wrap');
-    const editInput=document.getElementById('dl-edit-input');
-
-    function fmt(n){
-      if(n>=1000000)return(n/1000000).toFixed(1).replace(/\.0$/,'')+'M';
-      if(n>=1000)return(n/1000).toFixed(1).replace(/\.0$/,'')+'K';
-      return n.toLocaleString();
-    }
-    function animateCount(n){
-      if(!n||n<=0){numEl.textContent='—';if(subEl)subEl.textContent='Not set yet';return;}
-      numEl.textContent='0';
-      let cur=0;const step=Math.max(1,Math.ceil(n/80));
-      const anim=setInterval(()=>{cur=Math.min(cur+step,n);numEl.textContent=fmt(cur);if(cur>=n){clearInterval(anim);numEl.textContent=fmt(n);}},16);
-      if(subEl)subEl.textContent='Total downloads';
-    }
-    function loadAndDisplay(){
-      const raw=localStorage.getItem(DL_KEY);
-      // Use stored value if exists, otherwise fall back to file constant
-      const n=raw?parseInt(raw,10)||DOWNLOADS_DEFAULT:DOWNLOADS_DEFAULT;
-      animateCount(n);
-    }
-
-    loadAndDisplay();
-    // React to changes in other tabs on same browser
-    window.addEventListener('storage',e=>{if(e.key===DL_KEY)loadAndDisplay();});
-
-    // Show edit button for owner only
-    if(isOwner(getSession())&&editBtn)editBtn.style.display='inline-block';
-
-    window.toggleDlEdit=function(){
-      const isOpen=editWrap.style.display==='flex';
-      if(isOpen){editWrap.style.display='none';}
-      else{editWrap.style.display='flex';editInput.value=localStorage.getItem(DL_KEY)||String(DOWNLOADS_DEFAULT||'');editInput.focus();editInput.select();}
-    };
-    window.saveDlCount=function(){
-      const val=editInput.value.trim().replace(/[^0-9]/g,'');
-      if(!val)return;
-      localStorage.setItem(DL_KEY,val);
-      loadAndDisplay();
-      editWrap.style.display='none';
-      showActionToast('✅ Download count updated!');
-    };
-    if(editInput)editInput.addEventListener('keydown',e=>{if(e.key==='Enter')window.saveDlCount();if(e.key==='Escape')editWrap.style.display='none';});
-  })();
-
-  /* ══════════════════════════════════
-     MEMBER LIST
-     Source of truth: getUsers() from localStorage.
-     All accounts signed up on this browser are shown.
-     Owner is always shown first.
-  ══════════════════════════════════ */
-  (()=>{
-    const PER_PAGE=12;
-    let shown=PER_PAGE;
-
-    function getMembersSorted(){
-      const users=getUsers(); // {username: password, ...}
-      const meta=getUserMeta(); // {username: {ts, email}, ...}
-      const names=Object.keys(users);
-      return names.sort((a,b)=>{
-        if(isOwner(a))return -1;
-        if(isOwner(b))return 1;
-        const ma=meta[a]; const mb=meta[b];
-        const ta=ma?(ma.ts||ma||0):0;
-        const tb=mb?(mb.ts||mb||0):0;
-        return tb-ta; // newest first
-      });
-    }
-
-    function buildCards(n){
-      const grid=document.getElementById('member-list-grid');
-      const seeMoreWrap=document.getElementById('member-see-more-wrap');
-      if(!grid)return;
-      const all=getMembersSorted();
-      const meta=getUserMeta();
-      const currentUser=getSession();
-      const slice=all.slice(0,n);
-
-      if(!slice.length){
-        grid.innerHTML='<div style="color:var(--dim);font-size:.9rem;grid-column:1/-1;text-align:center;padding:2rem 0">No members yet.</div>';
-        if(seeMoreWrap)seeMoreWrap.style.display='none';
-        return;
-      }
-
-      grid.innerHTML=slice.map(u=>{
-        const owner=isOwner(u);
-        const isMe=u===currentUser;
-        const initials=u.slice(0,2).toUpperCase();
-        const m=meta[u];
-        const ts=m?(m.ts||m||0):0;
-        const joinStr=(ts&&ts>1000)?new Date(ts).toLocaleDateString('en-US',{month:'short',year:'numeric'}):'';
-        const youTag=isMe?` <span style="font-size:.5rem;color:var(--green);border:1px solid rgba(0,255,136,.3);padding:.05rem .3rem;border-radius:3px;vertical-align:middle;margin-left:.2rem">YOU</span>`:'';
-        return `<div class="member-card" style="${isMe&&!owner?'border-color:rgba(0,255,136,.35);':''}">
-          <div class="member-avatar${owner?' owner-av':''}">${owner?'👑':initials}</div>
-          <div style="min-width:0;overflow:hidden">
-            <div class="member-name">${u}${youTag}</div>
-            <div class="member-tag">${owner?'👑 Owner':joinStr?'Since '+joinStr:'Member'}</div>
-          </div>
-        </div>`;
-      }).join('');
-
-      if(seeMoreWrap)seeMoreWrap.style.display=all.length>n?'block':'none';
-    }
-
-    buildCards(shown);
-    window.loadMoreMembers=function(){shown+=PER_PAGE;buildCards(shown);};
-    // Re-render if localStorage changes (new signup in another tab)
-    window.addEventListener('storage',e=>{if(e.key===K.users||e.key==='axolotl_usermeta')buildCards(shown);});
-  })();
-
+(()=>{
   /* BUG REPORT DROPDOWN */
-  (()=>{
-    const btn=document.getElementById('bug-report-btn');
-    const dd =document.getElementById('bug-dropdown');
-    if(!btn||!dd)return;
-    btn.addEventListener('click',e=>{
-      e.stopPropagation();
-      dd.classList.toggle('open');
-    });
-    // Close when clicking anywhere else
+  const btn=document.getElementById('bug-report-btn');
+  const dd=document.getElementById('bug-dropdown');
+  if(btn&&dd){
+    btn.addEventListener('click',e=>{e.stopPropagation();dd.classList.toggle('open');});
     document.addEventListener('click',()=>dd.classList.remove('open'));
-    // Prevent closing when clicking inside dropdown
     dd.addEventListener('click',e=>e.stopPropagation());
-  })();
+  }
 
   /* CHANGELOG */
   (async()=>{
     const container=document.getElementById('changelog-list');
+    if(!container)return;
     function md(text){
       if(!text)return'No changelog provided.';
       return text
@@ -1426,24 +561,29 @@ function initMainFeatures(){
         .replace(/^[-*]\s+(.+)$/gm,'<div style="padding:.12rem 0 .12rem 1rem">◆ $1</div>')
         .replace(/\n{2,}/g,'<br/>').replace(/\n/g,'<br/>');
     }
-    try{
-      const r=await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+/version');
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      const vs=await r.json();
-      if(!vs||!vs.length){container.innerHTML='<div class="cl-entry"><div class="cl-version">No versions found</div></div>';return;}
-      container.innerHTML=vs.slice(0,6).map(v=>{
-        const cl=(v.changelog||'').trim();
-        const body=cl.length>700?cl.slice(0,700)+'…':cl;
-        const name=v.name&&v.name!==v.version_number?' — '+v.name:'';
-        return `<div class="cl-entry">
-          <div class="cl-version">v${v.version_number}${name}</div>
-          <div class="cl-date">${new Date(v.date_published).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
-          <div class="cl-body">${md(body)}</div>
-        </div>`;
-      }).join('');
-    }catch(e){
-      container.innerHTML=`<div class="cl-entry"><div class="cl-version" style="color:#ff9900">⚠ Could not load changelog</div><div class="cl-date">Modrinth API may be temporarily unavailable</div><div class="cl-body"><a href="https://modrinth.com/modpack/axolotl-pvp+/versions" target="_blank" style="color:var(--green)">→ View all versions on Modrinth</a></div></div>`;
+    // Try both known project ID formats
+    const slugs=['axolotl-pvp+','axolotl-pvp-plus'];
+    let vs=null;
+    for(const slug of slugs){
+      try{
+        const r=await fetch(`https://api.modrinth.com/v2/project/${encodeURIComponent(slug)}/version`,{headers:{'User-Agent':'axolotl-pvp-web/1.0'}});
+        if(r.ok){const data=await r.json();if(Array.isArray(data)&&data.length){vs=data;break;}}
+      }catch{}
     }
+    if(!vs||!vs.length){
+      container.innerHTML=`<div class="cl-entry"><div class="cl-version" style="color:#ff9900">Could not load changelog</div><div class="cl-body"><a href="https://modrinth.com/modpack/axolotl-pvp+/versions" target="_blank" style="color:var(--green)">→ View all versions on Modrinth</a></div></div>`;
+      return;
+    }
+    container.innerHTML=vs.slice(0,6).map(v=>{
+      const cl=(v.changelog||'').trim();
+      const body=cl.length>700?cl.slice(0,700)+'…':cl;
+      const name=v.name&&v.name!==v.version_number?' — '+v.name:'';
+      return `<div class="cl-entry">
+        <div class="cl-version">v${v.version_number}${name}</div>
+        <div class="cl-date">${new Date(v.date_published).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
+        <div class="cl-body">${md(body)}</div>
+      </div>`;
+    }).join('');
   })();
 
   /* FEEDBACK */
@@ -1469,7 +609,7 @@ function initMainFeatures(){
     });
     document.getElementById('fb-dismiss').addEventListener('click',()=>popup.classList.remove('show'));
   })();
-}
+})();
 </script>
 </body>
 </html>
