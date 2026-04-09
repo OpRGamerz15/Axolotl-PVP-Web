@@ -211,49 +211,6 @@
     .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
     .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
 
-    /* ── DOWNLOAD MODAL ── */
-    #dl-modal{display:none;position:fixed;inset:0;z-index:2147483600;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);align-items:center;justify-content:center;padding:1rem;}
-    #dl-modal.open{display:flex;animation:dlFadeIn .25s ease;}
-    @keyframes dlFadeIn{from{opacity:0}to{opacity:1}}
-    .dlm-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;width:480px;max-width:95vw;position:relative;box-shadow:0 0 60px rgba(0,255,136,.1),0 30px 80px rgba(0,0,0,.9);animation:dlScaleIn .25s cubic-bezier(.34,1.56,.64,1);}
-    @keyframes dlScaleIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
-    .dlm-top{height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:14px 14px 0 0;}
-    .dlm-close{position:absolute;top:.9rem;right:1rem;background:none;border:none;color:var(--dim);font-size:1.1rem;transition:color .2s;line-height:1;}
-    .dlm-close:hover{color:#ff6b6b;}
-    .dlm-head{padding:1.4rem 1.5rem 1rem;}
-    .dlm-title{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;color:#fff;letter-spacing:.08em;margin-bottom:.3rem;}
-    .dlm-sub{font-size:.8rem;color:var(--dim);}
-    .dlm-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.1em;color:var(--green);border:1px solid rgba(0,255,136,.25);background:rgba(0,255,136,.06);padding:.25rem .7rem;border-radius:20px;margin-top:.6rem;}
-    .dlm-divider{height:1px;background:var(--border);margin:0 1.5rem;}
-    .dlm-section{padding:1rem 1.5rem .5rem;}
-    .dlm-section-label{font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.18em;color:var(--dim);margin-bottom:.75rem;opacity:.8;}
-    .dlm-versions{display:grid;grid-template-columns:repeat(auto-fill,minmax(95px,1fr));gap:.5rem;}
-    .dlm-ver{
-      font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.06em;
-      padding:.55rem .5rem;border:1px solid var(--border);border-radius:6px;
-      background:var(--card);color:var(--dim);text-align:center;
-      transition:all .18s;position:relative;overflow:hidden;
-    }
-    .dlm-ver::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,136,.1),transparent);opacity:0;transition:opacity .18s;}
-    .dlm-ver:hover{border-color:rgba(0,255,136,.4);color:var(--text);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
-    .dlm-ver:hover::before{opacity:1;}
-    .dlm-ver.selected{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.08);box-shadow:0 0 16px rgba(0,255,136,.2);}
-    .dlm-ver.selected::before{opacity:1;}
-    .dlm-ver.selected::after{content:'✓';position:absolute;top:.2rem;right:.3rem;font-size:.55rem;color:var(--green);}
-    .dlm-footer{padding:1rem 1.5rem 1.4rem;}
-    .dlm-btn{
-      width:100%;padding:.85rem;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.14em;font-weight:700;
-      background:var(--green);color:#000;border:none;border-radius:6px;
-      box-shadow:0 0 20px rgba(0,255,136,.35);transition:all .2s;
-      position:relative;overflow:hidden;
-    }
-    .dlm-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transform:translateX(-100%);transition:transform .4s;}
-    .dlm-btn:hover:not(:disabled){background:var(--green2);box-shadow:0 0 40px rgba(0,255,136,.7);transform:translateY(-1px);}
-    .dlm-btn:hover:not(:disabled)::after{transform:translateX(100%);}
-    .dlm-btn:disabled{background:rgba(0,255,136,.15);color:rgba(0,255,136,.35);box-shadow:none;transform:none;}
-    .dlm-selected-info{text-align:center;font-size:.75rem;color:var(--dim);margin-top:.6rem;min-height:1rem;transition:color .2s;}
-    .dlm-selected-info.active{color:var(--green);}
-
     #feedback-popup{position:fixed;bottom:2rem;right:2rem;z-index:77777;background:#080e0a;border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:1.5rem;width:280px;box-shadow:0 0 40px rgba(0,255,136,.1),0 20px 60px rgba(0,0,0,.6);transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
     #feedback-popup.show{transform:translateY(0);opacity:1;pointer-events:all;}
     #feedback-popup::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:10px 10px 0 0;}
@@ -309,37 +266,6 @@
       </div>
       <a class="bwm-cta" href="https://claude.ai/" target="_blank" onclick="closeBuildWeb()">START BUILDING FOR FREE →</a>
       <div class="bwm-note">No account required · claude.ai · This site was built in one chat</div>
-    </div>
-  </div>
-</div>
-
-<!-- DOWNLOAD MODAL -->
-<div id="dl-modal">
-  <div class="dlm-box">
-    <div class="dlm-top"></div>
-    <button class="dlm-close" onclick="closeDownloadModal()">✕</button>
-    <div class="dlm-head">
-      <div class="dlm-title">⬇️ DOWNLOAD AXOLOTL PVP+</div>
-      <div class="dlm-sub">Select your Minecraft version to download</div>
-      <div class="dlm-badge">🧵 FABRIC · Pre-selected</div>
-    </div>
-    <div class="dlm-divider"></div>
-    <div class="dlm-section">
-      <div class="dlm-section-label">// SELECT MINECRAFT VERSION</div>
-      <div class="dlm-versions" id="dlm-versions">
-        <button class="dlm-ver" data-ver="1.21.5"  onclick="selectVer(this)">1.21.5</button>
-        <button class="dlm-ver" data-ver="1.21.6"  onclick="selectVer(this)">1.21.6</button>
-        <button class="dlm-ver" data-ver="1.21.7"  onclick="selectVer(this)">1.21.7</button>
-        <button class="dlm-ver" data-ver="1.21.8"  onclick="selectVer(this)">1.21.8</button>
-        <button class="dlm-ver" data-ver="1.21.9"  onclick="selectVer(this)">1.21.9</button>
-        <button class="dlm-ver" data-ver="1.21.10" onclick="selectVer(this)">1.21.10</button>
-        <button class="dlm-ver" data-ver="1.21.11" onclick="selectVer(this)">1.21.11</button>
-        <button class="dlm-ver" data-ver="26.1"    onclick="selectVer(this)">26.1</button>
-      </div>
-    </div>
-    <div class="dlm-footer">
-      <button class="dlm-btn" id="dlm-btn" disabled onclick="doDownload()">SELECT A VERSION FIRST</button>
-      <div class="dlm-selected-info" id="dlm-info">Choose a version above to continue</div>
     </div>
   </div>
 </div>
@@ -423,7 +349,7 @@
     <div class="section-label">// GET STARTED</div>
     <h2>CHOOSE YOUR <span>LAUNCHER</span></h2>
     <div class="dl-grid">
-      <div class="dl-card" onclick="openDownloadModal()" style="cursor:pointer"><div class="dl-icon">⬇️</div><h3>DOWNLOAD VIA WEB</h3><p>Select your Minecraft version and download the modpack directly — powered by Fabric.</p></div>
+      <a class="dl-card" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank"><div class="dl-icon">⬇️</div><h3>DOWNLOAD</h3><p>Official release on Modrinth. Compatible with Modrinth App, Prism Launcher, and ATLauncher.</p></a>
       <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank"><div class="dl-icon">🎬</div><h3>SKLAUNCHER TUTORIAL</h3><p>Watch a step-by-step guide on how to install Axolotl PVP+ using SKLauncher.</p></a>
       <div class="bug-card-wrap">
         <div class="dl-card" id="bug-report-btn" style="cursor:pointer">
@@ -622,6 +548,68 @@ document.addEventListener('keydown',e=>{
     requestAnimationFrame(frame);
   })();
 })();
+
+/* ════════════════════════════════════════════
+   SIMPLE STATE
+════════════════════════════════════════════ */
+const K={visit:'axolotl_visited',rated:'axolotl_rated'};
+
+/* ════════════════════════════════════════════
+   ONBOARDING — show on first visit
+════════════════════════════════════════════ */
+(()=>{
+  const firstVisit=!localStorage.getItem(K.visit);
+  if(!firstVisit) return; // skip straight to site
+
+  const ob=document.getElementById('onboarding');
+  ob.style.display='flex';
+
+  // Spawn particles
+  const pc=document.getElementById('ob-particles');
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div'); p.className='ob-particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(4+Math.random()*6)+'s';
+    p.style.animationDelay=(Math.random()*4)+'s';
+    p.style.width=p.style.height=(1+Math.random()*3)+'px';
+    pc.appendChild(p);
+  }
+
+  function dismissOnboarding(){
+    ob.classList.add('hide');
+    setTimeout(()=>ob.style.display='none',800);
+    localStorage.setItem(K.visit,'1');
+  }
+
+  document.getElementById('ob-modpack-btn').addEventListener('click',()=>{
+    dismissOnboarding();
+    // Main content already visible — nothing else needed
+  });
+
+  document.getElementById('ob-rp-btn').addEventListener('click',()=>{
+    dismissOnboarding();
+    const rp=document.getElementById('rp-page');
+    rp.style.display='block';
+    setTimeout(()=>rp.classList.add('show'),50);
+  });
+})();
+
+/* Resource pack → modpack switch */
+function switchToModpack(){
+  const rp=document.getElementById('rp-page');
+  rp.classList.remove('show');
+  setTimeout(()=>rp.style.display='none',400);
+}
+/* Build Web Free modal */
+function openBuildWeb(){
+  // Mirror the header logo into the modal
+  const src=document.querySelector('.logo-img');
+  const dst=document.getElementById('bwm-logo-img');
+  if(src&&dst)dst.src=src.src;
+  document.getElementById('build-web-modal').classList.add('open');
+}
+function closeBuildWeb(){document.getElementById('build-web-modal').classList.remove('open');}
+document.getElementById('build-web-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeBuildWeb();});
 
 /* ════════════════════════════════════════════
    MAIN FEATURES — run immediately
