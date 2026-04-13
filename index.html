@@ -638,6 +638,8 @@ document.addEventListener('keydown',e=>{
 /* ════════════════════════════════════════════
    SIMPLE STATE
 ════════════════════════════════════════════ */
+// Clear legacy onboarding key so old cached versions never show the screen
+try{localStorage.removeItem('axolotl_visited');}catch(e){}
 const K={rated:'axolotl_rated'};
 
 /* ════════════════════════════════════════════
