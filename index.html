@@ -4,6 +4,24 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Axolotl PVP+</title>
+  <!-- Open Graph / Discord / Slack / WhatsApp embeds -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://axolotlpvp.qzzz.io/" />
+  <meta property="og:title" content="Axolotl PVP+" />
+  <meta property="og:description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
+  <meta property="og:image" content="https://i.imgur.com/6aJJLDt.jpeg" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="720" />
+  <meta property="og:site_name" content="Axolotl PVP+" />
+  <meta property="og:locale" content="en_US" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Axolotl PVP+" />
+  <meta name="twitter:description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
+  <meta name="twitter:image" content="https://i.imgur.com/6aJJLDt.jpeg" />
+  <!-- General SEO -->
+  <meta name="description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
+  <meta name="theme-color" content="#00ff88" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     /* ── CURSOR (always on, every layer) ── */
@@ -82,6 +100,7 @@
     .wiki-q strong{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--green);display:block;margin-bottom:.4rem;letter-spacing:.04em;}
     .wiki-q p{font-size:.88rem;color:var(--text);margin:0;}
     @media(max-width:600px){.wiki-features{grid-template-columns:1fr;}.wiki-header{padding:1rem 1.2rem;}}
+
 
     /* Build Web modal */
     #build-web-modal{
@@ -217,20 +236,6 @@
     .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
     .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
 
-    #feedback-popup{position:fixed;bottom:2rem;right:2rem;z-index:77777;background:#080e0a;border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:1.5rem;width:280px;box-shadow:0 0 40px rgba(0,255,136,.1),0 20px 60px rgba(0,0,0,.6);transform:translateY(120px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
-    #feedback-popup.show{transform:translateY(0);opacity:1;pointer-events:all;}
-    #feedback-popup::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:10px 10px 0 0;}
-    .fb-title{font-family:'Orbitron',sans-serif;font-size:.8rem;color:#fff;margin-bottom:.4rem;}
-    .fb-sub{font-size:.8rem;color:var(--dim);margin-bottom:1rem;}
-    .fb-stars{display:flex;gap:.3rem;margin-bottom:1rem;}
-    .fb-star{font-size:1.6rem;line-height:1;opacity:.35;transition:all .15s;}
-    .fb-star.active{opacity:1;filter:drop-shadow(0 0 6px #ffd700);}
-    .fb-actions{display:flex;gap:.5rem;}
-    .fb-submit{flex:1;font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.5rem;background:var(--green);color:#000;border:none;border-radius:3px;font-weight:700;transition:all .2s;}
-    .fb-submit:hover{background:var(--green2);box-shadow:0 0 16px rgba(0,255,136,.5);}
-    .fb-dismiss{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.5rem .8rem;background:transparent;border:1px solid var(--border);color:var(--dim);border-radius:3px;transition:all .2s;}
-    .fb-dismiss:hover{border-color:rgba(0,255,136,.3);color:var(--text);}
-    .fb-thanks{font-family:'Orbitron',sans-serif;font-size:.75rem;color:var(--green);text-align:center;padding:.5rem 0;display:none;}
   </style>
 </head>
 <body>
@@ -529,22 +534,6 @@
   </footer>
 </div>
 
-<!-- FEEDBACK POPUP -->
-<div id="feedback-popup">
-  <div class="fb-title">Rate your experience ⚡</div>
-  <div class="fb-sub">How's Axolotl PVP+ treating you?</div>
-  <div class="fb-stars" id="fb-stars">
-    <span class="fb-star" data-v="1">⭐</span><span class="fb-star" data-v="2">⭐</span>
-    <span class="fb-star" data-v="3">⭐</span><span class="fb-star" data-v="4">⭐</span>
-    <span class="fb-star" data-v="5">⭐</span>
-  </div>
-  <div class="fb-actions">
-    <button class="fb-submit" id="fb-submit">SUBMIT</button>
-    <button class="fb-dismiss" id="fb-dismiss">LATER</button>
-  </div>
-  <div class="fb-thanks" id="fb-thanks">⚡ Thanks for the feedback!</div>
-</div>
-
 <script>
 /* ════════════════════════════════════════════
    ANTI-COPY
@@ -583,11 +572,11 @@ document.addEventListener('keydown',e=>{
 
   /* Delegated hover — works for elements added at any time */
   document.addEventListener('mouseover',e=>{
-    if(e.target.closest('a,button,summary,details,.dl-card,.mod-item,.op-btn,.auth-tab,.auth-submit,.auth-guest,.fb-star,.fb-submit,.fb-dismiss'))
+    if(e.target.closest('a,button,summary,details,.dl-card,.mod-item'))
       document.body.classList.add('cursor-hover');
   });
   document.addEventListener('mouseout',e=>{
-    if(e.target.closest('a,button,summary,details,.dl-card,.mod-item,.op-btn,.auth-tab,.auth-submit,.auth-guest,.fb-star,.fb-submit,.fb-dismiss'))
+    if(e.target.closest('a,button,summary,details,.dl-card,.mod-item'))
       document.body.classList.remove('cursor-hover');
   });
 
@@ -635,12 +624,8 @@ document.addEventListener('keydown',e=>{
   })();
 })();
 
-/* ════════════════════════════════════════════
-   SIMPLE STATE
-════════════════════════════════════════════ */
 // Clear legacy onboarding key so old cached versions never show the screen
 try{localStorage.removeItem('axolotl_visited');}catch(e){}
-const K={rated:'axolotl_rated'};
 
 /* ════════════════════════════════════════════
    DIRECT DOWNLOAD — fetches latest .mrpack from Modrinth
@@ -709,29 +694,6 @@ document.getElementById('build-web-modal').addEventListener('click',e=>{if(e.tar
     dd.addEventListener('click',e=>e.stopPropagation());
   }
 
-  /* FEEDBACK */
-  (()=>{
-    if(localStorage.getItem(K.rated))return;
-    const popup=document.getElementById('feedback-popup');
-    const stars=document.querySelectorAll('.fb-star');
-    let rating=0;
-    setTimeout(()=>popup.classList.add('show'),13000);
-    stars.forEach(s=>{
-      s.addEventListener('mouseenter',()=>{const v=+s.dataset.v;stars.forEach(x=>x.classList.toggle('active',+x.dataset.v<=v));});
-      s.addEventListener('mouseleave',()=>{stars.forEach(x=>x.classList.toggle('active',+x.dataset.v<=rating));});
-      s.addEventListener('click',()=>{rating=+s.dataset.v;stars.forEach(x=>x.classList.toggle('active',+x.dataset.v<=rating));});
-    });
-    document.getElementById('fb-submit').addEventListener('click',()=>{
-      if(!rating)return;
-      localStorage.setItem(K.rated,rating);
-      document.querySelector('.fb-actions').style.display='none';
-      document.getElementById('fb-stars').style.display='none';
-      document.querySelector('.fb-sub').style.display='none';
-      document.getElementById('fb-thanks').style.display='block';
-      setTimeout(()=>popup.classList.remove('show'),2500);
-    });
-    document.getElementById('fb-dismiss').addEventListener('click',()=>popup.classList.remove('show'));
-  })();
 })();
 </script>
 </body>
