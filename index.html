@@ -9,16 +9,19 @@
   <meta property="og:url" content="https://axolotlpvp.qzzz.io/" />
   <meta property="og:title" content="Axolotl PVP+" />
   <meta property="og:description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
-  <meta property="og:image" content="https://i.imgur.com/6aJJLDt.jpeg" />
-  <meta property="og:image:width" content="1280" />
-  <meta property="og:image:height" content="720" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/OpRGamerz15/axolotlpvp/main/axolotl-pvp-bg.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1400" />
+  <meta property="og:image:height" content="980" />
+  <meta property="og:image:alt" content="Axolotl PVP+ — Minecraft PVP Modpack" />
   <meta property="og:site_name" content="Axolotl PVP+" />
   <meta property="og:locale" content="en_US" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Axolotl PVP+" />
   <meta name="twitter:description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
-  <meta name="twitter:image" content="https://i.imgur.com/6aJJLDt.jpeg" />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/OpRGamerz15/axolotlpvp/main/axolotl-pvp-bg.png" />
+  <meta name="twitter:image:alt" content="Axolotl PVP+ Minecraft modpack background" />
   <!-- General SEO -->
   <meta name="description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
   <meta name="theme-color" content="#00ff88" />
@@ -73,35 +76,124 @@
     }
     .btn-build-web:hover{background:linear-gradient(135deg,rgba(130,80,255,.35),rgba(0,255,136,.15));border-color:#a78bfa;color:#c4b5fd;box-shadow:0 0 24px rgba(130,80,255,.4);transform:translateY(-1px);}
 
-    /* ── CLOUDFLARE VERIFICATION ── */
-    #cf-screen{position:fixed;inset:0;z-index:9999999;background:#0a0f0b;display:flex;align-items:center;justify-content:center;padding:1rem;transition:opacity .6s ease,visibility .6s ease;}
+    /* ── CLOUDFLARE VERIFICATION (Advanced) ── */
+    #cf-screen{position:fixed;inset:0;z-index:9999999;background:rgba(5,10,7,.97);display:flex;align-items:center;justify-content:center;padding:1rem;transition:opacity .7s ease,visibility .7s ease;backdrop-filter:blur(4px);}
     #cf-screen.hide{opacity:0;visibility:hidden;pointer-events:none;}
-    .cf-box{background:#0d1710;border:1px solid rgba(0,255,136,.18);border-radius:12px;width:420px;max-width:95vw;padding:2.5rem 2rem;text-align:center;box-shadow:0 0 60px rgba(0,0,0,.9),0 0 30px rgba(0,255,136,.05);}
-    .cf-logo{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:1.8rem;}
-    .cf-logo svg{width:28px;height:28px;}
-    .cf-logo-text{font-size:1rem;font-weight:700;color:#f38020;letter-spacing:.02em;font-family:sans-serif;}
-    .cf-title{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:900;color:#fff;letter-spacing:.08em;margin-bottom:.5rem;}
-    .cf-sub{font-size:.82rem;color:#6a9a7a;margin-bottom:2rem;line-height:1.6;}
-    .cf-check-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;}
-    .cf-spinner-track{width:64px;height:64px;border-radius:50%;border:3px solid rgba(0,255,136,.15);position:relative;}
-    .cf-spinner{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;border-top-color:var(--green);animation:cfSpin .8s linear infinite;display:none;}
-    .cf-check-icon{position:absolute;font-size:1.8rem;display:none;}
-    .cf-checkbox-wrap{display:flex;align-items:center;justify-content:center;gap:.9rem;background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);border-radius:8px;padding:1rem 1.5rem;cursor:pointer;transition:all .2s;user-select:none;}
-    .cf-checkbox-wrap:hover{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.3);}
-    .cf-checkbox{width:22px;height:22px;border:2px solid rgba(0,255,136,.5);border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+    .cf-box{background:#0d1710;border:1px solid rgba(0,255,136,.2);border-radius:16px;width:460px;max-width:96vw;padding:0;overflow:hidden;box-shadow:0 0 80px rgba(0,0,0,.95),0 0 40px rgba(0,255,136,.05);animation:cfSlideUp .45s cubic-bezier(.34,1.56,.64,1);}
+    .cf-box-top{background:linear-gradient(135deg,rgba(243,128,32,.12),rgba(0,255,136,.04));padding:1.5rem 2rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.06);}
+    .cf-logo{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;}
+    .cf-logo svg{width:26px;height:26px;flex-shrink:0;}
+    .cf-logo-text{font-size:.95rem;font-weight:700;color:#f38020;letter-spacing:.02em;font-family:sans-serif;}
+    .cf-title{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;color:#fff;letter-spacing:.08em;margin-bottom:.3rem;}
+    .cf-sub{font-size:.78rem;color:#6a9a7a;line-height:1.6;}
+    .cf-body{padding:1.5rem 2rem 2rem;}
+    /* Stage 1 - checkbox */
+    #cf-stage1{}
+    .cf-checkbox-wrap{display:flex;align-items:center;gap:.9rem;background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.15);border-radius:8px;padding:1rem 1.4rem;cursor:pointer;transition:all .2s;user-select:none;margin-bottom:1.2rem;}
+    .cf-checkbox-wrap:hover{background:rgba(0,255,136,.09);border-color:rgba(0,255,136,.35);}
+    .cf-checkbox{width:22px;height:22px;border:2px solid rgba(0,255,136,.5);border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .25s;flex-shrink:0;}
     .cf-checkbox.checked{background:var(--green);border-color:var(--green);}
-    .cf-checkbox.checked::after{content:'✓';color:#000;font-size:.9rem;font-weight:900;line-height:1;}
-    .cf-checkbox-label{font-size:.88rem;color:#c8f0d8;font-family:'Rajdhani',sans-serif;letter-spacing:.04em;}
-    .cf-status{font-size:.75rem;color:var(--dim);margin-top:1.5rem;min-height:1rem;}
+    .cf-checkbox.checked::after{content:"✓";color:#000;font-size:.9rem;font-weight:900;}
+    .cf-checkbox-label{font-size:.88rem;color:#c8f0d8;font-family:"Rajdhani",sans-serif;letter-spacing:.04em;}
+    /* Stage 2 - image challenge */
+    #cf-stage2{display:none;}
+    .cf-challenge-title{font-family:"Orbitron",sans-serif;font-size:.72rem;color:var(--green);letter-spacing:.1em;margin-bottom:.25rem;}
+    .cf-challenge-sub{font-size:.8rem;color:var(--dim);margin-bottom:.9rem;}
+    .cf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem;}
+    .cf-tile{aspect-ratio:1;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;font-size:2.2rem;display:flex;align-items:center;justify-content:center;background:rgba(0,255,136,.05);}
+    .cf-tile:hover{border-color:rgba(0,255,136,.4);transform:scale(1.04);}
+    .cf-tile.selected{border-color:var(--green);background:rgba(0,255,136,.12);box-shadow:0 0 12px rgba(0,255,136,.3);}
+    .cf-tile.selected::after{content:"✓";position:absolute;top:4px;right:6px;font-size:.75rem;font-weight:900;color:var(--green);}
+    .cf-tile.wrong{border-color:#ff4444;background:rgba(255,68,68,.1);animation:cfShake .3s;}
+    .cf-verify-btn{width:100%;font-family:"Orbitron",sans-serif;font-size:.7rem;letter-spacing:.14em;font-weight:700;padding:.8rem;background:var(--green);color:#000;border:none;border-radius:6px;box-shadow:0 0 20px rgba(0,255,136,.35);transition:all .2s;}
+    .cf-verify-btn:hover{background:var(--green2);box-shadow:0 0 35px rgba(0,255,136,.6);}
+    .cf-verify-btn:disabled{opacity:.4;pointer-events:none;}
+    .cf-status{font-size:.75rem;margin-top:.8rem;min-height:1.1rem;text-align:center;}
     .cf-status.success{color:var(--green);}
-    .cf-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1.8rem;padding-top:1.2rem;border-top:1px solid rgba(0,255,136,.1);}
-    .cf-footer-left{font-size:.7rem;color:#4a6a5a;line-height:1.5;}
+    .cf-status.error{color:#ff6b6b;}
+    /* Footer */
+    .cf-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(0,255,136,.08);}
+    .cf-footer-left{font-size:.68rem;color:#4a6a5a;line-height:1.5;}
     .cf-footer-left strong{color:#f38020;}
-    .cf-footer-badge{font-size:.65rem;background:rgba(243,128,32,.1);border:1px solid rgba(243,128,32,.3);color:#f38020;padding:.25rem .6rem;border-radius:4px;font-family:'Orbitron',sans-serif;letter-spacing:.06em;}
+    .cf-footer-badge{font-size:.6rem;background:rgba(243,128,32,.1);border:1px solid rgba(243,128,32,.3);color:#f38020;padding:.2rem .55rem;border-radius:4px;font-family:"Orbitron",sans-serif;letter-spacing:.06em;}
     @keyframes cfSpin{to{transform:rotate(360deg)}}
-    @keyframes cfSlideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-    .cf-box{animation:cfSlideUp .4s ease;}
+    @keyframes cfSlideUp{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes cfShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
+    /* ── AI BUTTON NAV ── */
+    .btn-ai{color:#a78bfa!important;border-color:rgba(167,139,250,.35)!important;background:rgba(167,139,250,.06)!important;}
+    .btn-ai:hover{background:rgba(167,139,250,.14)!important;border-color:#a78bfa!important;box-shadow:0 0 16px rgba(167,139,250,.35)!important;text-shadow:0 0 8px #a78bfa!important;}
+
+    /* ── AXOLOTL AI MODAL (Multi-step) ── */
+    #ai-modal{display:none;position:fixed;inset:0;z-index:2147483600;background:rgba(0,0,0,.9);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1rem;}
+    #ai-modal.open{display:flex;animation:dlFadeIn .25s ease;}
+    .aim-box{background:#080e0a;border:1px solid rgba(167,139,250,.2);border-radius:16px;width:520px;max-width:96vw;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 0 80px rgba(167,139,250,.1),0 40px 100px rgba(0,0,0,.9);}
+    .aim-top{height:2px;background:linear-gradient(90deg,#a78bfa,#00ff88,#a78bfa);border-radius:16px 16px 0 0;}
+    .aim-body{padding:1.8rem;}
+    /* Header */
+    .aim-header{display:flex;align-items:center;gap:.9rem;margin-bottom:1.4rem;padding-bottom:1rem;border-bottom:1px solid rgba(167,139,250,.15);}
+    .aim-icon{font-size:2rem;line-height:1;flex-shrink:0;}
+    .aim-title{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:900;color:#a78bfa;letter-spacing:.1em;}
+    .aim-subtitle{font-size:.72rem;color:var(--dim);margin-top:.15rem;}
+    .aim-close-x{margin-left:auto;background:none;border:none;color:var(--dim);font-size:1.1rem;flex-shrink:0;transition:color .2s;padding:.2rem .4rem;}
+    .aim-close-x:hover{color:#ff6b6b;}
+    /* Steps indicator */
+    .aim-steps{display:flex;align-items:center;gap:0;margin-bottom:1.5rem;}
+    .aim-step{width:28px;height:28px;border-radius:50%;border:2px solid rgba(167,139,250,.25);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-family:'Orbitron',sans-serif;color:var(--dim);transition:all .3s;flex-shrink:0;}
+    .aim-step.active{border-color:#a78bfa;color:#a78bfa;background:rgba(167,139,250,.12);box-shadow:0 0 10px rgba(167,139,250,.3);}
+    .aim-step.done{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.1);}
+    .aim-step-line{flex:1;height:2px;background:rgba(167,139,250,.15);transition:background .3s;}
+    .aim-step-line.done{background:var(--green);}
+    /* Panels */
+    .aim-step-panel{animation:aimFadeIn .25s ease;}
+    .aim-step-panel.hidden{display:none;}
+    @keyframes aimFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .aim-step-title{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;color:#fff;letter-spacing:.06em;margin-bottom:.3rem;}
+    .aim-step-sub{font-size:.8rem;color:var(--dim);margin-bottom:1.1rem;}
+    /* Tag grid */
+    .aim-tag-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;}
+    .aim-tag{background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.18);border-radius:8px;padding:.75rem .9rem;color:#c4b5fd;font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.08em;text-align:left;transition:all .2s;}
+    .aim-tag:hover{background:rgba(167,139,250,.14);border-color:#a78bfa;transform:translateY(-2px);box-shadow:0 6px 20px rgba(167,139,250,.15);}
+    .aim-tag.selected{background:rgba(167,139,250,.18);border-color:#a78bfa;color:#fff;box-shadow:0 0 14px rgba(167,139,250,.3);}
+    /* Back button */
+    .aim-back-btn{background:none;border:none;color:var(--dim);font-size:.75rem;padding:.3rem 0;margin-top:.5rem;transition:color .2s;font-family:'Rajdhani',sans-serif;}
+    .aim-back-btn:hover{color:var(--text);}
+    /* Version dropdown */
+    .aim-select-wrap{margin-bottom:1rem;}
+    .aim-select-label{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.12em;color:var(--dim);margin-bottom:.4rem;}
+    .aim-dropdown-wrap{position:relative;}
+    .aim-dropdown-btn{width:100%;background:#0f1a11;border:2px solid var(--green);border-radius:6px;padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;color:#fff;font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:.06em;transition:all .2s;}
+    .aim-dropdown-btn:hover{box-shadow:0 0 12px rgba(0,255,136,.2);}
+    .aim-drop-arrow{color:var(--green);transition:transform .2s;}
+    .aim-dropdown-btn.open .aim-drop-arrow{transform:rotate(180deg);}
+    .aim-dropdown-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0d1710;border:1px solid rgba(0,255,136,.25);border-radius:8px;max-height:220px;overflow-y:auto;z-index:100;box-shadow:0 12px 40px rgba(0,0,0,.7);}
+    .aim-dropdown-list.hidden{display:none;}
+    .aim-drop-item{padding:.7rem 1rem;font-family:'Orbitron',sans-serif;font-size:.78rem;color:var(--text);border-bottom:1px solid rgba(0,255,136,.06);transition:background .15s;letter-spacing:.04em;}
+    .aim-drop-item:hover{background:rgba(0,255,136,.08);color:var(--green);}
+    .aim-drop-item.aim-drop-item-sel{background:rgba(0,255,136,.1);color:var(--green);font-weight:700;}
+    .aim-drop-item:last-child{border-bottom:none;}
+    .aim-drop-show-all{padding:.7rem 1rem;font-size:.75rem;color:var(--green);text-align:center;opacity:.7;}
+    .aim-drop-show-all:hover{opacity:1;}
+    /* Loader tabs */
+    .aim-loader-tabs{display:flex;gap:.5rem;}
+    .aim-loader-tab{flex:1;padding:.55rem .5rem;border:1px solid rgba(0,255,136,.2);border-radius:6px;background:transparent;color:var(--dim);font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.08em;transition:all .2s;}
+    .aim-loader-tab:hover{border-color:rgba(0,255,136,.4);color:var(--text);}
+    .aim-loader-tab.active{background:var(--green);color:#000;border-color:var(--green);box-shadow:0 0 12px rgba(0,255,136,.3);}
+    /* Next button */
+    .aim-next-btn{width:100%;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.14em;font-weight:700;padding:.8rem;background:var(--green);color:#000;border:none;border-radius:6px;box-shadow:0 0 18px rgba(0,255,136,.3);transition:all .2s;margin-bottom:.5rem;}
+    .aim-next-btn:hover:not(:disabled){background:var(--green2);box-shadow:0 0 35px rgba(0,255,136,.6);}
+    .aim-next-btn:disabled{opacity:.35;pointer-events:none;}
+    /* Textarea */
+    .aim-textarea{width:100%;min-height:110px;background:#0a140c;border:1px solid rgba(167,139,250,.25);border-radius:8px;padding:.9rem 1rem;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;line-height:1.6;resize:vertical;transition:border-color .2s;margin-bottom:.9rem;user-select:text!important;-webkit-user-select:text!important;}
+    .aim-textarea:focus{outline:none;border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.1);}
+    .aim-textarea::placeholder{color:#3a5a4a;}
+    /* Submit */
+    .aim-submit-btn{width:100%;font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.12em;font-weight:700;padding:.85rem;background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;border:none;border-radius:6px;box-shadow:0 0 20px rgba(167,139,250,.4);transition:all .2s;margin-bottom:.5rem;}
+    .aim-submit-btn:hover{box-shadow:0 0 40px rgba(167,139,250,.7);transform:translateY(-2px);}
+    /* Step5 summary */
+    #aim-step5-summary{font-size:.75rem;color:#a78bfa;background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.15);border-radius:6px;padding:.5rem .8rem;margin-bottom:.8rem;line-height:1.7;}
+
+    /* ── WIKI OVERLAY ── */
     /* ── WIKI OVERLAY ── */
     #wiki-overlay{display:none;position:fixed;inset:0;z-index:2147483500;background:var(--bg);overflow-y:auto;animation:wikiFade .3s ease;}
     #wiki-overlay.open{display:block;}
@@ -266,6 +358,56 @@
     .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
     .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
 
+    /* ── AXOLOTL AI CHAT ── */
+    .aim-chat-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:10px;margin-bottom:.75rem;}
+    .aim-chat-info{display:flex;align-items:center;gap:.6rem;}
+    .aim-chat-icon{font-size:1.4rem;line-height:1;}
+    .aim-chat-name{font-family:'Orbitron',sans-serif;font-size:.72rem;color:#a78bfa;letter-spacing:.08em;font-weight:700;}
+    .aim-chat-meta{font-size:.68rem;color:var(--dim);margin-top:.1rem;}
+    .aim-chat-new{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.3rem .7rem;border:1px solid rgba(167,139,250,.3);border-radius:4px;color:#a78bfa;background:rgba(167,139,250,.06);transition:all .2s;}
+    .aim-chat-new:hover{background:rgba(167,139,250,.14);border-color:#a78bfa;}
+    .aim-messages{min-height:220px;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:.75rem;padding:.5rem 0;margin-bottom:.75rem;scroll-behavior:smooth;}
+    .aim-msg{display:flex;gap:.55rem;animation:aimFadeIn .2s ease;}
+    .aim-msg.user{flex-direction:row-reverse;}
+    .aim-msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;margin-top:2px;}
+    .aim-msg.ai .aim-msg-avatar{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.25);}
+    .aim-msg.user .aim-msg-avatar{background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.25);}
+    .aim-msg-bubble{max-width:82%;padding:.65rem .9rem;border-radius:12px;font-size:.88rem;line-height:1.7;color:var(--text);}
+    .aim-msg.ai .aim-msg-bubble{background:#0f1a11;border:1px solid rgba(167,139,250,.15);border-radius:4px 12px 12px 12px;}
+    .aim-msg.user .aim-msg-bubble{background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.18);border-radius:12px 4px 12px 12px;color:#c8f0d8;}
+    .aim-msg-bubble pre{background:#060e08;border:1px solid rgba(0,255,136,.15);border-radius:6px;padding:.6rem .8rem;overflow-x:auto;font-size:.78rem;line-height:1.6;margin:.5rem 0;white-space:pre-wrap;word-break:break-word;}
+    .aim-msg-bubble code{font-family:'Courier New',monospace;font-size:.82rem;color:#00ff88;}
+    .aim-typing{display:flex;gap:4px;align-items:center;padding:.4rem 0;}
+    .aim-typing span{width:7px;height:7px;border-radius:50%;background:#a78bfa;animation:aiTyp 1.2s infinite;}
+    .aim-typing span:nth-child(2){animation-delay:.2s;}
+    .aim-typing span:nth-child(3){animation-delay:.4s;}
+    @keyframes aiTyp{0%,80%,100%{transform:scale(.7);opacity:.4}40%{transform:scale(1);opacity:1}}
+    .aim-input-bar{display:flex;gap:.5rem;align-items:flex-end;background:#0a140c;border:1px solid rgba(167,139,250,.2);border-radius:12px;padding:.5rem .6rem .5rem .9rem;transition:border-color .2s;}
+    .aim-input-bar:focus-within{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(167,139,250,.08);}
+    .aim-chat-input{flex:1;background:none;border:none;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.95rem;line-height:1.5;resize:none;max-height:120px;overflow-y:auto;padding:.3rem 0;user-select:text!important;-webkit-user-select:text!important;}
+    .aim-chat-input:focus{outline:none;}
+    .aim-chat-input::placeholder{color:#3a5a4a;}
+    .aim-send-btn{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;padding:0;}
+    .aim-send-btn svg{width:15px;height:15px;}
+    .aim-send-btn:hover{transform:scale(1.08);box-shadow:0 0 14px rgba(167,139,250,.5);}
+    .aim-send-btn:disabled{opacity:.35;pointer-events:none;}
+    .aim-chat-foot{text-align:center;font-size:.68rem;color:#2a4a3a;margin-top:.5rem;}
+
+    /* ── MOBILE ── */
+    @media(max-width:768px){
+      header{padding:0 .8rem;height:56px;}
+      nav{gap:.3rem;}
+      nav a,nav button{font-size:.52rem;padding:.28rem .45rem;letter-spacing:.05em;}
+      .hero{padding:5rem 1rem 3rem;}
+      .hero h1{font-size:clamp(1.8rem,10vw,3rem);}
+      .hero-btns{flex-direction:column;align-items:center;width:100%;}
+      .btn-primary,.btn-secondary{width:100%;max-width:320px;justify-content:center;}
+      section{padding:2.5rem 1rem;}
+      .dl-grid,.stats-grid,.mod-grid{grid-template-columns:1fr;}
+      .aim-box{max-height:95vh;}
+      .aim-messages{max-height:260px;}
+    }
+
   </style>
 </head>
 <body>
@@ -275,34 +417,44 @@
 <div id="cursor-inner"></div>
 
 <!-- BACKGROUND -->
-<!-- CLOUDFLARE VERIFICATION -->
+<!-- CLOUDFLARE VERIFICATION (Advanced) -->
 <div id="cf-screen">
   <div class="cf-box">
-    <div class="cf-logo">
-      <!-- Cloudflare orange cloud logo -->
-      <svg viewBox="0 0 109 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M73.6 18.4c-.3-1-.9-1.8-1.8-2.4L56 6.5c-.9-.5-2-.5-2.9 0L37.3 16c-.9.5-1.5 1.4-1.5 2.4v19c0 1 .6 1.9 1.5 2.4l15.8 9.5c.9.5 2 .5 2.9 0l15.8-9.5c.9-.5 1.5-1.4 1.5-2.4V20.8l.3-2.4z" fill="#F6821F"/>
-        <path d="M57.2 24.5l-1.4 4.8c-.1.3-.4.5-.7.5h-9c-.3 0-.6-.2-.7-.5l-1.4-4.8c-.2-.7.3-1.3 1-1.3h11.2c.7 0 1.2.6 1 1.3zm13.5 0l-2.8 9.7c-.1.3-.4.5-.7.5H42.8c-.3 0-.6-.2-.7-.5l-2.8-9.7c-.2-.7.3-1.3 1-1.3h29.4c.7 0 1.2.6 1 1.3z" fill="#FBAD41"/>
-      </svg>
-      <span class="cf-logo-text">Cloudflare</span>
-    </div>
-
-    <div class="cf-title">CHECKING YOUR BROWSER</div>
-    <div class="cf-sub">axolotlpvp.qzzz.io is checking if the connection is secure before proceeding.</div>
-
-    <div class="cf-checkbox-wrap" id="cf-checkbox-wrap" onclick="cfVerify()">
-      <div class="cf-checkbox" id="cf-checkbox"></div>
-      <span class="cf-checkbox-label">I am not a robot</span>
-    </div>
-
-    <div class="cf-status" id="cf-status">Click to verify you are human</div>
-
-    <div class="cf-footer">
-      <div class="cf-footer-left">
-        <strong>Cloudflare</strong> Turnstile<br/>
-        <span>Privacy · Terms</span>
+    <div class="cf-box-top">
+      <div class="cf-logo">
+        <svg viewBox="0 0 109 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M73.6 18.4c-.3-1-.9-1.8-1.8-2.4L56 6.5c-.9-.5-2-.5-2.9 0L37.3 16c-.9.5-1.5 1.4-1.5 2.4v19c0 1 .6 1.9 1.5 2.4l15.8 9.5c.9.5 2 .5 2.9 0l15.8-9.5c.9-.5 1.5-1.4 1.5-2.4V20.8l.3-2.4z" fill="#F6821F"/>
+          <path d="M57.2 24.5l-1.4 4.8c-.1.3-.4.5-.7.5h-9c-.3 0-.6-.2-.7-.5l-1.4-4.8c-.2-.7.3-1.3 1-1.3h11.2c.7 0 1.2.6 1 1.3zm13.5 0l-2.8 9.7c-.1.3-.4.5-.7.5H42.8c-.3 0-.6-.2-.7-.5l-2.8-9.7c-.2-.7.3-1.3 1-1.3h29.4c.7 0 1.2.6 1 1.3z" fill="#FBAD41"/>
+        </svg>
+        <span class="cf-logo-text">Cloudflare</span>
       </div>
-      <div class="cf-footer-badge">PROTECTED</div>
+      <div class="cf-title">SECURITY VERIFICATION</div>
+      <div class="cf-sub">axolotlpvp.qzzz.io · Checking if your connection is secure.</div>
+    </div>
+    <div class="cf-body">
+
+      <!-- Stage 1: Checkbox -->
+      <div id="cf-stage1">
+        <div class="cf-checkbox-wrap" id="cf-checkbox-wrap" onclick="cfStartChallenge()">
+          <div class="cf-checkbox" id="cf-checkbox"></div>
+          <span class="cf-checkbox-label">I am not a robot</span>
+        </div>
+        <div class="cf-status" id="cf-status1">Click to begin verification</div>
+      </div>
+
+      <!-- Stage 2: Image Challenge -->
+      <div id="cf-stage2">
+        <div class="cf-challenge-title">// IMAGE CHALLENGE</div>
+        <div class="cf-challenge-sub" id="cf-challenge-sub">Select all images that show an <strong style="color:var(--green)">Axolotl 🐸</strong></div>
+        <div class="cf-grid" id="cf-grid"></div>
+        <button class="cf-verify-btn" id="cf-verify-btn" onclick="cfSubmitChallenge()" disabled>VERIFY →</button>
+        <div class="cf-status" id="cf-status2"></div>
+      </div>
+
+      <div class="cf-footer">
+        <div class="cf-footer-left"><strong>Cloudflare</strong> Turnstile<br/><span style="color:#3a5a4a;">Privacy · Terms</span></div>
+        <div class="cf-footer-badge">PROTECTED</div>
+      </div>
     </div>
   </div>
 </div>
@@ -313,7 +465,7 @@
 <div id="wiki-overlay">
   <div class="wiki-header">
     <div class="wiki-logo">🐸 AXOLOTL PVP+<span>Info • Documentation • Help</span></div>
-    <button class="wiki-close" onclick="closeWiki()">✕ Close</button>
+
   </div>
   <div class="wiki-body">
 
@@ -408,6 +560,147 @@
   </div>
 </div>
 
+<!-- AXOLOTL AI MODAL -->
+<div id="ai-modal">
+  <div class="aim-box">
+    <div class="aim-top"></div>
+    <div class="aim-body">
+
+      <!-- HEADER -->
+      <div class="aim-header">
+        <div class="aim-icon">🐸</div>
+        <div>
+          <div class="aim-title">AXOLOTL AI</div>
+          <div class="aim-subtitle">Minecraft Creation Assistant · Powered by Claude + Multi-AI</div>
+        </div>
+        <button class="aim-close-x" onclick="closeAI()">✕</button>
+      </div>
+
+      <!-- STEP INDICATOR -->
+      <div class="aim-steps" id="aim-steps">
+        <div class="aim-step active" id="step-dot-1">1</div>
+        <div class="aim-step-line"></div>
+        <div class="aim-step" id="step-dot-2">2</div>
+        <div class="aim-step-line"></div>
+        <div class="aim-step" id="step-dot-3">3</div>
+        <div class="aim-step-line"></div>
+        <div class="aim-step" id="step-dot-4">4</div>
+        <div class="aim-step-line"></div>
+        <div class="aim-step" id="step-dot-5">5</div>
+      </div>
+
+      <!-- ── STEP 1: Main tag ── -->
+      <div class="aim-step-panel" id="aim-step1">
+        <div class="aim-step-title">Choose a category</div>
+        <div class="aim-step-sub">What do you want to create?</div>
+        <div class="aim-tag-grid">
+          <button class="aim-tag" onclick="aiChooseTag('mod')">🔧 Mod</button>
+          <button class="aim-tag" onclick="aiChooseTag('resource')">🎨 Resource Pack</button>
+          <button class="aim-tag" onclick="aiChooseTag('modpack')">🧩 Modpack</button>
+          <button class="aim-tag" onclick="aiChooseTag('client')">🧠 Client</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Sub-type ── -->
+      <div class="aim-step-panel hidden" id="aim-step2">
+        <div class="aim-step-title" id="aim-step2-title">What type?</div>
+        <div class="aim-step-sub">Describe what kind you need</div>
+        <div class="aim-tag-grid" id="aim-step2-tags"></div>
+        <button class="aim-back-btn" onclick="aiBack(1)">← Back</button>
+      </div>
+
+      <!-- ── STEP 3: Cracked or Premium ── -->
+      <div class="aim-step-panel hidden" id="aim-step3">
+        <div class="aim-step-title">Minecraft account type?</div>
+        <div class="aim-step-sub">This affects mod compatibility</div>
+        <div class="aim-tag-grid">
+          <button class="aim-tag" onclick="aiChooseCracked('premium')">✅ Premium</button>
+          <button class="aim-tag" onclick="aiChooseCracked('cracked')">🔓 Cracked</button>
+        </div>
+        <button class="aim-back-btn" onclick="aiBack(2)">← Back</button>
+      </div>
+
+      <!-- ── STEP 4: Minecraft Version + Fabric (if mod) ── -->
+      <div class="aim-step-panel hidden" id="aim-step4">
+        <div class="aim-step-title">Choose version</div>
+        <div class="aim-step-sub">Select your Minecraft version</div>
+
+        <!-- Version dropdown -->
+        <div class="aim-select-wrap">
+          <div class="aim-select-label">Minecraft Version</div>
+          <div class="aim-dropdown-wrap">
+            <button class="aim-dropdown-btn" id="aim-mc-btn" onclick="aiToggleDrop('mc')">
+              <span id="aim-mc-val">Select version</span>
+              <span class="aim-drop-arrow">▾</span>
+            </button>
+            <div class="aim-dropdown-list hidden" id="aim-mc-list">
+              <div class="aim-drop-item aim-drop-item-sel" onclick="aiSelectMC('26.1.2')">26.1.2</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('26.1.1')">26.1.1</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('26.1')">26.1</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21.11')">1.21.11</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21.10')">1.21.10</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21.9')">1.21.9</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21.8')">1.21.8</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21.7')">1.21.7</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21.4')">1.21.4</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.21')">1.21</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.20.6')">1.20.6</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.20.4')">1.20.4</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.20.1')">1.20.1</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.19.4')">1.19.4</div>
+              <div class="aim-drop-item" onclick="aiSelectMC('1.8.9')">1.8.9</div>
+              <div class="aim-drop-show-all" onclick="aiShowAllVersions()">⊕ Show all versions</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fabric Loader (only shown for Mod tag) -->
+        <div class="aim-select-wrap" id="aim-fabric-wrap" style="display:none">
+          <div class="aim-select-label">Loader version</div>
+          <div class="aim-loader-tabs">
+            <button class="aim-loader-tab active" id="ltab-stable" onclick="aiSelectLoader('stable','ltab-stable')">✓ Stable</button>
+            <button class="aim-loader-tab" id="ltab-latest" onclick="aiSelectLoader('latest','ltab-latest')">Latest</button>
+            <button class="aim-loader-tab" id="ltab-other" onclick="aiSelectLoader('other','ltab-other')">Other</button>
+          </div>
+        </div>
+
+        <button class="aim-next-btn" id="aim-step4-next" onclick="aiGoStep5()" disabled>Next →</button>
+        <button class="aim-back-btn" onclick="aiBack(3)">← Back</button>
+      </div>
+
+      <!-- ── STEP 5: CHAT ── -->
+      <div class="aim-step-panel hidden" id="aim-step5">
+        <!-- Chat header bar -->
+        <div class="aim-chat-header">
+          <div class="aim-chat-info">
+            <span class="aim-chat-icon">🐸</span>
+            <div>
+              <div class="aim-chat-name">Axolotl AI</div>
+              <div class="aim-chat-meta" id="aim-chat-meta"></div>
+            </div>
+          </div>
+          <button class="aim-chat-new" onclick="aiResetState()" title="New chat">✦ New</button>
+        </div>
+
+        <!-- Messages area -->
+        <div class="aim-messages" id="aim-messages">
+          <!-- Greeting injected by JS -->
+        </div>
+
+        <!-- Input bar -->
+        <div class="aim-input-bar">
+          <textarea class="aim-chat-input" id="aim-chat-input" placeholder="Describe Now…" rows="1" onkeydown="aiChatKey(event)" oninput="aiAutoResize(this)"></textarea>
+          <button class="aim-send-btn" id="aim-send-btn" onclick="aiSendMessage()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <div class="aim-chat-foot">Powered by <strong>Claude</strong> · Axolotl AI · <span style="color:var(--dim)">axolotlpvp.qzzz.io/axolotlai</span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- BUILD WEB FREE MODAL -->
 <div id="build-web-modal">
   <div class="bwm-box">
@@ -483,6 +776,7 @@
       <a href="https://dcserver.link/nexterasmp" target="_blank" class="nav-discord"><svg style="width:13px;height:13px;vertical-align:middle;margin-right:5px;fill:currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.053a19.9 19.9 0 0 0 5.993 3.029.078.078 0 0 0 .084-.026c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.029.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>DISCORD</a>
       <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank"><svg style="width:13px;height:13px;vertical-align:middle;margin-right:5px;fill:currentColor" viewBox="0 0 512 514" xmlns="http://www.w3.org/2000/svg"><path d="M503.16 323.56a149.2 149.2 0 0 1-28.74 36.17l.28-64.27c.03-6.04 3.26-11.62 8.51-14.64l6.44-3.7c13.37-7.71 17.96-24.87 10.2-38.28l-35.52-61.5a27.91 27.91 0 0 0-24.04-13.91 27.93 27.93 0 0 0-14.02 3.76l-6.44 3.7c-5.22 3.01-11.64 3.02-16.88.04l-55.99-32.17c-5.25-3.01-8.5-8.57-8.53-14.62l-.28-64.28a27.92 27.92 0 0 0-27.99-27.84l-71.07.31a27.91 27.91 0 0 0-27.84 27.99l.28 64.27c.03 6.04-3.2 11.61-8.44 14.63L198.12 151c-5.25 3.01-11.66 2.99-16.88-.04l-55.99-32.17a27.91 27.91 0 0 0-38.09 10.15l-35.52 61.5c-7.76 13.41-3.17 30.57 10.2 38.28l6.44 3.7c5.25 3.01 8.48 8.6 8.51 14.64l.28 64.27c.03 6.04-3.2 11.61-8.44 14.62l-6.44 3.7c-13.37 7.71-17.96 24.87-10.2 38.28l35.52 61.5a27.91 27.91 0 0 0 38.09 10.15l6.44-3.7c5.22-3.01 11.64-3.02 16.88-.04l55.99 32.17c5.25 3.01 8.5 8.57 8.53 14.62l.28 64.27a27.91 27.91 0 0 0 27.99 27.85l71.07-.31a27.91 27.91 0 0 0 27.84-27.99l-.28-64.27c-.03-6.05 3.2-11.61 8.44-14.62l55.99-32.17c5.25-3.01 11.66-2.99 16.88.04l6.44 3.7a27.91 27.91 0 0 0 38.09-10.15l35.52-61.5a27.91 27.91 0 0 0-10.2-38.28l-6.44-3.7c-5.25-3.01-8.48-8.6-8.51-14.64zm-251.04 74.42a141.78 141.78 0 1 1 .65-283.55 141.78 141.78 0 0 1-.65 283.55z"/></svg>MODRINTH</a>
       <button class="btn-wiki" onclick="openWiki()">📖 Wiki</button>
+      <button class="btn-ai" onclick="openAI()">🐸 Axolotl AI</button>
       <button class="btn-build-web" onclick="openBuildWeb()">⚡ BUILD WEB FREE</button>
     </nav>
   </header>
@@ -716,40 +1010,87 @@ async function directDownload(){
 }
 
 /* ════════════════════════════════════════════
-   CLOUDFLARE VERIFICATION
+   CLOUDFLARE VERIFICATION (Advanced Captcha)
 ════════════════════════════════════════════ */
 (()=>{
-  const CF_KEY='cf_verified_axolotl';
+  const CF_KEY='cf_verified_axolotl_v2';
   const screen=document.getElementById('cf-screen');
-  // Skip if already verified in this session
-  if(sessionStorage.getItem(CF_KEY)){
-    screen.style.display='none';
-    return;
-  }
-  // Block scroll while verifying
+  if(sessionStorage.getItem(CF_KEY)){screen.style.display='none';return;}
   document.body.style.overflow='hidden';
-  window.cfVerify=function(){
+
+  // Image tiles: emoji + whether it's a correct axolotl/frog tile
+  const TILES=[
+    {e:'🐸',correct:true},{e:'🐟',correct:false},{e:'🦎',correct:true},
+    {e:'🐠',correct:false},{e:'🌊',correct:false},{e:'🐸',correct:true},
+    {e:'🦀',correct:false},{e:'🐡',correct:false},{e:'🦎',correct:true}
+  ];
+  const shuffled=[...TILES].sort(()=>Math.random()-.5);
+  const correctIndices=shuffled.reduce((a,t,i)=>t.correct?[...a,i]:a,[]);
+  let selected=new Set();
+
+  // Build grid
+  const grid=document.getElementById('cf-grid');
+  if(grid){
+    shuffled.forEach((t,i)=>{
+      const tile=document.createElement('div');
+      tile.className='cf-tile';tile.textContent=t.e;tile.dataset.i=i;
+      tile.addEventListener('click',()=>{
+        if(selected.has(i)){selected.delete(i);tile.classList.remove('selected');}
+        else{selected.add(i);tile.classList.add('selected');}
+        const btn=document.getElementById('cf-verify-btn');
+        if(btn)btn.disabled=(selected.size===0);
+      });
+      grid.appendChild(tile);
+    });
+  }
+
+  window.cfStartChallenge=function(){
     const box=document.getElementById('cf-checkbox');
     const wrap=document.getElementById('cf-checkbox-wrap');
-    const status=document.getElementById('cf-status');
-    if(box.classList.contains('checked'))return;
-    // Disable further clicks
-    wrap.style.pointerEvents='none';
-    wrap.style.opacity='.7';
-    status.textContent='Verifying…';
-    status.style.color='var(--dim)';
-    // Simulate verification delay (1.2s)
+    const s1=document.getElementById('cf-status1');
+    if(!box||box.classList.contains('checked'))return;
+    wrap.style.pointerEvents='none';wrap.style.opacity='.6';
+    if(s1)s1.textContent='Verifying…';
     setTimeout(()=>{
       box.classList.add('checked');
-      status.textContent='✓ Verification successful';
-      status.classList.add('success');
-      // Dismiss screen after short pause
+      if(s1)s1.textContent='✓ Step 1 complete — select the images below';
       setTimeout(()=>{
-        screen.classList.add('hide');
-        document.body.style.overflow='';
-        sessionStorage.setItem(CF_KEY,'1');
-      },800);
-    },1200);
+        const st1=document.getElementById('cf-stage1');
+        const st2=document.getElementById('cf-stage2');
+        if(st1)st1.style.display='none';
+        if(st2)st2.style.display='block';
+      },650);
+    },950);
+  };
+
+  window.cfSubmitChallenge=function(){
+    const btn=document.getElementById('cf-verify-btn');
+    const status=document.getElementById('cf-status2');
+    if(btn)btn.disabled=true;
+    if(status){status.textContent='Checking…';status.className='cf-status';}
+    setTimeout(()=>{
+      const selArr=[...selected].sort();
+      const corrArr=[...correctIndices].sort();
+      const pass=selArr.length===corrArr.length&&selArr.every((v,i)=>v===corrArr[i]);
+      if(pass){
+        if(status){status.textContent='✓ Verification successful — entering site…';status.className='cf-status success';}
+        setTimeout(()=>{
+          screen.classList.add('hide');
+          document.body.style.overflow='';
+          sessionStorage.setItem(CF_KEY,'1');
+        },900);
+      } else {
+        if(status){status.textContent='✗ Incorrect. Select all 🐸 and 🦎 images.';status.className='cf-status error';}
+        const tiles=grid?grid.querySelectorAll('.cf-tile'):[];
+        [...selected].forEach(i=>{if(tiles[i]&&!correctIndices.includes(i))tiles[i].classList.add('wrong');});
+        setTimeout(()=>{
+          selected=new Set();
+          tiles.forEach(t=>t.classList.remove('selected','wrong'));
+          if(btn)btn.disabled=true;
+          if(status){status.textContent='';status.className='cf-status';}
+        },1200);
+      }
+    },800);
   };
 })();
 
@@ -767,6 +1108,287 @@ function closeWiki(){
 window.addEventListener('popstate',e=>{
   if(!e.state||!e.state.wiki) document.getElementById('wiki-overlay').classList.remove('open');
 });
+
+
+/* ════════════════════════════════════════════
+   AXOLOTL AI (Multi-step wizard)
+════════════════════════════════════════════ */
+const AI_URL='https://axolotlpvp.qzzz.io/axolotlai';
+let aiState={tag:'',subTag:'',cracked:'',mcVer:'',loader:'stable',step:1};
+
+function openAI(){
+  aiResetState();
+  document.getElementById('ai-modal').classList.add('open');
+  try{history.pushState({ai:true},'Axolotl AI','/axolotlai');}catch(e){}
+}
+function closeAI(){
+  document.getElementById('ai-modal').classList.remove('open');
+  // Close any open dropdowns
+  document.querySelectorAll('.aim-dropdown-list').forEach(d=>d.classList.add('hidden'));
+  try{history.pushState({},'Axolotl PVP+','/');}catch(e){}
+}
+document.getElementById('ai-modal').addEventListener('click',e=>{
+  if(e.target===e.currentTarget)closeAI();
+  // Close dropdowns on outside click
+  if(!e.target.closest('.aim-dropdown-wrap')){
+    document.querySelectorAll('.aim-dropdown-list').forEach(d=>d.classList.add('hidden'));
+    document.querySelectorAll('.aim-dropdown-btn').forEach(b=>b.classList.remove('open'));
+  }
+});
+
+function aiResetState(){
+  aiState={tag:'',subTag:'',cracked:'',mcVer:'',loader:'stable',step:1};
+  aiShowStep(1);
+  // Reset dots
+  for(let i=1;i<=5;i++){
+    const d=document.getElementById('step-dot-'+i);
+    if(d){d.className='aim-step'+(i===1?' active':'');}
+  }
+  document.querySelectorAll('.aim-step-line').forEach(l=>l.classList.remove('done'));
+  // Reset inputs
+  document.getElementById('aim-mc-val').textContent='Select version';
+  document.getElementById('aim-mc-btn').classList.remove('open');
+  document.querySelectorAll('.aim-loader-tab').forEach(t=>t.classList.remove('active'));
+  const stable=document.getElementById('ltab-stable');
+  if(stable)stable.classList.add('active');
+  const nextBtn=document.getElementById('aim-step4-next');
+  if(nextBtn)nextBtn.disabled=true;
+  const ta=document.getElementById('aim-textarea');
+  if(ta)ta.value='';
+}
+
+function aiShowStep(n){
+  for(let i=1;i<=5;i++){
+    const p=document.getElementById('aim-step'+i);
+    if(p)p.classList.toggle('hidden',i!==n);
+  }
+  aiState.step=n;
+  // Update dots
+  for(let i=1;i<=5;i++){
+    const d=document.getElementById('step-dot-'+i);
+    if(!d)continue;
+    if(i<n){d.className='aim-step done';d.textContent='✓';}
+    else if(i===n){d.className='aim-step active';d.textContent=i;}
+    else{d.className='aim-step';d.textContent=i;}
+  }
+  // Update lines
+  const lines=document.querySelectorAll('.aim-step-line');
+  lines.forEach((l,idx)=>l.classList.toggle('done',idx<n-1));
+}
+
+function aiBack(toStep){aiShowStep(toStep);}
+
+// Step 1 → choose tag
+const SUB_TAGS={
+  mod:['⚡ Optimization','🧠 Client (Lunar/Feather)','⚔️ PvP','🔧 Custom Mod'],
+  resource:['🎨 PvP Textures','✨ Clean UI','🌈 Custom Theme'],
+  modpack:['⚡ Performance','⚔️ PvP Modpack','🌍 Survival'],
+  client:['🧠 Lunar-like','⚡ FPS Client','🎮 Custom HUD']
+};
+
+function aiChooseTag(tag){
+  aiState.tag=tag;
+  const step2tags=document.getElementById('aim-step2-tags');
+  const titles={mod:'What type of mod?',resource:'What style?',modpack:'What type of modpack?',client:'What client type?'};
+  document.getElementById('aim-step2-title').textContent=titles[tag]||'What type?';
+  step2tags.innerHTML='';
+  (SUB_TAGS[tag]||[]).forEach(t=>{
+    const btn=document.createElement('button');
+    btn.className='aim-tag';btn.textContent=t;
+    btn.onclick=()=>aiChooseSubTag(t,btn);
+    step2tags.appendChild(btn);
+  });
+  aiShowStep(2);
+}
+
+function aiChooseSubTag(sub,btn){
+  aiState.subTag=sub;
+  document.querySelectorAll('#aim-step2-tags .aim-tag').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(()=>aiShowStep(3),300);
+}
+
+// Step 3 → cracked/premium
+function aiChooseCracked(val){
+  aiState.cracked=val;
+  // Show fabric loader only if tag is mod
+  const fabWrap=document.getElementById('aim-fabric-wrap');
+  if(fabWrap)fabWrap.style.display=aiState.tag==='mod'?'block':'none';
+  aiShowStep(4);
+}
+
+// Step 4 → version dropdown
+function aiToggleDrop(id){
+  const list=document.getElementById('aim-'+id+'-list');
+  const btn=document.getElementById('aim-'+id+'-btn');
+  if(!list||!btn)return;
+  const isHidden=list.classList.contains('hidden');
+  // Close all first
+  document.querySelectorAll('.aim-dropdown-list').forEach(d=>d.classList.add('hidden'));
+  document.querySelectorAll('.aim-dropdown-btn').forEach(b=>b.classList.remove('open'));
+  if(isHidden){list.classList.remove('hidden');btn.classList.add('open');}
+}
+function aiSelectMC(ver){
+  aiState.mcVer=ver;
+  document.getElementById('aim-mc-val').textContent=ver;
+  document.getElementById('aim-mc-list').classList.add('hidden');
+  document.getElementById('aim-mc-btn').classList.remove('open');
+  // Highlight selected
+  document.querySelectorAll('#aim-mc-list .aim-drop-item').forEach(i=>{
+    i.classList.toggle('aim-drop-item-sel',i.textContent===ver);
+  });
+  const nextBtn=document.getElementById('aim-step4-next');
+  if(nextBtn)nextBtn.disabled=false;
+}
+function aiShowAllVersions(){
+  const extras=['1.19.2','1.18.2','1.17.1','1.16.5','1.15.2','1.12.2','1.8.8','1.7.10'];
+  const list=document.getElementById('aim-mc-list');
+  const showAll=list.querySelector('.aim-drop-show-all');
+  extras.forEach(v=>{
+    const d=document.createElement('div');
+    d.className='aim-drop-item';d.textContent=v;
+    d.onclick=()=>aiSelectMC(v);
+    list.insertBefore(d,showAll);
+  });
+  if(showAll)showAll.remove();
+}
+function aiSelectLoader(val,tabId){
+  aiState.loader=val;
+  document.querySelectorAll('.aim-loader-tab').forEach(t=>t.classList.remove('active'));
+  const tab=document.getElementById(tabId);
+  if(tab)tab.classList.add('active');
+}
+
+// Step 4 → 5: open chat UI
+function aiGoStep5(){
+  // Build context meta label
+  const loaderTxt=aiState.tag==='mod'?` · Fabric ${aiState.loader.charAt(0).toUpperCase()+aiState.loader.slice(1)}`:'';
+  const meta=`${aiState.tag.toUpperCase()} · ${aiState.subTag} · MC ${aiState.mcVer}${loaderTxt} · ${aiState.cracked}`;
+  const chatMeta=document.getElementById('aim-chat-meta');
+  if(chatMeta)chatMeta.textContent=meta;
+
+  aiChatHistory=[];
+  const msgs=document.getElementById('aim-messages');
+  if(msgs){msgs.innerHTML='';}
+
+  // Greeting from AI
+  aiAppendMsg('ai',`Hey! I'm Axolotl AI 🐸\n\nI'm set up for: **${aiState.subTag}** on Minecraft **${aiState.mcVer}**${loaderTxt}.\n\nDescribe what you want and I'll generate it for you.`);
+
+  aiShowStep(5);
+  setTimeout(()=>{const inp=document.getElementById('aim-chat-input');if(inp)inp.focus();},200);
+}
+
+// ── CHAT ENGINE ────────────────────────────────────────────────
+let aiChatHistory=[];
+
+function aiGetSystemPrompt(){
+  const loaderTxt=aiState.tag==='mod'?` using Fabric Loader (${aiState.loader})`:'';
+  return `You are Axolotl AI, a Minecraft creation assistant embedded in the Axolotl PVP+ website.
+The user has selected:
+- Category: ${aiState.tag}
+- Type: ${aiState.subTag}
+- Minecraft version: ${aiState.mcVer}${loaderTxt}
+- Account type: ${aiState.cracked}
+
+Your job: provide specific, ready-to-use help for Minecraft ${aiState.tag} creation.
+- For mods: provide Java/Kotlin code (Fabric API), JSON configs, folder structure.
+- For resource packs: provide pack.mcmeta, texture layout, style guide.
+- For modpacks: provide curated mod lists with Modrinth links, settings configs.
+- For clients: provide feature plans, Fabric base code, HUD ideas.
+- Always format code in triple-backtick blocks.
+- Keep responses focused, practical, and friendly.
+- You are powered by Claude AI.`;
+}
+
+function aiAppendMsg(role,text){
+  const msgs=document.getElementById('aim-messages');
+  if(!msgs)return;
+  const wrap=document.createElement('div');
+  wrap.className='aim-msg '+role;
+  const avatar=document.createElement('div');
+  avatar.className='aim-msg-avatar';
+  avatar.textContent=role==='ai'?'🐸':'👤';
+  const bubble=document.createElement('div');
+  bubble.className='aim-msg-bubble';
+  // Render markdown-ish: bold, code blocks
+  bubble.innerHTML=text
+    .replace(/```([\s\S]*?)```/g,'<pre><code>$1</code></pre>')
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+  wrap.appendChild(avatar);
+  wrap.appendChild(bubble);
+  msgs.appendChild(wrap);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function aiShowTyping(){
+  const msgs=document.getElementById('aim-messages');
+  if(!msgs)return null;
+  const wrap=document.createElement('div');
+  wrap.className='aim-msg ai';wrap.id='aim-typing-indicator';
+  const avatar=document.createElement('div');
+  avatar.className='aim-msg-avatar';avatar.textContent='🐸';
+  const bubble=document.createElement('div');
+  bubble.className='aim-msg-bubble';
+  bubble.innerHTML='<div class="aim-typing"><span></span><span></span><span></span></div>';
+  wrap.appendChild(avatar);wrap.appendChild(bubble);
+  msgs.appendChild(wrap);
+  msgs.scrollTop=msgs.scrollHeight;
+  return wrap;
+}
+
+function aiAutoResize(ta){
+  ta.style.height='auto';
+  ta.style.height=Math.min(ta.scrollHeight,120)+'px';
+}
+
+function aiChatKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();aiSendMessage();}
+}
+
+async function aiSendMessage(){
+  const inp=document.getElementById('aim-chat-input');
+  const sendBtn=document.getElementById('aim-send-btn');
+  if(!inp)return;
+  const text=inp.value.trim();
+  if(!text)return;
+
+  inp.value='';inp.style.height='auto';
+  if(sendBtn)sendBtn.disabled=true;
+
+  aiAppendMsg('user',text);
+  aiChatHistory.push({role:'user',content:text});
+
+  const typingEl=aiShowTyping();
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:aiGetSystemPrompt(),
+        messages:aiChatHistory
+      })
+    });
+    const data=await resp.json();
+    if(typingEl)typingEl.remove();
+    const reply=data.content&&data.content[0]&&data.content[0].text
+      ?data.content[0].text
+      :'Sorry, I had trouble responding. Please try again.';
+    aiChatHistory.push({role:'assistant',content:reply});
+    aiAppendMsg('ai',reply);
+  }catch(err){
+    if(typingEl)typingEl.remove();
+    aiAppendMsg('ai','Connection error. Please check your internet and try again.');
+  }finally{
+    if(sendBtn)sendBtn.disabled=false;
+    if(inp)inp.focus();
+  }
+}
+
 
 /* Build Web Free modal */
 function openBuildWeb(){
