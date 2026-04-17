@@ -358,6 +358,41 @@
     .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
     .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
 
+    /* ── VERSION PICKER MODAL ── */
+    @keyframes dlFadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes dlScaleIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+    #vp-modal{display:none;position:fixed;inset:0;z-index:2147483600;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);align-items:center;justify-content:center;padding:1rem;}
+    #vp-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .vpm-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;width:420px;max-width:95vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,255,136,.1),0 30px 80px rgba(0,0,0,.9);animation:dlScaleIn .25s cubic-bezier(.34,1.56,.64,1);}
+    .vpm-top{height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:14px 14px 0 0;flex-shrink:0;}
+    .vpm-head{padding:1.2rem 1.5rem .9rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+    .vpm-title{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;color:#fff;letter-spacing:.08em;}
+    .vpm-sub{font-size:.78rem;color:var(--dim);margin-top:.25rem;}
+    .vpm-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.1em;color:var(--green);border:1px solid rgba(0,255,136,.25);background:rgba(0,255,136,.06);padding:.2rem .6rem;border-radius:20px;margin-top:.5rem;}
+    .vpm-list{overflow-y:auto;padding:.5rem 0;flex:1;}
+    /* Version row */
+    .vpm-ver{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;border-bottom:1px solid rgba(0,255,136,.06);transition:background .15s;cursor:pointer;}
+    .vpm-ver:last-child{border-bottom:none;}
+    .vpm-ver:hover:not(.vpm-ver--soon){background:rgba(0,255,136,.05);}
+    .vpm-ver--soon{cursor:default;opacity:.55;}
+    .vpm-ver-left{display:flex;align-items:center;gap:.7rem;}
+    .vpm-ver-num{font-family:'Orbitron',sans-serif;font-size:.82rem;color:#fff;letter-spacing:.06em;}
+    .vpm-ver-sub{font-size:.72rem;color:var(--dim);margin-top:.15rem;line-height:1.4;}
+    .vpm-ver-mc{font-family:'Orbitron',sans-serif;font-size:.65rem;color:rgba(0,255,136,.6);letter-spacing:.04em;}
+    .vpm-ver--soon .vpm-ver-num{color:var(--dim);}
+    .vpm-ver-tag{font-size:.6rem;font-family:'Orbitron',sans-serif;letter-spacing:.1em;padding:.15rem .5rem;border-radius:20px;}
+    .vpm-ver-tag--latest{background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3);}
+    .vpm-ver-tag--soon{background:rgba(255,165,0,.1);color:#ffa500;border:1px solid rgba(255,165,0,.3);}
+    .vpm-ver-right{display:flex;align-items:center;gap:.5rem;}
+    .vpm-dl-btn{font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.1em;padding:.3rem .7rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .18s;}
+    .vpm-dl-btn:hover{background:var(--green2);box-shadow:0 0 12px rgba(0,255,136,.5);}
+    .vpm-dl-btn:disabled{background:rgba(0,255,136,.15);color:rgba(0,255,136,.35);cursor:default;}
+    .vpm-loading{text-align:center;padding:2rem;color:var(--dim);font-size:.82rem;}
+    .vpm-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,255,136,.2);border-top-color:var(--green);border-radius:50%;animation:cfSpin .7s linear infinite;margin-right:.5rem;vertical-align:middle;}
+    .vpm-close-row{padding:.9rem 1.5rem;border-top:1px solid var(--border);flex-shrink:0;text-align:right;}
+    .vpm-close-btn{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.35rem .8rem;border:1px solid var(--border);border-radius:4px;color:var(--dim);background:none;transition:all .2s;}
+    .vpm-close-btn:hover{border-color:rgba(0,255,136,.3);color:var(--text);}
+
     /* ── AXOLOTL AI CHAT ── */
     .aim-chat-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:10px;margin-bottom:.75rem;}
     .aim-chat-info{display:flex;align-items:center;gap:.6rem;}
@@ -701,6 +736,24 @@
   </div>
 </div>
 
+<!-- VERSION PICKER MODAL -->
+<div id="vp-modal">
+  <div class="vpm-box">
+    <div class="vpm-top"></div>
+    <div class="vpm-head">
+      <div class="vpm-title">⬇️ SELECT VERSION</div>
+      <div class="vpm-sub">Choose the Minecraft version you want to download</div>
+      <div class="vpm-badge">🧵 FABRIC · axolotl-pvp+</div>
+    </div>
+    <div class="vpm-list" id="vpm-list">
+      <div class="vpm-loading"><span class="vpm-spinner"></span>Loading versions…</div>
+    </div>
+    <div class="vpm-close-row">
+      <button class="vpm-close-btn" onclick="closeVersionPicker()">✕ Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- BUILD WEB FREE MODAL -->
 <div id="build-web-modal">
   <div class="bwm-box">
@@ -796,7 +849,7 @@
     <div class="section-label">// GET STARTED</div>
     <h2>CHOOSE YOUR <span>LAUNCHER</span></h2>
     <div class="dl-grid">
-      <div class="dl-card" onclick="directDownload()" style="cursor:pointer"><div class="dl-icon">⬇️</div><h3>DOWNLOAD FROM MODRINTH</h3><p>Click to download the latest version of the modpack directly to your device.</p></div>
+      <div class="dl-card" onclick="openVersionPicker()" style="cursor:pointer"><div class="dl-icon">⬇️</div><h3>DOWNLOAD FROM MODRINTH</h3><p>Choose your version and download directly to your device.</p></div>
       <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank"><div class="dl-icon">🎬</div><h3>SKLAUNCHER TUTORIAL</h3><p>Watch a step-by-step guide on how to install Axolotl PVP+ using SKLauncher.</p></a>
       <div class="bug-card-wrap">
         <div class="dl-card" id="bug-report-btn" style="cursor:pointer">
@@ -986,28 +1039,94 @@ try{localStorage.removeItem('axolotl_visited');}catch(e){}
 /* ════════════════════════════════════════════
    DIRECT DOWNLOAD — fetches latest .mrpack from Modrinth
 ════════════════════════════════════════════ */
-async function directDownload(){
-  const btn=document.querySelector('[onclick="directDownload()"]');
-  if(btn){btn.style.opacity='.6';btn.style.pointerEvents='none';}
+/* ════════════════════════════════════════════
+   VERSION PICKER + DOWNLOAD
+════════════════════════════════════════════ */
+// Versions to show. Set mc_version to null to use the Modrinth API label.
+// coming_soon versions are shown but not clickable.
+const VP_VERSIONS=[
+  {label:'11.0.0',             mc:null,    coming_soon:true},
+  {label:'10.0.0',             mc:'26.1.1',coming_soon:false, name:'Axolotl PVP+ 10.0.0'},
+  {label:'9.0.0',              mc:'26.1',  coming_soon:false, name:'Axolotl PVP+ 9.0.0'},
+  {label:'8.0.0',              mc:'1.21.11',coming_soon:false,name:'Axolotl PVP+ 8.0.0'},
+  {label:'7.0.0 (H TIER 1)',   mc:'1.21.11',coming_soon:false,name:'Axolotl PVP+ 7.0.0 (H TIER 1)'},
+  {label:'7.0.0 (NORMAL)',     mc:'1.21.11',coming_soon:false,name:'Axolotl PVP+ 7.0.0 (NORMAL)'},
+  {label:'6.0.0',              mc:'1.21.10',coming_soon:false,name:'Axolotl PVP+'},
+  {label:'5.0.0',              mc:'1.21.9', coming_soon:false,name:'Axolotl PVP+'},
+  {label:'4.0.0',              mc:'1.21.5', coming_soon:false,name:'Axolotl PVP+ 4.0.0'},
+  {label:'3.0.0',              mc:'1.21.6', coming_soon:false,name:'Axolotl PVP 3.0.0'},
+  {label:'2.0.0',              mc:'1.21.7', coming_soon:false,name:'Axolotl PVP 2.0.0'},
+  {label:'1.0.0',              mc:'1.21.8', coming_soon:false,name:'Axolotl PVP 1.0.0'},
+];
+let _vpVersionData=null; // cached Modrinth API response
+
+async function openVersionPicker(){
+  document.getElementById('vp-modal').classList.add('open');
+  document.getElementById('vp-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeVersionPicker();},{once:true});
+  await vpLoadList();
+}
+function closeVersionPicker(){
+  document.getElementById('vp-modal').classList.remove('open');
+}
+
+async function vpLoadList(){
+  const list=document.getElementById('vpm-list');
+  if(_vpVersionData){vpRenderList(_vpVersionData,list);return;}
+  list.innerHTML='<div class="vpm-loading"><span class="vpm-spinner"></span>Fetching from Modrinth…</div>';
   try{
     const r=await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+/version',
       {headers:{'User-Agent':'axolotl-pvp-web/1.0'}});
     if(!r.ok)throw new Error('API '+r.status);
-    const versions=await r.json();
-    if(!versions||!versions.length)throw new Error('no versions');
-    // Pick the primary file from the latest version
-    const file=versions[0].files.find(f=>f.primary)||versions[0].files[0];
-    if(!file?.url)throw new Error('no file');
-    const a=document.createElement('a');
-    a.href=file.url; a.download=file.filename||'axolotl-pvp-plus.mrpack';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    _vpVersionData=await r.json();
+    vpRenderList(_vpVersionData,list);
   }catch(e){
-    // Fallback to Modrinth page
-    window.open('https://modrinth.com/modpack/axolotl-pvp+','_blank');
-  }finally{
-    if(btn){btn.style.opacity='';btn.style.pointerEvents='';}
+    list.innerHTML='<div class="vpm-loading" style="color:#ff6b6b">⚠ Could not load versions.<br><a href="https://modrinth.com/modpack/axolotl-pvp+/versions" target="_blank" style="color:var(--green)">Open Modrinth →</a></div>';
   }
 }
+
+function vpRenderList(apiVersions,list){
+  list.innerHTML='';
+  VP_VERSIONS.forEach((v,idx)=>{
+    const row=document.createElement('div');
+    row.className='vpm-ver'+(v.coming_soon?' vpm-ver--soon':'');
+    const isLatest=idx===1; // 10.0.0 is latest real version
+
+    row.innerHTML=`
+      <div class="vpm-ver-left">
+        <div>
+          <div class="vpm-ver-num">${v.label}</div>
+          ${v.name?`<div class="vpm-ver-sub">${v.name}${v.mc?' &nbsp;·&nbsp; <span class="vpm-ver-mc">MC ${v.mc}</span>':''}</div>`:''}
+        </div>
+        ${v.coming_soon?'<span class="vpm-ver-tag vpm-ver-tag--soon">COMING SOON</span>':isLatest?'<span class="vpm-ver-tag vpm-ver-tag--latest">LATEST</span>':''}
+      </div>
+      <div class="vpm-ver-right">
+        ${v.coming_soon
+          ?'<button class="vpm-dl-btn" disabled>SOON</button>'
+          :`<button class="vpm-dl-btn" onclick="vpDownload('${v.label}','${v.mc||''}','${(v.name||'').replace(/'/g,"\\'")}')">↓ GET</button>`
+        }
+      </div>`;
+    list.appendChild(row);
+  });
+}
+
+async function vpDownload(label,mcVer,name){
+  const apiVersions=_vpVersionData||[];
+  // Match by name first, then by MC version
+  let match=apiVersions.find(av=>av.name&&av.name.toLowerCase().includes(name.toLowerCase().replace('axolotl pvp+ ','').replace('axolotl pvp ','')));
+  if(!match&&mcVer) match=apiVersions.find(av=>av.game_versions&&av.game_versions.includes(mcVer));
+  if(match){
+    const file=match.files.find(f=>f.primary)||match.files[0];
+    if(file?.url){
+      const a=document.createElement('a');
+      a.href=file.url;a.download=file.filename||'axolotl-pvp-plus.mrpack';
+      document.body.appendChild(a);a.click();document.body.removeChild(a);
+      closeVersionPicker();return;
+    }
+  }
+  window.open(`https://modrinth.com/modpack/axolotl-pvp+/versions${mcVer?'?g='+encodeURIComponent(mcVer):''}','_blank`);
+  closeVersionPicker();
+}
+
 
 /* ════════════════════════════════════════════
    CLOUDFLARE VERIFICATION (Advanced Captcha)
