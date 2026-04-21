@@ -4,27 +4,30 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Axolotl PVP+</title>
-  <!-- Open Graph / Discord / Slack / WhatsApp embeds -->
+    <!-- Open Graph / Discord / Slack / WhatsApp / iMessage embeds -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://axolotlpvp.qzzz.io/" />
   <meta property="og:title" content="Axolotl PVP+" />
-  <meta property="og:description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
-  <meta property="og:image" content="https://raw.githubusercontent.com/OpRGamerz15/axolotlpvp/main/axolotl-pvp-bg.png" />
+  <meta property="og:description" content="High-performance PVP-focused Minecraft modpack. Boost your FPS to 300+. Built for competitive PvP." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/OpRGamerZ15/axolotlpvp/main/axolotl-pvp-bg.png" />
+  <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/OpRGamerZ15/axolotlpvp/main/axolotl-pvp-bg.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1400" />
   <meta property="og:image:height" content="980" />
   <meta property="og:image:alt" content="Axolotl PVP+ — Minecraft PVP Modpack" />
   <meta property="og:site_name" content="Axolotl PVP+" />
   <meta property="og:locale" content="en_US" />
-  <!-- Twitter Card -->
+  <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Axolotl PVP+" />
-  <meta name="twitter:description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/OpRGamerz15/axolotlpvp/main/axolotl-pvp-bg.png" />
-  <meta name="twitter:image:alt" content="Axolotl PVP+ Minecraft modpack background" />
-  <!-- General SEO -->
-  <meta name="description" content="High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community." />
+  <meta name="twitter:description" content="High-performance PVP-focused Minecraft modpack. Boost your FPS to 300+. Built for competitive PvP." />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/OpRGamerZ15/axolotlpvp/main/axolotl-pvp-bg.png" />
+  <meta name="twitter:image:alt" content="Axolotl PVP+ Minecraft modpack" />
+  <!-- SEO -->
+  <meta name="description" content="High-performance PVP-focused Minecraft modpack. Boost your FPS to 300+. Built for competitive PvP." />
+  <meta name="keywords" content="Minecraft, PVP, modpack, Fabric, FPS, Axolotl PVP+" />
   <meta name="theme-color" content="#00ff88" />
+  <meta name="robots" content="index, follow" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     /* ── CURSOR (always on, every layer) ── */
@@ -849,7 +852,7 @@
     <div class="section-label">// GET STARTED</div>
     <h2>CHOOSE YOUR <span>LAUNCHER</span></h2>
     <div class="dl-grid">
-      <div class="dl-card" onclick="openVersionPicker()" style="cursor:pointer"><div class="dl-icon">⬇️</div><h3>DOWNLOAD FROM MODRINTH</h3><p>Choose your version and download directly to your device.</p></div>
+      <div class="dl-card" onclick="openVersionPicker()" style="cursor:pointer"><div class="dl-icon">⬇️</div><h3>DOWNLOAD VIA WEB</h3><p>Choose your version and download directly to your device.</p></div>
       <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank"><div class="dl-icon">🎬</div><h3>SKLAUNCHER TUTORIAL</h3><p>Watch a step-by-step guide on how to install Axolotl PVP+ using SKLauncher.</p></a>
       <div class="bug-card-wrap">
         <div class="dl-card" id="bug-report-btn" style="cursor:pointer">
@@ -1045,18 +1048,18 @@ try{localStorage.removeItem('axolotl_visited');}catch(e){}
 // Versions to show. Set mc_version to null to use the Modrinth API label.
 // coming_soon versions are shown but not clickable.
 const VP_VERSIONS=[
-  {label:'11.0.0',             mc:null,    coming_soon:true},
-  {label:'10.0.0',             mc:'26.1.1',coming_soon:false, name:'Axolotl PVP+ 10.0.0'},
-  {label:'9.0.0',              mc:'26.1',  coming_soon:false, name:'Axolotl PVP+ 9.0.0'},
-  {label:'8.0.0',              mc:'1.21.11',coming_soon:false,name:'Axolotl PVP+ 8.0.0'},
-  {label:'7.0.0 (H TIER 1)',   mc:'1.21.11',coming_soon:false,name:'Axolotl PVP+ 7.0.0 (H TIER 1)'},
-  {label:'7.0.0 (NORMAL)',     mc:'1.21.11',coming_soon:false,name:'Axolotl PVP+ 7.0.0 (NORMAL)'},
-  {label:'6.0.0',              mc:'1.21.10',coming_soon:false,name:'Axolotl PVP+'},
-  {label:'5.0.0',              mc:'1.21.9', coming_soon:false,name:'Axolotl PVP+'},
-  {label:'4.0.0',              mc:'1.21.5', coming_soon:false,name:'Axolotl PVP+ 4.0.0'},
-  {label:'3.0.0',              mc:'1.21.6', coming_soon:false,name:'Axolotl PVP 3.0.0'},
-  {label:'2.0.0',              mc:'1.21.7', coming_soon:false,name:'Axolotl PVP 2.0.0'},
-  {label:'1.0.0',              mc:'1.21.8', coming_soon:false,name:'Axolotl PVP 1.0.0'},
+  {label:'11.0.0',             mc:'26.1.2', coming_soon:false, name:'Axolotl PVP+ 11.0.0'},
+  {label:'10.0.0',             mc:'26.1.1', coming_soon:false, name:'Axolotl PVP+ 10.0.0'},
+  {label:'9.0.0',              mc:'26.1',   coming_soon:false, name:'Axolotl PVP+ 9.0.0'},
+  {label:'8.0.0',              mc:'1.21.11',coming_soon:false, name:'Axolotl PVP+ 8.0.0'},
+  {label:'7.0.0 (H TIER 1)',   mc:'1.21.11',coming_soon:false, name:'Axolotl PVP+ 7.0.0 (H TIER 1)'},
+  {label:'7.0.0 (NORMAL)',     mc:'1.21.11',coming_soon:false, name:'Axolotl PVP+ 7.0.0 (NORMAL)'},
+  {label:'6.0.0',              mc:'1.21.10',coming_soon:false, name:'Axolotl PVP+'},
+  {label:'5.0.0',              mc:'1.21.9', coming_soon:false, name:'Axolotl PVP+'},
+  {label:'4.0.0',              mc:'1.21.5', coming_soon:false, name:'Axolotl PVP+ 4.0.0'},
+  {label:'3.0.0',              mc:'1.21.6', coming_soon:false, name:'Axolotl PVP 3.0.0'},
+  {label:'2.0.0',              mc:'1.21.7', coming_soon:false, name:'Axolotl PVP 2.0.0'},
+  {label:'1.0.0',              mc:'1.21.8', coming_soon:false, name:'Axolotl PVP 1.0.0'},
 ];
 let _vpVersionData=null; // cached Modrinth API response
 
