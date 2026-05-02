@@ -4,6 +4,2022 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Axolotl PVP+</title>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Axolotl PVP+"/>
+  <meta property="og:description" content="High-performance PVP-focused Minecraft modpack. Boost your FPS. Built for competitive PvP."/>
+  <meta name="theme-color" content="#00ff88"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    /* ═══ RESET & CURSOR ═══ */
+    *,*::before,*::after{cursor:none!important;box-sizing:border-box;margin:0;padding:0;}
+    input,textarea,select{user-select:text!important;-webkit-user-select:text!important;}
+    html{scroll-behavior:smooth;}
+    #cursor-outer{position:fixed;top:0;left:0;width:36px;height:36px;border:2px solid #00ff88;border-radius:50%;pointer-events:none;z-index:2147483646;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s;mix-blend-mode:screen;}
+    #cursor-inner{position:fixed;top:0;left:0;width:8px;height:8px;background:#00ff88;border-radius:50%;pointer-events:none;z-index:2147483647;transform:translate(-50%,-50%);box-shadow:0 0 10px #00ff88,0 0 20px #00ff8855;}
+    body.cursor-hover #cursor-outer{width:56px;height:56px;border-color:#00ffcc;background:rgba(0,255,136,.07);}
+    body.cursor-hover #cursor-inner{width:12px;height:12px;background:#00ffcc;}
+    body.cursor-click #cursor-inner{width:4px;height:4px;}
+    body.cursor-click #cursor-outer{width:22px;height:22px;}
+
+    /* ═══ VARS ═══ */
+    :root{
+      --green:#00ff88;--green2:#00ffcc;
+      --bg:#050a07;--card:rgba(0,255,136,.05);--border:rgba(0,255,136,.15);
+      --text:#c8f0d8;--dim:#6a9a7a;
+    }
+    body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;user-select:none;-webkit-user-select:none;}
+
+    /* ═══ MINECRAFT BG CANVAS ═══ */
+    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    #mc-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.13;}
+
+    /* ═══ MAIN SITE LAYERS ═══ */
+    #main-content{position:relative;z-index:2;}
+    header,section,.hero,footer,.divider{position:relative;z-index:2;}
+
+    /* ═══ HEADER ═══ */
+    header{position:sticky;top:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;background:rgba(5,10,7,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+    .logo-img-wrap{display:flex;align-items:center;text-decoration:none;flex-shrink:0;height:100%;}
+    .logo-emoji{font-size:2rem;line-height:1;transition:transform .3s;filter:drop-shadow(0 0 10px rgba(0,255,136,.5));display:block;}
+    .logo-img-wrap:hover .logo-emoji{transform:scale(1.15) rotate(-8deg);}
+    nav{display:flex;gap:.5rem;align-items:center;height:100%;flex-wrap:wrap;}
+    nav a,nav button{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;color:var(--dim);text-decoration:none;padding:.4rem .7rem;border:1px solid transparent;border-radius:4px;transition:all .25s;background:none;white-space:nowrap;line-height:1;}
+    nav a:hover{color:var(--green);border-color:var(--border);background:var(--card);text-shadow:0 0 8px var(--green);}
+    .nav-discord{color:#7289da!important;}
+    .nav-discord:hover{border-color:rgba(114,137,218,.3)!important;text-shadow:0 0 8px #7289da!important;}
+    .btn-wiki{color:var(--green)!important;border-color:rgba(0,255,136,.3)!important;}
+    .btn-wiki:hover{background:rgba(0,255,136,.08)!important;border-color:var(--green)!important;}
+    .btn-nexcraft{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;padding:.4rem .9rem;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));border:1px solid rgba(15,255,224,.4);border-radius:4px;color:#0fffe0;font-weight:700;transition:all .22s;white-space:nowrap;box-shadow:0 0 12px rgba(15,255,224,.15);line-height:1;}
+    .btn-nexcraft:hover{background:linear-gradient(135deg,rgba(15,255,224,.28),rgba(123,92,255,.2));border-color:#0fffe0;color:#fff;box-shadow:0 0 24px rgba(15,255,224,.4);transform:translateY(-1px);}
+
+    /* ═══ HERO ═══ */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;position:relative;}
+    .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,10,7,.65) 0%,rgba(5,10,7,.35) 40%,rgba(5,10,7,.92) 100%);z-index:0;}
+    .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(0,255,136,.09) 0%,transparent 70%);z-index:0;}
+    .hero>*{position:relative;z-index:1;}
+    .hero-badge{display:inline-block;font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.25em;color:var(--green);border:1px solid var(--border);padding:.35rem 1rem;border-radius:2px;margin-bottom:1.5rem;background:var(--card);box-shadow:0 0 20px rgba(0,255,136,.08);}
+    .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.5rem,8vw,6rem);font-weight:900;line-height:1;color:#fff;text-shadow:0 0 40px rgba(0,255,136,.5);margin-bottom:1.5rem;}
+    .hero h1 span{color:var(--green);}
+    .hero p{font-size:1.2rem;font-weight:300;color:var(--dim);max-width:560px;line-height:1.7;margin-bottom:2.5rem;}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;}
+    .btn-primary{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:.85rem 2rem;background:var(--green);color:#000;border:none;border-radius:3px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 0 20px rgba(0,255,136,.4);display:inline-flex;align-items:center;gap:.55rem;}
+    .btn-primary:hover{background:var(--green2);box-shadow:0 0 40px rgba(0,255,136,.8);transform:translateY(-2px);}
+    .btn-secondary{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.12em;padding:.85rem 2rem;background:transparent;color:var(--green);border:1px solid var(--border);border-radius:3px;font-weight:700;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.55rem;}
+    .btn-secondary:hover{background:var(--card);border-color:var(--green);transform:translateY(-2px);}
+    .btn-icon{width:16px;height:16px;flex-shrink:0;fill:currentColor;}
+
+    /* ═══ SECTIONS ═══ */
+    section{padding:5rem 3rem;max-width:1200px;margin:0 auto;}
+    .section-label{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.3em;color:var(--green);margin-bottom:.6rem;opacity:.7;}
+    h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.5rem,4vw,2.4rem);font-weight:900;color:#fff;margin-bottom:3rem;}
+    h2 span{color:var(--green);}
+    .divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+    .dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .dl-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:2rem;text-decoration:none;color:inherit;transition:all .25s;position:relative;overflow:hidden;}
+    .dl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green2));opacity:0;transition:opacity .25s;}
+    .dl-card:hover{border-color:rgba(0,255,136,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.5);}
+    .dl-card:hover::before{opacity:1;}
+    .dl-icon{font-size:2.5rem;margin-bottom:1rem;}
+    .dl-card h3{font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--green);margin-bottom:.5rem;}
+    .dl-card p{color:var(--dim);font-size:.95rem;line-height:1.6;}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-top:2rem;}
+    .stat{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;text-align:center;transition:all .2s;}
+    .stat:hover{border-color:rgba(0,255,136,.3);transform:translateY(-3px);}
+    .stat-num{font-family:'Orbitron',sans-serif;font-size:2rem;font-weight:900;color:var(--green);text-shadow:0 0 16px var(--green);}
+    .stat-label{font-size:.85rem;color:var(--dim);margin-top:.3rem;}
+    .mod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;}
+    .mod-item{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:.75rem 1rem;font-size:.9rem;color:var(--text);transition:all .2s;display:flex;align-items:center;gap:.5rem;}
+    .mod-item:hover{border-color:rgba(0,255,136,.35);color:var(--green);background:rgba(0,255,136,.08);transform:translateX(4px);}
+    .mod-item::before{content:'◆';font-size:.5rem;color:var(--green);flex-shrink:0;}
+    .faq-list{display:flex;flex-direction:column;gap:.75rem;}
+    details{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+    details[open]{border-color:rgba(0,255,136,.35);}
+    summary{padding:1.1rem 1.4rem;font-family:'Orbitron',sans-serif;font-size:.78rem;color:var(--text);letter-spacing:.06em;list-style:none;display:flex;justify-content:space-between;align-items:center;}
+    summary::after{content:'+';color:var(--green);font-size:1.2rem;}
+    details[open] summary::after{content:'−';}
+    .faq-answer{padding:0 1.4rem 1.2rem;color:var(--dim);font-size:.95rem;line-height:1.7;}
+    .credits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;}
+    .credit-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1.2rem;text-align:center;transition:all .2s;}
+    .credit-card:hover{border-color:rgba(0,255,136,.35);transform:translateY(-4px);}
+    .credit-name{font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--green);margin-bottom:.3rem;}
+    .credit-role{font-size:.8rem;color:var(--dim);}
+    footer{text-align:center;padding:2.5rem;border-top:1px solid var(--border);color:var(--dim);font-size:.85rem;}
+    footer a{color:var(--green);text-decoration:none;}
+    ::-webkit-scrollbar{width:6px;}
+    ::-webkit-scrollbar-track{background:var(--bg);}
+    ::-webkit-scrollbar-thumb{background:rgba(0,255,136,.3);border-radius:3px;}
+
+    /* ═══ BUG DROPDOWN ═══ */
+    .bug-card-wrap{position:relative;}
+    .bug-dropdown{display:none;position:absolute;top:calc(100% + .6rem);left:0;right:0;background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.3);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:100;animation:dropIn .2s ease;}
+    @keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .bug-dropdown.open{display:block;}
+    .bug-dropdown-top{height:2px;background:linear-gradient(90deg,var(--green),var(--green2));}
+    .bug-opt{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;text-decoration:none;color:var(--text);font-size:.95rem;border-bottom:1px solid var(--border);transition:all .18s;}
+    .bug-opt:last-child{border-bottom:none;}
+    .bug-opt:hover{background:rgba(0,255,136,.07);color:var(--green);padding-left:1.5rem;}
+    .bug-opt-icon{font-size:1.3rem;flex-shrink:0;}
+    .bug-opt-label{font-weight:600;display:block;margin-bottom:.1rem;}
+    .bug-opt-sub{font-size:.78rem;color:var(--dim);display:block;}
+
+    /* ═══ VERSION PICKER ═══ */
+    @keyframes dlFadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes dlScaleIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+    #vp-modal{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);align-items:center;justify-content:center;padding:1rem;}
+    #vp-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .vpm-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;width:420px;max-width:95vw;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 0 60px rgba(0,255,136,.1);animation:dlScaleIn .25s cubic-bezier(.34,1.56,.64,1);}
+    .vpm-top{height:2px;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:14px 14px 0 0;flex-shrink:0;}
+    .vpm-head{padding:1.2rem 1.5rem .9rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+    .vpm-title{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;color:#fff;letter-spacing:.08em;}
+    .vpm-sub{font-size:.78rem;color:var(--dim);margin-top:.25rem;}
+    .vpm-badge{display:inline-flex;align-items:center;gap:.35rem;font-family:'Orbitron',sans-serif;font-size:.55rem;letter-spacing:.1em;color:var(--green);border:1px solid rgba(0,255,136,.25);background:rgba(0,255,136,.06);padding:.2rem .6rem;border-radius:20px;margin-top:.5rem;}
+    .vpm-list{overflow-y:auto;padding:.5rem 0;flex:1;}
+    .vpm-ver{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;border-bottom:1px solid rgba(0,255,136,.06);transition:background .15s;}
+    .vpm-ver:last-child{border-bottom:none;}
+    .vpm-ver:hover{background:rgba(0,255,136,.05);}
+    .vpm-ver-num{font-family:'Orbitron',sans-serif;font-size:.82rem;color:#fff;letter-spacing:.06em;}
+    .vpm-ver-sub{font-size:.72rem;color:var(--dim);margin-top:.15rem;}
+    .vpm-ver-tag{font-size:.6rem;font-family:'Orbitron',sans-serif;letter-spacing:.1em;padding:.15rem .5rem;border-radius:20px;}
+    .vpm-ver-tag--latest{background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3);}
+    .vpm-dl-btn{font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.1em;padding:.3rem .7rem;background:var(--green);color:#000;border:none;border-radius:4px;font-weight:700;transition:all .18s;}
+    .vpm-dl-btn:hover{background:var(--green2);}
+    .vpm-loading{text-align:center;padding:2rem;color:var(--dim);font-size:.82rem;}
+    .vpm-spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(0,255,136,.2);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;margin-right:.5rem;vertical-align:middle;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .vpm-close-row{padding:.9rem 1.5rem;border-top:1px solid var(--border);flex-shrink:0;text-align:right;}
+    .vpm-close-btn{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.1em;padding:.35rem .8rem;border:1px solid var(--border);border-radius:4px;color:var(--dim);background:none;transition:all .2s;}
+    .vpm-close-btn:hover{border-color:rgba(0,255,136,.3);color:var(--text);}
+
+    /* ═══ WIKI OVERLAY ═══ */
+    #wiki-overlay{display:none;position:fixed;inset:0;z-index:8000;background:var(--bg);overflow-y:auto;}
+    #wiki-overlay.open{display:block;animation:overlayIn .3s ease;}
+    @keyframes overlayIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .wiki-mc-bg{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.1;}
+    .wiki-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(5,10,7,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+    .wiki-logo{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;color:var(--green);letter-spacing:.12em;text-shadow:0 0 14px var(--green);}
+    .wiki-close{font-family:'Orbitron',sans-serif;font-size:.62rem;letter-spacing:.1em;padding:.4rem 1rem;border:1px solid rgba(0,255,136,.3);border-radius:4px;color:var(--green);background:var(--card);transition:all .2s;}
+    .wiki-close:hover{background:rgba(0,255,136,.12);border-color:var(--green);}
+    .wiki-body{max-width:800px;margin:0 auto;padding:3rem 2rem 5rem;position:relative;z-index:1;}
+    .wiki-section{margin-bottom:2.5rem;}
+    .wiki-section h2{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:900;color:var(--green);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);letter-spacing:.08em;}
+    .wiki-section p{color:var(--text);font-size:.95rem;line-height:1.8;margin-bottom:.8rem;}
+    .wiki-section ul,.wiki-section ol{padding-left:1.4rem;color:var(--text);font-size:.95rem;line-height:1.9;}
+    .wiki-features{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+    .wiki-feat{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem;}
+    .wiki-feat-title{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--green);margin-bottom:.3rem;letter-spacing:.06em;}
+    .wiki-feat-desc{font-size:.85rem;color:var(--dim);line-height:1.6;}
+    .wiki-faq{display:flex;flex-direction:column;gap:.75rem;}
+    .wiki-q{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:1rem;}
+    .wiki-q strong{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--green);display:block;margin-bottom:.4rem;letter-spacing:.04em;}
+    .wiki-q p{font-size:.88rem;color:var(--text);margin:0;}
+
+    /* ═══ NEXCRAFT HUB OVERLAY ═══ */
+    #nexcraft-overlay{
+      display:none;position:fixed;inset:0;z-index:9500;
+      background:#07090c;overflow-y:auto;
+      font-family:'Syne',sans-serif;color:#d4e8f0;
+    }
+    #nexcraft-overlay.open{display:block;animation:overlayIn .3s ease;}
+
+    /* NexCraft variables (scoped via prefix) */
+    #nexcraft-overlay{
+      --nc-bg:#07090c;--nc-bg2:#0c0f14;--nc-bg3:#111620;
+      --nc-border:rgba(15,255,224,.1);--nc-border2:rgba(15,255,224,.18);
+      --nc-accent:#0fffe0;--nc-accent2:#7b5cff;--nc-accent3:#ff5c8a;
+      --nc-text:#d4e8f0;--nc-dim:#4a6a7a;
+      --nc-card:rgba(15,255,224,.04);--nc-card2:rgba(15,255,224,.08);
+      --nc-sidebar:240px;
+    }
+
+    /* NexCraft MC background */
+    #nc-mc-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.11;}
+
+    /* NexCraft topbar */
+    #nc-topbar{position:fixed;top:0;left:0;right:0;z-index:9600;height:56px;background:rgba(7,9,12,.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--nc-border);display:flex;align-items:center;gap:1rem;padding:0 1.2rem;}
+    .nc-logo{display:flex;align-items:center;gap:.55rem;text-decoration:none;flex-shrink:0;}
+    .nc-logo-mark{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,var(--nc-accent),var(--nc-accent2));display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:900;color:#07090c;box-shadow:0 0 14px rgba(15,255,224,.35);}
+    .nc-logo-name{font-family:'Space Mono',monospace;font-size:.88rem;font-weight:700;color:#fff;letter-spacing:.06em;}
+    .nc-logo-name span{color:var(--nc-accent);}
+    .nc-back{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;padding:.38rem .8rem;border:1px solid rgba(255,92,138,.3);border-radius:6px;color:var(--nc-accent3);background:none;transition:all .2s;margin-left:auto;}
+    .nc-back:hover{border-color:var(--nc-accent3);background:rgba(255,92,138,.06);}
+    .nc-search{flex:1;max-width:520px;position:relative;}
+    .nc-search input{width:100%;background:var(--nc-bg3);border:1px solid var(--nc-border2);border-radius:8px;padding:.5rem 1rem .5rem 2.4rem;color:var(--nc-text);font-family:'Syne',sans-serif;font-size:.85rem;transition:all .2s;}
+    .nc-search input:focus{outline:none;border-color:var(--nc-accent);box-shadow:0 0 0 3px rgba(15,255,224,.08);}
+    .nc-search input::placeholder{color:var(--nc-dim);}
+    .nc-search-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--nc-dim);font-size:.85rem;pointer-events:none;}
+    .nc-discord-link{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;padding:.38rem .8rem;border:1px solid rgba(114,137,218,.25);border-radius:6px;color:#7289da;text-decoration:none;transition:all .2s;white-space:nowrap;}
+    .nc-discord-link:hover{border-color:rgba(114,137,218,.5);}
+    .nc-upload-btn{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;font-weight:700;padding:.38rem .9rem;border:none;border-radius:6px;background:linear-gradient(135deg,var(--nc-accent),var(--nc-accent2));color:#07090c;transition:all .2s;white-space:nowrap;}
+    .nc-upload-btn:hover{box-shadow:0 0 20px rgba(15,255,224,.4);}
+
+    /* NexCraft layout */
+    #nc-layout{display:flex;padding-top:56px;min-height:100vh;position:relative;z-index:1;}
+    #nc-sidebar{width:var(--nc-sidebar);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--nc-bg2);border-right:1px solid var(--nc-border);overflow-y:auto;padding:1.2rem 0;display:flex;flex-direction:column;gap:.2rem;}
+    .nc-sb-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.18em;color:var(--nc-dim);padding:.5rem 1.2rem .3rem;text-transform:uppercase;}
+    .nc-sb-item{display:flex;align-items:center;gap:.7rem;padding:.6rem 1.2rem;color:var(--nc-dim);text-decoration:none;font-size:.88rem;font-weight:600;border-left:2px solid transparent;transition:all .18s;background:none;width:100%;text-align:left;}
+    .nc-sb-item:hover{color:var(--nc-text);background:rgba(15,255,224,.04);}
+    .nc-sb-item.nc-active{color:var(--nc-accent);border-left:2px solid var(--nc-accent);background:rgba(15,255,224,.06);}
+    .nc-sb-icon{font-size:1rem;flex-shrink:0;width:20px;text-align:center;}
+    .nc-sb-count{margin-left:auto;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--nc-dim);background:var(--nc-bg3);padding:.1rem .4rem;border-radius:3px;}
+    #nc-main{flex:1;margin-left:var(--nc-sidebar);padding:2rem 2rem 4rem;min-height:calc(100vh - 56px);}
+
+    /* NexCraft home hero */
+    .nc-home-hero{background:linear-gradient(135deg,rgba(15,255,224,.06),rgba(123,92,255,.06),rgba(255,92,138,.04));border:1px solid var(--nc-border);border-radius:16px;padding:2.5rem 2rem;margin-bottom:2rem;position:relative;overflow:hidden;}
+    .nc-home-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(15,255,224,.12),transparent 70%);pointer-events:none;}
+    .nc-hero-tag{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--nc-accent);border:1px solid rgba(15,255,224,.25);display:inline-block;padding:.22rem .7rem;border-radius:20px;margin-bottom:1rem;background:rgba(15,255,224,.06);}
+    .nc-hero-title{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;color:#fff;margin-bottom:.7rem;line-height:1.2;}
+    .nc-hero-title span{background:linear-gradient(90deg,var(--nc-accent),var(--nc-accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nc-hero-sub{font-size:.92rem;color:var(--nc-dim);line-height:1.7;max-width:560px;margin-bottom:1.5rem;}
+    .nc-hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;}
+    .nc-hbtn-primary{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;font-weight:700;padding:.65rem 1.5rem;background:linear-gradient(135deg,var(--nc-accent),var(--nc-accent2));color:#07090c;border:none;border-radius:7px;transition:all .2s;box-shadow:0 0 20px rgba(15,255,224,.3);}
+    .nc-hbtn-primary:hover{box-shadow:0 0 35px rgba(15,255,224,.55);transform:translateY(-2px);}
+    .nc-hbtn-secondary{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;padding:.65rem 1.5rem;border:1px solid var(--nc-border2);border-radius:7px;color:var(--nc-dim);background:none;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;}
+    .nc-hbtn-secondary:hover{color:var(--nc-text);border-color:rgba(15,255,224,.35);}
+
+    /* NexCraft stats */
+    .nc-stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:2rem;}
+    .nc-stat-card{background:var(--nc-card);border:1px solid var(--nc-border);border-radius:10px;padding:.9rem 1.1rem;}
+    .nc-stat-num{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--nc-accent);letter-spacing:.04em;}
+    .nc-stat-lbl{font-size:.72rem;color:var(--nc-dim);margin-top:.2rem;}
+
+    /* NexCraft cat grid */
+    .nc-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:2rem;}
+    .nc-cat-card{background:var(--nc-card);border:1px solid var(--nc-border);border-radius:10px;padding:1.2rem 1rem;transition:all .22s;text-align:center;}
+    .nc-cat-card:hover{border-color:var(--nc-border2);background:var(--nc-card2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4);}
+    .nc-cat-icon{font-size:1.8rem;margin-bottom:.6rem;}
+    .nc-cat-name{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:.25rem;}
+    .nc-cat-sub{font-size:.72rem;color:var(--nc-dim);}
+
+    /* NexCraft page */
+    .nc-page-title{font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:.35rem;}
+    .nc-page-subtitle{font-size:.85rem;color:var(--nc-dim);margin-bottom:1.5rem;}
+    .nc-filter-bar{display:flex;align-items:center;gap:.6rem;margin-bottom:1.8rem;flex-wrap:wrap;}
+    .nc-filter-tag{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;padding:.32rem .75rem;border:1px solid var(--nc-border2);border-radius:20px;color:var(--nc-dim);background:none;transition:all .18s;}
+    .nc-filter-tag:hover{color:var(--nc-text);border-color:rgba(15,255,224,.3);}
+    .nc-filter-tag.nc-active{color:var(--nc-accent);border-color:var(--nc-accent);background:rgba(15,255,224,.07);}
+    .nc-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 2rem;text-align:center;border:1px dashed var(--nc-border2);border-radius:14px;background:rgba(15,255,224,.02);}
+    .nc-empty-icon{font-size:3rem;margin-bottom:1.2rem;opacity:.5;}
+    .nc-empty-title{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+    .nc-empty-sub{font-size:.85rem;color:var(--nc-dim);line-height:1.7;max-width:360px;margin-bottom:1.5rem;}
+    .nc-empty-btn{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.1em;font-weight:700;padding:.6rem 1.4rem;background:var(--nc-accent);color:#07090c;border:none;border-radius:6px;box-shadow:0 0 18px rgba(15,255,224,.3);transition:all .2s;}
+    .nc-empty-btn:hover{box-shadow:0 0 30px rgba(15,255,224,.5);}
+
+    /* ═══ NC STEP 1: CREATE PROJECT MODAL ═══ */
+    #nc-create-modal{display:none;position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,.88);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1rem;}
+    #nc-create-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .nc-cm-box{background:#0c0f14;border:1px solid rgba(15,255,224,.2);border-radius:18px;width:600px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 0 80px rgba(15,255,224,.12);}
+    .nc-cm-top{height:2px;background:linear-gradient(90deg,#0fffe0,#7b5cff,#ff5c8a);border-radius:18px 18px 0 0;}
+    .nc-cm-body{padding:2rem 2rem 1.5rem;}
+    .nc-cm-head{margin-bottom:1.8rem;}
+    .nc-cm-title{font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:.3rem;}
+    .nc-cm-sub{font-size:.85rem;color:#4a6a7a;}
+    .nc-cm-field{margin-bottom:1.4rem;}
+    .nc-cm-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;color:#4a6a7a;display:block;margin-bottom:.5rem;text-transform:uppercase;}
+    .nc-cm-input,.nc-cm-textarea{width:100%;background:#111620;border:1px solid rgba(15,255,224,.18);border-radius:8px;padding:.65rem 1rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.92rem;transition:all .2s;}
+    .nc-cm-input:focus,.nc-cm-textarea:focus{outline:none;border-color:#0fffe0;box-shadow:0 0 0 3px rgba(15,255,224,.08);}
+    .nc-cm-input::placeholder,.nc-cm-textarea::placeholder{color:#2a4a5a;}
+    .nc-cm-textarea{min-height:80px;resize:vertical;}
+    .nc-cm-char{font-size:.7rem;color:#4a6a7a;text-align:right;margin-top:.25rem;}
+    .nc-cm-char.warn{color:#ff5c8a;}
+    /* Type grid */
+    .nc-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;}
+    .nc-type-card{background:#111620;border:2px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem .8rem;text-align:center;transition:all .2s;position:relative;}
+    .nc-type-card:hover{border-color:rgba(15,255,224,.3);background:#161d28;}
+    .nc-type-card.selected{border-color:#0fffe0;background:rgba(15,255,224,.06);box-shadow:0 0 20px rgba(15,255,224,.1);}
+    .nc-type-card.selected::after{content:'✓';position:absolute;top:.4rem;right:.5rem;font-size:.7rem;color:#0fffe0;font-weight:700;}
+    .nc-type-icon{font-size:1.5rem;margin-bottom:.4rem;}
+    .nc-type-name{font-size:.78rem;font-weight:700;color:#fff;}
+    .nc-type-desc{font-size:.65rem;color:#4a6a7a;margin-top:.2rem;line-height:1.4;}
+    /* Footer */
+    .nc-cm-footer{display:flex;gap:.8rem;justify-content:flex-end;padding:1.2rem 2rem;border-top:1px solid rgba(15,255,224,.08);}
+    .nc-cm-cancel{font-family:'Space Mono',monospace;font-size:.65rem;padding:.55rem 1.2rem;border:1px solid rgba(15,255,224,.2);border-radius:7px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-cm-cancel:hover{color:#d4e8f0;border-color:rgba(15,255,224,.35);}
+    .nc-cm-create{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;padding:.55rem 1.4rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:7px;transition:all .2s;display:flex;align-items:center;gap:.5rem;}
+    .nc-cm-create:hover{box-shadow:0 0 24px rgba(15,255,224,.4);transform:translateY(-1px);}
+    .nc-cm-create:disabled{opacity:.4;pointer-events:none;}
+
+    /* ═══ NC STEP 2: PROJECT SETTINGS PAGE ═══ */
+    #nc-project-page{display:none;position:fixed;inset:0;z-index:9800;background:#07090c;overflow-y:auto;}
+    #nc-project-page.open{display:block;animation:overlayIn .3s ease;}
+    .nc-pp-topbar{position:sticky;top:0;z-index:100;height:56px;background:rgba(7,9,12,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(15,255,224,.1);display:flex;align-items:center;gap:1rem;padding:0 1.5rem;}
+    .nc-pp-back{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;padding:.38rem .8rem;border:1px solid rgba(255,92,138,.3);border-radius:6px;color:#ff5c8a;background:none;transition:all .2s;}
+    .nc-pp-back:hover{border-color:#ff5c8a;background:rgba(255,92,138,.06);}
+    .nc-pp-title{font-family:'Space Mono',monospace;font-size:.85rem;font-weight:700;color:#fff;margin-left:.5rem;}
+    .nc-pp-title span{color:#0fffe0;}
+    .nc-pp-status{margin-left:auto;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;padding:.22rem .65rem;border-radius:20px;background:rgba(255,165,0,.12);border:1px solid rgba(255,165,0,.3);color:#ffa500;}
+    .nc-pp-layout{display:flex;min-height:calc(100vh - 56px);}
+    /* Settings sidebar */
+    .nc-pp-sidebar{width:220px;flex-shrink:0;border-right:1px solid rgba(15,255,224,.08);padding:1.5rem 0;background:#0c0f14;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+    .nc-pp-sb-section{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;color:#2a4a5a;padding:.5rem 1.2rem .3rem;text-transform:uppercase;}
+    .nc-pp-sb-item{display:flex;align-items:center;gap:.65rem;padding:.6rem 1.2rem;color:#4a6a7a;font-size:.88rem;font-weight:600;transition:all .18s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;}
+    .nc-pp-sb-item:hover{color:#d4e8f0;background:rgba(15,255,224,.03);}
+    .nc-pp-sb-item.nc-pp-active{color:#0fffe0;border-left-color:#0fffe0;background:rgba(15,255,224,.05);}
+    .nc-pp-sb-icon{font-size:.9rem;width:16px;text-align:center;}
+    /* Main content */
+    .nc-pp-main{flex:1;padding:2rem 2.5rem;max-width:900px;}
+    .nc-pp-tab{display:none;}
+    .nc-pp-tab.active{display:block;}
+    /* Section heading */
+    .nc-pp-h{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-pp-field{margin-bottom:1.5rem;}
+    .nc-pp-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;color:#4a6a7a;display:block;margin-bottom:.5rem;text-transform:uppercase;}
+    .nc-pp-hint{font-size:.78rem;color:#2a4a5a;margin-top:.35rem;line-height:1.5;}
+    .nc-pp-input,.nc-pp-select,.nc-pp-textarea{width:100%;background:#111620;border:1px solid rgba(15,255,224,.15);border-radius:8px;padding:.65rem 1rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.9rem;transition:all .2s;}
+    .nc-pp-input:focus,.nc-pp-select:focus,.nc-pp-textarea:focus{outline:none;border-color:#0fffe0;box-shadow:0 0 0 3px rgba(15,255,224,.07);}
+    .nc-pp-input::placeholder,.nc-pp-textarea::placeholder{color:#2a4a5a;}
+    .nc-pp-textarea{min-height:120px;resize:vertical;}
+    .nc-pp-url-row{display:flex;align-items:center;background:#111620;border:1px solid rgba(15,255,224,.15);border-radius:8px;overflow:hidden;}
+    .nc-pp-url-pre{padding:.65rem 1rem;background:#0c0f14;color:#2a4a5a;font-size:.82rem;white-space:nowrap;border-right:1px solid rgba(15,255,224,.1);}
+    .nc-pp-url-input{flex:1;background:none;border:none;padding:.65rem 1rem;color:#d4e8f0;font-family:'Space Mono',monospace;font-size:.82rem;}
+    .nc-pp-url-input:focus{outline:none;}
+    /* Icon upload */
+    .nc-pp-icon-row{display:flex;align-items:center;gap:1.2rem;margin-bottom:1.5rem;}
+    .nc-pp-icon-preview{width:72px;height:72px;border-radius:12px;background:#111620;border:1px solid rgba(15,255,224,.15);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;}
+    .nc-pp-icon-btn{font-family:'Space Mono',monospace;font-size:.62rem;padding:.45rem 1rem;border:1px solid rgba(15,255,224,.25);border-radius:6px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-pp-icon-btn:hover{border-color:#0fffe0;color:#0fffe0;}
+    /* Visibility */
+    .nc-vis-box{background:#111620;border:1px solid rgba(15,255,224,.1);border-radius:10px;overflow:hidden;}
+    .nc-vis-opt{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border-bottom:1px solid rgba(15,255,224,.06);transition:background .15s;}
+    .nc-vis-opt:last-child{border-bottom:none;}
+    .nc-vis-opt:hover{background:rgba(15,255,224,.03);}
+    .nc-vis-radio{width:16px;height:16px;border:2px solid rgba(15,255,224,.3);border-radius:50%;flex-shrink:0;transition:all .2s;position:relative;}
+    .nc-vis-radio.checked{border-color:#0fffe0;background:#0fffe0;}
+    .nc-vis-radio.checked::after{content:'';position:absolute;inset:3px;background:#07090c;border-radius:50%;}
+    .nc-vis-label{font-weight:700;color:#d4e8f0;font-size:.9rem;}
+    .nc-vis-desc{font-size:.78rem;color:#4a6a7a;margin-top:.15rem;}
+    .nc-vis-icon{font-size:.85rem;width:20px;text-align:center;}
+    /* Tags */
+    .nc-tags-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem;}
+    .nc-tag{font-family:'Space Mono',monospace;font-size:.62rem;padding:.3rem .75rem;border:1px solid rgba(15,255,224,.15);border-radius:20px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-tag:hover{border-color:rgba(15,255,224,.3);color:#d4e8f0;}
+    .nc-tag.selected{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* Versions tab */
+    .nc-version-empty{border:1px dashed rgba(15,255,224,.2);border-radius:12px;padding:3rem 2rem;text-align:center;}
+    .nc-version-empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.4;}
+    .nc-version-empty-title{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;}
+    .nc-version-empty-sub{font-size:.82rem;color:#4a6a7a;line-height:1.6;max-width:360px;margin:0 auto 1.5rem;}
+    .nc-add-version-btn{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;padding:.6rem 1.4rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:7px;transition:all .2s;}
+    .nc-add-version-btn:hover{box-shadow:0 0 20px rgba(15,255,224,.35);}
+    /* License */
+    .nc-license-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.5rem;}
+    .nc-license-card{background:#111620;border:2px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem;cursor:pointer;transition:all .18s;}
+    .nc-license-card:hover{border-color:rgba(15,255,224,.25);}
+    .nc-license-card.selected{border-color:#0fffe0;background:rgba(15,255,224,.05);}
+    .nc-license-name{font-weight:700;color:#fff;font-size:.88rem;}
+    .nc-license-desc{font-size:.72rem;color:#4a6a7a;margin-top:.2rem;line-height:1.4;}
+    /* Gallery */
+    .nc-gallery-drop{border:1px dashed rgba(15,255,224,.25);border-radius:10px;padding:2.5rem;text-align:center;transition:all .2s;}
+    .nc-gallery-drop:hover{border-color:rgba(15,255,224,.45);background:rgba(15,255,224,.02);}
+    .nc-gallery-drop-icon{font-size:2rem;margin-bottom:.8rem;opacity:.5;}
+    .nc-gallery-drop-text{font-size:.88rem;color:#4a6a7a;line-height:1.6;}
+    .nc-gallery-drop-btn{font-family:'Space Mono',monospace;font-size:.62rem;padding:.45rem 1rem;border:1px solid rgba(15,255,224,.25);border-radius:6px;color:#0fffe0;background:none;margin-top:1rem;transition:all .18s;}
+    /* Links */
+    .nc-link-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;}
+    .nc-link-icon{font-size:1.1rem;width:28px;text-align:center;flex-shrink:0;}
+    /* Members */
+    .nc-member-row{display:flex;align-items:center;gap:1rem;padding:1rem;background:#111620;border:1px solid rgba(15,255,224,.1);border-radius:8px;margin-bottom:.7rem;}
+    .nc-member-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0fffe0,#7b5cff);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#07090c;flex-shrink:0;}
+    .nc-member-name{font-weight:700;color:#fff;font-size:.9rem;}
+    .nc-member-role{font-size:.75rem;color:#0fffe0;}
+    /* Analytics */
+    .nc-analytics-empty{text-align:center;padding:3rem;color:#2a4a5a;font-size:.9rem;}
+    /* Save bar */
+    .nc-save-bar{display:flex;align-items:center;justify-content:flex-end;gap:.8rem;padding:1.2rem 2.5rem;border-top:1px solid rgba(15,255,224,.08);position:sticky;bottom:0;background:rgba(7,9,12,.98);backdrop-filter:blur(10px);}
+    .nc-save-btn{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;padding:.55rem 1.4rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:7px;transition:all .2s;}
+    .nc-save-btn:hover{box-shadow:0 0 20px rgba(15,255,224,.3);}
+    .nc-discard-btn{font-family:'Space Mono',monospace;font-size:.65rem;padding:.55rem 1rem;border:1px solid rgba(15,255,224,.2);border-radius:7px;color:#4a6a7a;background:none;transition:all .18s;}
+    /* Delete zone */
+    .nc-danger-box{background:rgba(255,92,138,.04);border:1px solid rgba(255,92,138,.2);border-radius:10px;padding:1.2rem 1.4rem;margin-top:2rem;}
+    .nc-danger-title{font-weight:800;color:#ff5c8a;font-size:.95rem;margin-bottom:.4rem;}
+    .nc-danger-desc{font-size:.82rem;color:#4a6a7a;line-height:1.5;margin-bottom:1rem;}
+    .nc-delete-btn{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;padding:.55rem 1.2rem;background:#ff5c8a;color:#fff;border:none;border-radius:6px;display:flex;align-items:center;gap:.5rem;transition:all .2s;}
+    .nc-delete-btn:hover{background:#ff2a5a;box-shadow:0 0 20px rgba(255,92,138,.35);}
+    /* Publishing checklist */
+    .nc-checklist{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:12px;overflow:hidden;margin-bottom:2rem;}
+    .nc-checklist-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-checklist-title{font-size:1rem;font-weight:800;color:#fff;}
+    .nc-checklist-legend{display:flex;gap:1rem;font-size:.65rem;}
+    .nc-cl-req{color:#ff5c8a;}
+    .nc-cl-warn{color:#ffa500;}
+    .nc-cl-sug{color:#7b5cff;}
+    .nc-checklist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+    .nc-cl-item{padding:1rem 1.1rem;border:1px solid rgba(15,255,224,.06);border-collapse:collapse;transition:background .15s;}
+    .nc-cl-item:hover{background:rgba(15,255,224,.02);}
+    .nc-cl-item-icon{font-size:.75rem;margin-right:.3rem;}
+    .nc-cl-item-title{font-weight:800;color:#fff;font-size:.82rem;margin-bottom:.4rem;}
+    .nc-cl-item-body{font-size:.72rem;color:#4a6a7a;line-height:1.5;margin-bottom:.8rem;}
+    .nc-cl-link{font-family:'Space Mono',monospace;font-size:.6rem;color:#0fffe0;text-decoration:none;display:inline-flex;align-items:center;gap:.25rem;}
+    .nc-cl-link:hover{text-decoration:underline;}
+    .nc-submit-review-btn{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;padding:.5rem 1.1rem;background:linear-gradient(135deg,#ffa500,#ff7800);color:#fff;border:none;border-radius:6px;display:flex;align-items:center;gap:.4rem;margin-top:.6rem;transition:all .2s;}
+    .nc-submit-review-btn:hover{box-shadow:0 0 18px rgba(255,165,0,.4);}
+
+
+    /* ═══ DISCORD AUTH MODAL ═══ */
+    /* DEV: Replace DISCORD_CLIENT_ID and REDIRECT_URI below in JS before deploying */
+    #nc-discord-auth{display:none;position:fixed;inset:0;z-index:9900;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);align-items:center;justify-content:center;}
+    #nc-discord-auth.open{display:flex;animation:dlFadeIn .22s ease;}
+    .nc-da-box{background:#0c0f14;border:1px solid rgba(88,101,242,.35);border-radius:18px;width:420px;max-width:95vw;padding:2.5rem 2rem;text-align:center;box-shadow:0 0 60px rgba(88,101,242,.2);}
+    .nc-da-logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#5865f2,#7b5cff);display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:2rem;box-shadow:0 0 24px rgba(88,101,242,.4);}
+    .nc-da-title{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:.4rem;}
+    .nc-da-sub{font-size:.85rem;color:#4a6a7a;line-height:1.6;margin-bottom:1.8rem;}
+    .nc-da-perms{background:#111620;border:1px solid rgba(88,101,242,.2);border-radius:10px;padding:1rem;margin-bottom:1.8rem;text-align:left;}
+    .nc-da-perms-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:#4a6a7a;margin-bottom:.8rem;text-transform:uppercase;}
+    .nc-da-perm{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:#d4e8f0;margin-bottom:.5rem;}
+    .nc-da-perm:last-child{margin-bottom:0;}
+    .nc-da-perm-icon{width:20px;text-align:center;font-size:.9rem;flex-shrink:0;}
+    .nc-da-btn{width:100%;font-family:'Space Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.08em;padding:.85rem;background:#5865f2;color:#fff;border:none;border-radius:10px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.7rem;box-shadow:0 0 20px rgba(88,101,242,.35);}
+    .nc-da-btn:hover{background:#4752c4;box-shadow:0 0 35px rgba(88,101,242,.55);transform:translateY(-2px);}
+    .nc-da-btn svg{width:20px;height:20px;fill:#fff;flex-shrink:0;}
+    .nc-da-cancel{font-family:'Space Mono',monospace;font-size:.62rem;color:#4a6a7a;background:none;border:none;margin-top:1rem;transition:color .2s;}
+    .nc-da-cancel:hover{color:#d4e8f0;}
+    .nc-da-user{display:flex;align-items:center;gap:.9rem;background:#111620;border:1px solid rgba(88,101,242,.2);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1.5rem;}
+    .nc-da-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#5865f2,#7b5cff);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden;}
+    .nc-da-avatar img{width:100%;height:100%;object-fit:cover;}
+    .nc-da-uname{font-weight:700;color:#fff;font-size:.95rem;}
+    .nc-da-utag{font-size:.75rem;color:#5865f2;margin-top:.1rem;}
+    .nc-da-signout{margin-left:auto;font-family:'Space Mono',monospace;font-size:.58rem;padding:.3rem .7rem;border:1px solid rgba(255,92,138,.25);border-radius:5px;color:#ff5c8a;background:none;transition:all .18s;}
+    .nc-da-signout:hover{border-color:#ff5c8a;background:rgba(255,92,138,.07);}
+    .nc-auth-badge{display:inline-flex;align-items:center;gap:.4rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;padding:.22rem .65rem;border-radius:20px;border:1px solid rgba(88,101,242,.3);color:#5865f2;background:rgba(88,101,242,.08);margin-left:.6rem;}
+    .nc-auth-badge.authed{border-color:rgba(15,255,224,.3);color:#0fffe0;background:rgba(15,255,224,.07);}
+
+    /* ═══ LOADING SCREEN ═══ */
+    #loading-screen{
+      position:fixed;inset:0;z-index:99999;
+      background:#050a07;
+      display:flex;align-items:center;justify-content:center;
+      flex-direction:column;
+      transition:opacity .6s ease, visibility .6s ease;
+    }
+    #loading-screen.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+    #ls-mc-bg{position:absolute;inset:0;width:100%;height:100%;opacity:.15;z-index:0;}
+    .ls-content{position:relative;z-index:1;text-align:center;padding:2rem;}
+    .ls-logo-wrap{
+      position:relative;
+      width:120px;height:120px;
+      margin:0 auto 1.5rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .ls-axolotl{
+      font-size:4rem;
+      position:relative;z-index:2;
+      filter:drop-shadow(0 0 24px rgba(0,255,136,.7));
+      animation:lsFloat 2s ease-in-out infinite;
+    }
+    .ls-barrel{
+      position:absolute;
+      font-size:2.2rem;
+      z-index:1;
+      top:50%;left:50%;
+      transform-origin:0 0;
+      animation:lsBarrel 2s linear infinite;
+      filter:drop-shadow(0 0 8px rgba(0,255,136,.3));
+    }
+    @keyframes lsBarrel{
+      0%  {transform:rotate(0deg)   translate(52px,-50%) rotate(0deg);}
+      100%{transform:rotate(360deg) translate(52px,-50%) rotate(-360deg);}
+    }
+    @keyframes lsFloat{
+      0%,100%{transform:translateY(0);}
+      50%    {transform:translateY(-8px);}
+    }
+    .ls-title{
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(1.4rem,5vw,2.4rem);
+      font-weight:900;color:#fff;
+      letter-spacing:.12em;
+      text-shadow:0 0 30px rgba(0,255,136,.5);
+      margin-bottom:.4rem;
+    }
+    .ls-title span{color:#00ff88;}
+    .ls-sub{
+      font-family:'Rajdhani',sans-serif;
+      font-size:.95rem;color:#6a9a7a;
+      margin-bottom:2rem;letter-spacing:.06em;
+    }
+    .ls-bar-wrap{display:flex;align-items:center;gap:.8rem;justify-content:center;}
+    .ls-bar-track{
+      width:240px;height:4px;
+      background:rgba(0,255,136,.1);
+      border-radius:2px;overflow:hidden;
+    }
+    .ls-bar-fill{
+      height:100%;width:0%;
+      background:linear-gradient(90deg,#00ff88,#00ffcc);
+      border-radius:2px;
+      transition:width .12s ease;
+      box-shadow:0 0 10px #00ff88;
+    }
+    .ls-bar-pct{
+      font-family:'Orbitron',sans-serif;
+      font-size:.6rem;color:#00ff88;
+      letter-spacing:.1em;width:32px;
+      text-align:left;
+    }
+    .ls-tip{
+      margin-top:1.5rem;
+      font-size:.78rem;color:#3a6a4a;
+      font-style:italic;letter-spacing:.04em;
+      max-width:320px;margin-left:auto;margin-right:auto;
+    }
+    @media(max-width:768px){
+      header{padding:0 .8rem;height:56px;}
+      nav{gap:.25rem;}
+      nav a,nav button{font-size:.5rem;padding:.25rem .4rem;}
+      .hero{padding:5rem 1rem 3rem;}
+      .hero h1{font-size:clamp(1.8rem,10vw,3rem);}
+      section{padding:2.5rem 1rem;}
+      #nc-sidebar{display:none;}
+      #nc-main{margin-left:0;}
+      .nc-stats-bar{grid-template-columns:1fr 1fr;}
+      .nc-cat-grid{grid-template-columns:1fr 1fr;}
+      /* Hide custom cursor on touch/mobile */
+      #cursor-outer,#cursor-inner{display:none!important;}
+      *,*::before,*::after{cursor:auto!important;}
+      a,button,summary,[onclick],[style*="cursor:pointer"]{cursor:pointer!important;}
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ═══ LOADING SCREEN ═══ -->
+<div id="loading-screen">
+  <canvas id="ls-mc-bg"></canvas>
+  <div class="ls-content">
+    <div class="ls-logo-wrap">
+      <div class="ls-axolotl" id="ls-axolotl">🫧</div>
+      <div class="ls-barrel" id="ls-barrel">🛢️</div>
+    </div>
+    <div class="ls-title">AXOLOTL <span>PVP+</span></div>
+    <div class="ls-sub">Loading the battlefield…</div>
+    <div class="ls-bar-wrap">
+      <div class="ls-bar-track">
+        <div class="ls-bar-fill" id="ls-bar-fill"></div>
+      </div>
+      <div class="ls-bar-pct" id="ls-bar-pct">0%</div>
+    </div>
+    <div class="ls-tip" id="ls-tip">Tip: Use Zoomify for scoped view in PvP</div>
+  </div>
+</div>
+
+<div id="cursor-outer"></div>
+<div id="cursor-inner"></div>
+
+<!-- Main site Minecraft BG -->
+<canvas id="mc-bg"></canvas>
+<canvas id="bg-canvas"></canvas>
+
+<!-- ═══ WIKI OVERLAY ═══ -->
+<div id="wiki-overlay">
+  <canvas class="wiki-mc-bg" id="wiki-mc-bg"></canvas>
+  <div class="wiki-header">
+    <div class="wiki-logo">🫧 AXOLOTL PVP+<span style="color:var(--dim);font-size:.55rem;letter-spacing:.18em;margin-left:.5rem">WIKI</span></div>
+    <button class="wiki-close" onclick="closeWiki()">✕ CLOSE</button>
+  </div>
+  <div class="wiki-body">
+    <div class="wiki-section">
+      <h2>⚡ About Axolotl PVP+</h2>
+      <p>Axolotl PVP+ is a lightweight Minecraft modpack made for smooth and competitive PvP. It removes unnecessary features and focuses on high FPS, clean visuals, and combat responsiveness.</p>
+    </div>
+    <div class="wiki-section">
+      <h2>🚀 Key Features</h2>
+      <div class="wiki-features">
+        <div class="wiki-feat"><div class="wiki-feat-title">⚔️ PvP Optimized</div><div class="wiki-feat-desc">Everything tuned for fast combat.</div></div>
+        <div class="wiki-feat"><div class="wiki-feat-title">📈 High Performance</div><div class="wiki-feat-desc">Mods to boost FPS and reduce lag.</div></div>
+        <div class="wiki-feat"><div class="wiki-feat-title">🎯 Clean UI</div><div class="wiki-feat-desc">Better visibility, less clutter.</div></div>
+        <div class="wiki-feat"><div class="wiki-feat-title">🧩 Fabric Based</div><div class="wiki-feat-desc">Built on Fabric for best performance.</div></div>
+      </div>
+    </div>
+    <div class="wiki-section">
+      <h2>📦 Installation</h2>
+      <ol>
+        <li>Install Fabric Loader.</li>
+        <li>Download the modpack from Modrinth.</li>
+        <li>Launch via Modrinth App, Prism, or ATLauncher.</li>
+        <li>Start playing.</li>
+      </ol>
+    </div>
+    <div class="wiki-section">
+      <h2>❓ FAQ</h2>
+      <div class="wiki-faq">
+        <div class="wiki-q"><strong>Does it support survival?</strong><p>No. It is PvP focused.</p></div>
+        <div class="wiki-q"><strong>Which versions work?</strong><p>Check the Modrinth download page for the latest supported version.</p></div>
+        <div class="wiki-q"><strong>Low FPS?</strong><p>Allocate 2–4GB RAM, disable shaders, update GPU drivers.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NEXCRAFT HUB OVERLAY (DOM-embedded, no iframe) ═══ -->
+<div id="nexcraft-overlay">
+  <canvas id="nc-mc-bg"></canvas>
+
+  <div id="nc-topbar">
+    <a class="nc-logo" href="#">
+      <div class="nc-logo-mark">N</div>
+      <span class="nc-logo-name">Nex<span>Craft</span> Hub</span>
+    </a>
+    <div class="nc-search">
+      <span class="nc-search-icon">⌕</span>
+      <input type="text" placeholder="Search mods, packs, shaders…" oninput="ncHandleSearch(this.value)"/>
+    </div>
+    <a class="nc-discord-link" href="https://dcserver.link/nexterasmp" target="_blank">Discord</a>
+    <button class="nc-upload-btn" onclick="ncOpenUpload()">+ Upload</button>
+    <button class="nc-back" onclick="closeNexCraft()">← Back to PVP+</button>
+  </div>
+
+  <div id="nc-layout">
+    <nav id="nc-sidebar">
+      <div class="nc-sb-label">Browse</div>
+      <button class="nc-sb-item nc-active" onclick="ncShowPage('home')"><span class="nc-sb-icon">⬡</span>Home</button>
+      <button class="nc-sb-item" onclick="ncShowPage('mods')"><span class="nc-sb-icon">🔧</span>Mods<span class="nc-sb-count">0</span></button>
+      <button class="nc-sb-item" onclick="ncShowPage('resource')"><span class="nc-sb-icon">🎨</span>Resource Packs<span class="nc-sb-count">0</span></button>
+      <button class="nc-sb-item" onclick="ncShowPage('datapacks')"><span class="nc-sb-icon">📦</span>Data Packs<span class="nc-sb-count">0</span></button>
+      <button class="nc-sb-item" onclick="ncShowPage('shaders')"><span class="nc-sb-icon">✨</span>Shaders<span class="nc-sb-count">0</span></button>
+      <button class="nc-sb-item" onclick="ncShowPage('modpacks')"><span class="nc-sb-icon">🧩</span>Modpacks<span class="nc-sb-count">0</span></button>
+      <button class="nc-sb-item" onclick="ncShowPage('plugins')"><span class="nc-sb-icon">🔌</span>Plugins<span class="nc-sb-count">0</span></button>
+      <div class="nc-sb-label" style="margin-top:1rem;">Community</div>
+      <a class="nc-sb-item" href="https://dcserver.link/nexterasmp" target="_blank"><span class="nc-sb-icon">💬</span>Discord</a>
+      <a class="nc-sb-item" href="https://github.com/OpRGamerZ15" target="_blank"><span class="nc-sb-icon">🐙</span>GitHub</a>
+      <button class="nc-sb-item" onclick="ncOpenUpload()"><span class="nc-sb-icon">⬆</span>Upload Content</button>
+    </nav>
+
+    <main id="nc-main">
+      <!-- Home page -->
+      <div id="nc-page-home">
+        <div class="nc-home-hero">
+          <div class="nc-hero-tag">FREE · OPEN · COMMUNITY</div>
+          <div class="nc-hero-title">The <span>NexCraft Hub</span> for Minecraft Content</div>
+          <div class="nc-hero-sub">Browse and share mods, resource packs, data packs, shaders, modpacks and plugins. 100% free, no launcher required.</div>
+          <div class="nc-hero-btns">
+            <button class="nc-hbtn-primary" onclick="ncShowPage('mods')">Browse Content →</button>
+            <button class="nc-hbtn-primary" style="background:linear-gradient(135deg,#7b5cff,#ff5c8a)" onclick="ncOpenUpload()">+ Upload</button>
+            <a class="nc-hbtn-secondary" href="https://dcserver.link/nexterasmp" target="_blank">Join Discord</a>
+          </div>
+        </div>
+        <div class="nc-stats-bar">
+          <div class="nc-stat-card"><div class="nc-stat-num">0</div><div class="nc-stat-lbl">Total Projects</div></div>
+          <div class="nc-stat-card"><div class="nc-stat-num">0</div><div class="nc-stat-lbl">Downloads</div></div>
+          <div class="nc-stat-card"><div class="nc-stat-num">0</div><div class="nc-stat-lbl">Authors</div></div>
+          <div class="nc-stat-card"><div class="nc-stat-num">6</div><div class="nc-stat-lbl">Categories</div></div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--nc-dim);margin-bottom:1rem;">BROWSE CATEGORIES</div>
+        <div class="nc-cat-grid">
+          <div class="nc-cat-card" onclick="ncShowPage('mods')"><div class="nc-cat-icon">🔧</div><div class="nc-cat-name">Mods</div><div class="nc-cat-sub">0 projects</div></div>
+          <div class="nc-cat-card" onclick="ncShowPage('resource')"><div class="nc-cat-icon">🎨</div><div class="nc-cat-name">Resource Packs</div><div class="nc-cat-sub">0 projects</div></div>
+          <div class="nc-cat-card" onclick="ncShowPage('datapacks')"><div class="nc-cat-icon">📦</div><div class="nc-cat-name">Data Packs</div><div class="nc-cat-sub">0 projects</div></div>
+          <div class="nc-cat-card" onclick="ncShowPage('shaders')"><div class="nc-cat-icon">✨</div><div class="nc-cat-name">Shaders</div><div class="nc-cat-sub">0 projects</div></div>
+          <div class="nc-cat-card" onclick="ncShowPage('modpacks')"><div class="nc-cat-icon">🧩</div><div class="nc-cat-name">Modpacks</div><div class="nc-cat-sub">0 projects</div></div>
+          <div class="nc-cat-card" onclick="ncShowPage('plugins')"><div class="nc-cat-icon">🔌</div><div class="nc-cat-name">Plugins</div><div class="nc-cat-sub">0 projects</div></div>
+        </div>
+      </div>
+
+      <!-- Category page -->
+      <div id="nc-page-category" style="display:none">
+        <div class="nc-page-title" id="nc-cat-title"></div>
+        <div class="nc-page-subtitle" id="nc-cat-sub"></div>
+        <div class="nc-filter-bar">
+          <button class="nc-filter-tag nc-active">All</button>
+          <button class="nc-filter-tag">Newest</button>
+          <button class="nc-filter-tag">Popular</button>
+        </div>
+        <div class="nc-empty">
+          <div class="nc-empty-icon" id="nc-cat-empty-icon">🔧</div>
+          <div class="nc-empty-title">No content yet</div>
+          <div class="nc-empty-sub">Be the first to upload content in this category. It's free and takes less than a minute.</div>
+          <button class="nc-empty-btn" onclick="ncOpenUpload()">+ Upload Now</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DISCORD AUTHENTICATION MODAL
+       DEV SETUP REQUIRED — see lines marked [DEV CONFIG]:
+         Line ~1420: DISCORD_CLIENT_ID   — your app's client ID
+         Line ~1421: DISCORD_REDIRECT_URI — must match OAuth2 redirect in Discord dev portal
+         Line ~1422: DISCORD_SCOPES      — scopes requested (identify is minimum)
+       Register your app at: https://discord.com/developers/applications
+  ═══════════════════════════════════════════════════════ -->
+  <div id="nc-discord-auth">
+    <!-- Login view (shown when not authenticated) -->
+    <div class="nc-da-box" id="nc-da-login-view">
+      <div class="nc-da-logo">
+        <svg viewBox="0 0 24 24" style="width:36px;height:36px;fill:#fff"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.053a19.9 19.9 0 0 0 5.993 3.029.078.078 0 0 0 .084-.026c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.029.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      </div>
+      <div class="nc-da-title">Sign in with Discord</div>
+      <div class="nc-da-sub">NexCraft Hub uses Discord to verify your identity before you can upload content. We will never post on your behalf.</div>
+      <div class="nc-da-perms">
+        <div class="nc-da-perms-title">Permissions requested</div>
+        <div class="nc-da-perm"><span class="nc-da-perm-icon">👤</span>Access your username and avatar</div>
+        <div class="nc-da-perm"><span class="nc-da-perm-icon">📧</span>Access your email address</div>
+        <div class="nc-da-perm"><span class="nc-da-perm-icon">🚫</span>Cannot post, send messages, or join servers</div>
+      </div>
+      <button class="nc-da-btn" onclick="ncDiscordLogin()">
+        <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.053a19.9 19.9 0 0 0 5.993 3.029.078.078 0 0 0 .084-.026c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.029.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+        Continue with Discord
+      </button>
+      <button class="nc-da-cancel" onclick="ncCloseDiscordAuth()">Cancel</button>
+    </div>
+  </div>
+  <!-- ═══ NC STEP 1: CREATE PROJECT MODAL ═══ -->
+  <div id="nc-create-modal">
+    <div class="nc-cm-box">
+      <div class="nc-cm-top"></div>
+      <div class="nc-cm-body">
+        <div class="nc-cm-head">
+          <div class="nc-cm-title">Create a new project</div>
+          <div class="nc-cm-sub">Choose a project type and fill in the details below to get started.</div>
+        </div>
+
+        <div class="nc-cm-field">
+          <label class="nc-cm-label">Project Type</label>
+          <div class="nc-type-grid">
+            <div class="nc-type-card selected" onclick="ncSelectType(this,'mod')" data-type="mod">
+              <div class="nc-type-icon">🔧</div>
+              <div class="nc-type-name">Mod</div>
+              <div class="nc-type-desc">Requires a mod loader</div>
+            </div>
+            <div class="nc-type-card" onclick="ncSelectType(this,'resource')" data-type="resource">
+              <div class="nc-type-icon">🎨</div>
+              <div class="nc-type-name">Resource Pack</div>
+              <div class="nc-type-desc">Textures &amp; sounds</div>
+            </div>
+            <div class="nc-type-card" onclick="ncSelectType(this,'datapack')" data-type="datapack">
+              <div class="nc-type-icon">📦</div>
+              <div class="nc-type-name">Data Pack</div>
+              <div class="nc-type-desc">Vanilla-compatible</div>
+            </div>
+            <div class="nc-type-card" onclick="ncSelectType(this,'shader')" data-type="shader">
+              <div class="nc-type-icon">✨</div>
+              <div class="nc-type-name">Shader</div>
+              <div class="nc-type-desc">Visual effects</div>
+            </div>
+            <div class="nc-type-card" onclick="ncSelectType(this,'modpack')" data-type="modpack">
+              <div class="nc-type-icon">🧩</div>
+              <div class="nc-type-name">Modpack</div>
+              <div class="nc-type-desc">Curated mod bundle</div>
+            </div>
+            <div class="nc-type-card" onclick="ncSelectType(this,'plugin')" data-type="plugin">
+              <div class="nc-type-icon">🔌</div>
+              <div class="nc-type-name">Plugin</div>
+              <div class="nc-type-desc">Server-side</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nc-cm-field">
+          <label class="nc-cm-label">Project Name <span style="color:#ff5c8a">*</span></label>
+          <input class="nc-cm-input" id="nc-cm-name" type="text" placeholder="My Awesome Project" oninput="ncUpdateSlug(this.value);ncValidateCreate()"/>
+        </div>
+
+        <div class="nc-cm-field">
+          <label class="nc-cm-label">URL slug</label>
+          <div class="nc-pp-url-row" style="background:#0c0f14;border:1px solid rgba(15,255,224,.12);border-radius:8px;">
+            <span class="nc-pp-url-pre" style="font-family:'Space Mono',monospace;font-size:.75rem;">nexcraft.hub/project/</span>
+            <input class="nc-pp-url-input" id="nc-cm-slug" type="text" placeholder="my-awesome-project" readonly/>
+          </div>
+        </div>
+
+        <div class="nc-cm-field">
+          <label class="nc-cm-label">Summary <span style="color:#ff5c8a">*</span></label>
+          <textarea class="nc-cm-textarea" id="nc-cm-summary" placeholder="This project adds…" maxlength="256" oninput="ncUpdateCharCount(this);ncValidateCreate()"></textarea>
+          <div class="nc-cm-char" id="nc-cm-char">0 / 256 <span style="color:#ffa500;margin-left:.5rem" id="nc-cm-char-warn"></span></div>
+        </div>
+      </div>
+      <div class="nc-cm-footer">
+        <button class="nc-cm-cancel" onclick="ncCloseCreate()">✕ Cancel</button>
+        <button class="nc-cm-create" id="nc-cm-submit" disabled onclick="ncSubmitCreate()">+ Create project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ NC STEP 2: PROJECT SETTINGS PAGE ═══ -->
+  <div id="nc-project-page">
+    <div class="nc-pp-topbar">
+      <button class="nc-pp-back" onclick="ncCloseProject()">← Back to Hub</button>
+      <div class="nc-pp-title">Editing: <span id="nc-pp-project-name">My Project</span></div>
+      <div class="nc-pp-status" id="nc-pp-status-badge">🔒 Private</div>
+    </div>
+
+    <div class="nc-pp-layout">
+      <!-- Settings Sidebar -->
+      <nav class="nc-pp-sidebar">
+        <div class="nc-pp-sb-section">Settings</div>
+        <button class="nc-pp-sb-item nc-pp-active" onclick="ncShowTab('general')"><span class="nc-pp-sb-icon">ℹ️</span>General</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('tags')"><span class="nc-pp-sb-icon">🏷️</span>Tags</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('description')"><span class="nc-pp-sb-icon">📝</span>Description</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('versions')"><span class="nc-pp-sb-icon">🔀</span>Versions</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('license')"><span class="nc-pp-sb-icon">⚖️</span>License</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('gallery')"><span class="nc-pp-sb-icon">🖼️</span>Gallery</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('links')"><span class="nc-pp-sb-icon">🔗</span>Links</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('members')"><span class="nc-pp-sb-icon">👥</span>Members</button>
+        <button class="nc-pp-sb-item" onclick="ncShowTab('analytics')"><span class="nc-pp-sb-icon">📊</span>Analytics</button>
+      </nav>
+
+      <!-- Tab Content -->
+      <div class="nc-pp-main">
+
+        <!-- Publishing Checklist (shown on all tabs) -->
+        <div class="nc-checklist" id="nc-checklist">
+          <div class="nc-checklist-head">
+            <div class="nc-checklist-title">Publishing checklist</div>
+            <div class="nc-checklist-legend">
+              <span class="nc-cl-req">✱ Required</span>
+              <span class="nc-cl-warn">⚠ Warning</span>
+              <span class="nc-cl-sug">💡 Suggestion</span>
+            </div>
+          </div>
+          <div class="nc-checklist-grid">
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#ff5c8a">✱</span>Upload a version</div>
+              <div class="nc-cl-item-body">At least one version is required for a project to be submitted for review.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('versions');return false;">Visit versions page →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#ff5c8a">✱</span>Add a description</div>
+              <div class="nc-cl-item-body">A description that clearly describes the project's purpose and function is required.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('description');return false;">Visit description settings →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#ff5c8a">✱</span>Select a license</div>
+              <div class="nc-cl-item-body">Select the license your project is distributed under.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('license');return false;">Visit license settings →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#ffa500">⚠</span>Expand the summary</div>
+              <div class="nc-cl-item-body" id="nc-cl-summary-body">At least 4 characters recommended.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('general');return false;">Visit general settings →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#7b5cff">💡</span>Add an icon</div>
+              <div class="nc-cl-item-body">A unique, relevant icon makes your project identifiable.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('general');return false;">Visit general settings →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#7b5cff">💡</span>Feature a gallery image</div>
+              <div class="nc-cl-item-body">The featured gallery image is often how your project makes its first impression.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('gallery');return false;">Visit gallery page →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#7b5cff">💡</span>Add external links</div>
+              <div class="nc-cl-item-body">Add any relevant links such as source code, issue tracker, or a Discord invite.</div>
+              <a class="nc-cl-link" href="#" onclick="ncShowTab('links');return false;">Visit links settings →</a>
+            </div>
+            <div class="nc-cl-item">
+              <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#ffa500">⚠</span>Submit for review</div>
+              <div class="nc-cl-item-body">Your project must be reviewed by moderators before being published.</div>
+              <button class="nc-submit-review-btn">✈ Submit for review</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- GENERAL TAB -->
+        <div class="nc-pp-tab active" id="nc-tab-general">
+          <div class="nc-pp-h">Project information</div>
+
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Name</label>
+            <input class="nc-pp-input" id="nc-pp-name-input" type="text" placeholder="Project name"/>
+            <div class="nc-pp-hint">The name of your project as it will appear on NexCraft Hub.</div>
+          </div>
+
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">URL</label>
+            <div class="nc-pp-url-row">
+              <span class="nc-pp-url-pre">nexcraft.hub/project/</span>
+              <input class="nc-pp-url-input" id="nc-pp-slug-input" type="text" placeholder="my-project"/>
+            </div>
+            <div class="nc-pp-hint">The unique identifier used in the project's URL.</div>
+          </div>
+
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Summary</label>
+            <textarea class="nc-pp-textarea" id="nc-pp-summary-input" maxlength="256" placeholder="A short description of your project…" oninput="ncUpdateSummaryCount(this)" rows="3"></textarea>
+            <div class="nc-pp-hint"><span id="nc-pp-summary-count">0</span>/256 characters. At least 4 recommended.</div>
+          </div>
+
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Icon (optional)</label>
+            <div class="nc-pp-icon-row">
+              <div class="nc-pp-icon-preview" id="nc-pp-icon-preview">📦</div>
+              <div>
+                <button class="nc-pp-icon-btn">⬆ Upload icon</button>
+                <div class="nc-pp-hint" style="margin-top:.4rem">PNG, JPEG, or WebP. Max 500KB.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Visibility</label>
+            <div class="nc-vis-box">
+              <div class="nc-vis-opt" onclick="ncSetVisibility('private',this)">
+                <div class="nc-vis-radio checked" id="nc-vis-private"></div>
+                <div><div class="nc-vis-label">🔒 Private</div><div class="nc-vis-desc">Only visible to project members</div></div>
+              </div>
+              <div class="nc-vis-opt" onclick="ncSetVisibility('unlisted',this)">
+                <div class="nc-vis-radio" id="nc-vis-unlisted"></div>
+                <div><div class="nc-vis-label">🔗 Unlisted</div><div class="nc-vis-desc">Visible via direct URL only</div></div>
+              </div>
+              <div class="nc-vis-opt" onclick="ncSetVisibility('public',this)">
+                <div class="nc-vis-radio" id="nc-vis-public"></div>
+                <div><div class="nc-vis-label">🌐 Public</div><div class="nc-vis-desc">Visible in search and on profile (requires review)</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="nc-danger-box">
+            <div class="nc-danger-title">Delete project</div>
+            <div class="nc-danger-desc">Permanently removes your project and all its versions from NexCraft Hub. This action cannot be undone. Be careful!</div>
+            <button class="nc-delete-btn">🗑 Delete project</button>
+          </div>
+        </div>
+
+        <!-- TAGS TAB -->
+        <div class="nc-pp-tab" id="nc-tab-tags">
+          <div class="nc-pp-h">Tags</div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Categories</label>
+            <div class="nc-pp-hint" style="margin-bottom:.8rem">Select the categories that best describe your project.</div>
+            <div class="nc-tags-grid">
+              <button class="nc-tag selected" onclick="this.classList.toggle('selected')">PvP</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Optimization</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Adventure</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Decoration</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Utility</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Magic</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Technology</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Storage</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Library</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Multiplayer</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Lightweight</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Fabric</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Forge</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">NeoForge</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">Quilt</button>
+            </div>
+          </div>
+          <div class="nc-pp-field" style="margin-top:1.5rem">
+            <label class="nc-pp-label">Minecraft versions</label>
+            <div class="nc-tags-grid">
+              <button class="nc-tag selected">1.21.x</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">1.20.x</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">1.19.x</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">1.18.x</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">1.17.x</button>
+              <button class="nc-tag" onclick="this.classList.toggle('selected')">1.16.x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DESCRIPTION TAB -->
+        <div class="nc-pp-tab" id="nc-tab-description">
+          <div class="nc-pp-h">Description</div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Project description <span style="color:#ff5c8a">*</span></label>
+            <div class="nc-pp-hint" style="margin-bottom:.8rem">A detailed description of your project. Markdown is supported.</div>
+            <textarea class="nc-pp-textarea" style="min-height:320px;font-family:'Space Mono',monospace;font-size:.8rem;" placeholder="# My Project&#10;&#10;A detailed description of what your project does...&#10;&#10;## Features&#10;- Feature 1&#10;- Feature 2&#10;&#10;## Installation&#10;..."></textarea>
+          </div>
+        </div>
+
+        <!-- VERSIONS TAB -->
+        <div class="nc-pp-tab" id="nc-tab-versions">
+          <div class="nc-pp-h">Versions</div>
+          <div class="nc-version-empty">
+            <div class="nc-version-empty-icon">📦</div>
+            <div class="nc-version-empty-title">No versions uploaded yet</div>
+            <div class="nc-version-empty-sub">At least one version is required to submit your project for review. Upload your first version to get started.</div>
+            <button class="nc-add-version-btn">+ Upload a version</button>
+          </div>
+        </div>
+
+        <!-- LICENSE TAB -->
+        <div class="nc-pp-tab" id="nc-tab-license">
+          <div class="nc-pp-h">License</div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">License <span style="color:#ff5c8a">*</span></label>
+            <div class="nc-pp-hint" style="margin-bottom:.8rem">Choose the license your project is distributed under. This is required before publishing.</div>
+            <div class="nc-license-grid">
+              <div class="nc-license-card selected" onclick="ncSelectLicense(this)">
+                <div class="nc-license-name">MIT</div>
+                <div class="nc-license-desc">Simple permissive license. Commercial use, modifications, distribution allowed.</div>
+              </div>
+              <div class="nc-license-card" onclick="ncSelectLicense(this)">
+                <div class="nc-license-name">Apache 2.0</div>
+                <div class="nc-license-desc">Permissive with patent protection. Attribution required.</div>
+              </div>
+              <div class="nc-license-card" onclick="ncSelectLicense(this)">
+                <div class="nc-license-name">GPL v3</div>
+                <div class="nc-license-desc">Copyleft. Derivative works must use same license.</div>
+              </div>
+              <div class="nc-license-card" onclick="ncSelectLicense(this)">
+                <div class="nc-license-name">LGPL v3</div>
+                <div class="nc-license-desc">Like GPL but allows linking from non-GPL software.</div>
+              </div>
+              <div class="nc-license-card" onclick="ncSelectLicense(this)">
+                <div class="nc-license-name">ARR</div>
+                <div class="nc-license-desc">All Rights Reserved. No permissions granted by default.</div>
+              </div>
+              <div class="nc-license-card" onclick="ncSelectLicense(this)">
+                <div class="nc-license-name">CC0</div>
+                <div class="nc-license-desc">Public domain. No rights reserved.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GALLERY TAB -->
+        <div class="nc-pp-tab" id="nc-tab-gallery">
+          <div class="nc-pp-h">Gallery</div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Featured image</label>
+            <div class="nc-pp-hint" style="margin-bottom:.8rem">The featured image is how your project makes its first impression in search results.</div>
+            <div class="nc-gallery-drop">
+              <div class="nc-gallery-drop-icon">🖼️</div>
+              <div class="nc-gallery-drop-text">Drag and drop an image here, or click to browse.<br><span style="font-size:.75rem;opacity:.6">PNG, JPEG, WebP or GIF. Max 4MB.</span></div>
+              <button class="nc-gallery-drop-btn">Browse files</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- LINKS TAB -->
+        <div class="nc-pp-tab" id="nc-tab-links">
+          <div class="nc-pp-h">External links</div>
+          <div class="nc-pp-hint" style="margin-bottom:1.5rem">Add links to your project's source code, issue tracker, Discord server, or other relevant pages.</div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Source code</label>
+            <div class="nc-link-row"><span class="nc-link-icon">🐙</span><input class="nc-pp-input" type="url" placeholder="https://github.com/your/repo"/></div>
+          </div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Issue tracker</label>
+            <div class="nc-link-row"><span class="nc-link-icon">🐛</span><input class="nc-pp-input" type="url" placeholder="https://github.com/your/repo/issues"/></div>
+          </div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Discord server</label>
+            <div class="nc-link-row"><span class="nc-link-icon">💬</span><input class="nc-pp-input" type="url" placeholder="https://discord.gg/..."/></div>
+          </div>
+          <div class="nc-pp-field">
+            <label class="nc-pp-label">Wiki / Docs</label>
+            <div class="nc-link-row"><span class="nc-link-icon">📖</span><input class="nc-pp-input" type="url" placeholder="https://docs.yourproject.com"/></div>
+          </div>
+        </div>
+
+        <!-- MEMBERS TAB -->
+        <div class="nc-pp-tab" id="nc-tab-members">
+          <div class="nc-pp-h">Members</div>
+          <div class="nc-member-row">
+            <div class="nc-member-avatar">O</div>
+            <div>
+              <div class="nc-member-name">OpRGamerZ15</div>
+              <div class="nc-member-role">Owner</div>
+            </div>
+            <div style="margin-left:auto;font-size:.75rem;color:#4a6a7a">You</div>
+          </div>
+          <div class="nc-pp-field" style="margin-top:1.5rem">
+            <label class="nc-pp-label">Invite a member</label>
+            <div style="display:flex;gap:.7rem">
+              <input class="nc-pp-input" type="text" placeholder="Username…" style="flex:1"/>
+              <button class="nc-add-version-btn" style="white-space:nowrap">+ Invite</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANALYTICS TAB -->
+        <div class="nc-pp-tab" id="nc-tab-analytics">
+          <div class="nc-pp-h">Analytics</div>
+          <div class="nc-analytics-empty">
+            <div style="font-size:3rem;margin-bottom:1rem;opacity:.3">📊</div>
+            <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem">No data yet</div>
+            <div>Analytics will appear here once your project is published and has downloads.</div>
+          </div>
+        </div>
+
+        <!-- Save bar -->
+        <div class="nc-save-bar">
+          <button class="nc-discard-btn">Discard changes</button>
+          <button class="nc-save-btn">💾 Save changes</button>
+        </div>
+
+      </div><!-- end nc-pp-main -->
+    </div><!-- end nc-pp-layout -->
+  </div><!-- end nc-project-page -->
+</div>
+
+<!-- ═══ VERSION PICKER MODAL ═══ -->
+<div id="vp-modal">
+  <div class="vpm-box">
+    <div class="vpm-top"></div>
+    <div class="vpm-head">
+      <div class="vpm-title">⬇️ SELECT VERSION</div>
+      <div class="vpm-sub">Choose the Minecraft version to download</div>
+      <div class="vpm-badge">🧵 FABRIC · axolotl-pvp+</div>
+    </div>
+    <div class="vpm-list" id="vpm-list">
+      <div class="vpm-loading"><span class="vpm-spinner"></span>Loading versions…</div>
+    </div>
+    <div class="vpm-close-row">
+      <button class="vpm-close-btn" onclick="closeVersionPicker()">✕ Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div id="main-content">
+  <header>
+    <a class="logo-img-wrap" href="#" onclick="location.reload();return false;">
+      <span class="logo-emoji">🫧</span>
+    </a>
+    <nav>
+      <a href="https://github.com/OpRGamerZ15/" target="_blank">GITHUB</a>
+      <a href="https://dcserver.link/nexterasmp" target="_blank" class="nav-discord">DISCORD</a>
+      <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">MODRINTH</a>
+      <button class="btn-wiki" onclick="openWiki()">📖 Wiki</button>
+      <button class="btn-nexcraft" onclick="openNexCraft()">⬡ NexCraft Hub</button>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-badge">MINECRAFT MODPACK</div>
+    <h1>AXOLOTL <span>PVP+</span></h1>
+    <p>High-performance PVP-focused Minecraft modpack. Optimized FPS, competitive gameplay, and a thriving community.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">
+        <svg class="btn-icon" viewBox="0 0 512 514"><path d="M503.16 323.56a149.2 149.2 0 0 1-28.74 36.17l.28-64.27c.03-6.04 3.26-11.62 8.51-14.64l6.44-3.7c13.37-7.71 17.96-24.87 10.2-38.28l-35.52-61.5a27.91 27.91 0 0 0-24.04-13.91 27.93 27.93 0 0 0-14.02 3.76l-6.44 3.7c-5.22 3.01-11.64 3.02-16.88.04l-55.99-32.17c-5.25-3.01-8.5-8.57-8.53-14.62l-.28-64.28a27.92 27.92 0 0 0-27.99-27.84l-71.07.31a27.91 27.91 0 0 0-27.84 27.99l.28 64.27c.03 6.04-3.2 11.61-8.44 14.63L198.12 151c-5.25 3.01-11.66 2.99-16.88-.04l-55.99-32.17a27.91 27.91 0 0 0-38.09 10.15l-35.52 61.5c-7.76 13.41-3.17 30.57 10.2 38.28l6.44 3.7c5.25 3.01 8.48 8.6 8.51 14.64l.28 64.27c.03 6.04-3.2 11.61-8.44 14.62l-6.44 3.7c-13.37 7.71-17.96 24.87-10.2 38.28l35.52 61.5a27.91 27.91 0 0 0 38.09 10.15l6.44-3.7c5.22-3.01 11.64-3.02 16.88-.04l55.99 32.17c5.25 3.01 8.5 8.57 8.53 14.62l.28 64.27a27.91 27.91 0 0 0 27.99 27.85l71.07-.31a27.91 27.91 0 0 0 27.84-27.99l-.28-64.27c-.03-6.05 3.2-11.61 8.44-14.62l55.99-32.17c5.25-3.01 11.66-2.99 16.88.04l6.44 3.7a27.91 27.91 0 0 0 38.09-10.15l35.52-61.5a27.91 27.91 0 0 0-10.2-38.28l-6.44-3.7c-5.25-3.01-8.48-8.6-8.51-14.64zm-251.04 74.42a141.78 141.78 0 1 1 .65-283.55 141.78 141.78 0 0 1-.65 283.55z"/></svg>
+        DOWNLOAD FROM MODRINTH
+      </a>
+      <a class="btn-secondary" href="https://dcserver.link/nexterasmp" target="_blank">
+        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.053a19.9 19.9 0 0 0 5.993 3.029.078.078 0 0 0 .084-.026c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.029.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        JOIN DISCORD
+      </a>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <section id="downloads">
+    <div class="section-label">// GET STARTED</div>
+    <h2>CHOOSE YOUR <span>LAUNCHER</span></h2>
+    <div class="dl-grid">
+      <div class="dl-card" onclick="openVersionPicker()" style="cursor:pointer">
+        <div class="dl-icon">⬇️</div><h3>DOWNLOAD VIA WEB</h3>
+        <p>Choose your version and download directly.</p>
+      </div>
+      <a class="dl-card" href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank">
+        <div class="dl-icon">🎬</div><h3>SKLAUNCHER TUTORIAL</h3>
+        <p>Step-by-step guide to install with SKLauncher.</p>
+      </a>
+      <div class="bug-card-wrap">
+        <div class="dl-card" id="bug-report-btn" style="cursor:pointer">
+          <div class="dl-icon">🐛</div><h3>REPORT A BUG</h3>
+          <p>Found an issue? Report via Discord or GitHub.</p>
+        </div>
+        <div class="bug-dropdown" id="bug-dropdown">
+          <div class="bug-dropdown-top"></div>
+          <a class="bug-opt" href="https://discord.gg/RDn9uKSmez" target="_blank">
+            <span class="bug-opt-icon">💬</span>
+            <span><span class="bug-opt-label">Report in Discord</span><span class="bug-opt-sub">Post in #bug-reports</span></span>
+          </a>
+          <a class="bug-opt" href="https://github.com/OpRGamerZ15/" target="_blank">
+            <span class="bug-opt-icon">🐙</span>
+            <span><span class="bug-opt-label">Report in GitHub</span><span class="bug-opt-sub">Open a detailed issue</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="divider"></div>
+
+  <section id="stats">
+    <div class="section-label">// PERFORMANCE</div>
+    <h2>BUILT FOR <span>SPEED</span></h2>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-num">2×</div><div class="stat-label">FPS BOOST</div></div>
+      <div class="stat"><div class="stat-num">60+</div><div class="stat-label">MODS INCLUDED</div></div>
+      <div class="stat"><div class="stat-num">LOW</div><div class="stat-label">LATENCY</div></div>
+      <div class="stat"><div class="stat-num">PVP</div><div class="stat-label">OPTIMIZED</div></div>
+    </div>
+  </section>
+  <div class="divider"></div>
+
+  <section id="mods">
+    <div class="section-label">// INCLUDED MODS</div>
+    <h2>THE <span>ARSENAL</span></h2>
+    <div class="mod-grid">
+      <div class="mod-item">Sodium</div><div class="mod-item">Iris Shaders</div>
+      <div class="mod-item">Lithium</div><div class="mod-item">FerriteCore</div>
+      <div class="mod-item">EntityCulling</div><div class="mod-item">Badoptimizations</div>
+      <div class="mod-item">ModernFix</div><div class="mod-item">Fabric API</div>
+      <div class="mod-item">Cloth Config</div><div class="mod-item">MidnightLib</div>
+      <div class="mod-item">YetAnotherConfigLib</div><div class="mod-item">Reese's Sodium Options</div>
+      <div class="mod-item">Sodium Extra</div><div class="mod-item">ImmediatelyFast</div>
+      <div class="mod-item">Nvidium</div><div class="mod-item">Very Many Players</div>
+      <div class="mod-item">Dynamic FPS</div><div class="mod-item">Krypton</div>
+      <div class="mod-item">Capes</div><div class="mod-item">Zoomify</div>
+      <div class="mod-item">Replay Mod</div><div class="mod-item">BetterF3</div>
+      <div class="mod-item">MinimapMod</div><div class="mod-item">AppleSkin</div>
+    </div>
+  </section>
+  <div class="divider"></div>
+
+  <section id="faq">
+    <div class="section-label">// HELP</div>
+    <h2>FAQ</h2>
+    <div class="faq-list">
+      <details><summary>How do I install Axolotl PVP+?</summary><div class="faq-answer">Install via Modrinth App, Prism Launcher, or ATLauncher by searching "Axolotl PVP+". For SKLauncher, follow our <a href="https://www.youtube.com/watch?v=L-5HKmZy4B4" target="_blank" style="color:var(--green)">video tutorial</a>.</div></details>
+      <details><summary>What Minecraft version does it support?</summary><div class="faq-answer">Check the Modrinth page for the latest supported version. We keep the pack updated with new MC releases.</div></details>
+      <details><summary>Can I use this on servers?</summary><div class="faq-answer">Yes! All mods are client-side and allowed on most competitive PVP servers.</div></details>
+      <details><summary>My FPS is still low — what do I do?</summary><div class="faq-answer">Allocate at least 4GB of RAM, disable shaders in-game, and keep your GPU drivers up to date.</div></details>
+      <details><summary>I found a bug. How do I report it?</summary><div class="faq-answer">Open an issue on our <a href="https://github.com/OpRGamerZ15/" target="_blank" style="color:var(--green)">GitHub</a> page or post in Discord.</div></details>
+    </div>
+  </section>
+  <div class="divider"></div>
+
+  <section id="credits">
+    <div class="section-label">// THE TEAM</div>
+    <h2>CRED<span>ITS</span></h2>
+    <div class="credits-grid">
+      <div class="credit-card"><div class="credit-name">OpRGamerz15</div><div class="credit-role">Lead Developer</div></div>
+      <div class="credit-card"><div class="credit-name">Community</div><div class="credit-role">Feedback & Testing</div></div>
+      <div class="credit-card"><div class="credit-name">Mod Authors</div><div class="credit-role">Amazing mods ❤️</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Axolotl PVP+ · Not affiliated with Mojang or Microsoft ·
+      <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">Modrinth</a> ·
+      <a href="https://github.com/OpRGamerZ15/" target="_blank">GitHub</a> ·
+      <a href="https://dcserver.link/nexterasmp" target="_blank">Discord</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   MINECRAFT PIXEL-ART BACKGROUND ENGINE
+   Draws procedural MC-style terrain with
+   blocks, sky, clouds, sun/moon
+════════════════════════════════════════ */
+function createMCBackground(canvas, palette) {
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  // Block types: [r,g,b]
+  const BLOCKS = {
+    sky:    palette.sky    || [106,186,255],
+    sky2:   palette.sky2   || [40,100,180],
+    cloud:  palette.cloud  || [220,230,255],
+    grass:  palette.grass  || [89,168,71],
+    grassD: palette.grassD || [60,120,45],
+    dirt:   palette.dirt   || [134,96,67],
+    stone:  palette.stone  || [128,128,128],
+    stoneD: palette.stoneD || [90,90,90],
+    bedrock:palette.bedrock|| [50,50,55],
+    leaf:   palette.leaf   || [60,140,50],
+    wood:   palette.wood   || [102,74,44],
+    water:  palette.water  || [30,100,180],
+  };
+
+  const BS = 18; // block size px
+  let cols, rows, grid;
+  let scrollY = 0;
+  let cloudX = 0;
+
+  function rand(seed, x, y) {
+    let h = seed ^ (x * 374761393) ^ (y * 668265263);
+    h = ((h ^ (h >> 13)) * 1274126177) & 0xffffffff;
+    return (h ^ (h >> 16)) / 0xffffffff;
+  }
+
+  function genTerrain() {
+    cols = Math.ceil(W / BS) + 2;
+    rows = Math.ceil(H / BS) + 4;
+    grid = [];
+    const SEED = 42;
+    // Generate height map
+    const heights = [];
+    for (let x = 0; x < cols; x++) {
+      // Simple noise: sum of sines for terrain feel
+      const h1 = Math.sin(x * 0.18 + SEED) * 3;
+      const h2 = Math.sin(x * 0.07 + SEED * 2) * 5;
+      const h3 = Math.sin(x * 0.41 + SEED * 3) * 1.5;
+      heights[x] = Math.round(rows * 0.52 + h1 + h2 + h3);
+    }
+    // Build grid
+    for (let y = 0; y < rows; y++) {
+      grid[y] = [];
+      for (let x = 0; x < cols; x++) {
+        const surfY = heights[x];
+        if (y < surfY - 1) {
+          grid[y][x] = 'sky';
+        } else if (y === surfY - 1) {
+          // Occasional trees
+          const r = rand(SEED, x, 999);
+          grid[y][x] = (r < 0.07) ? 'wood' : 'sky';
+        } else if (y === surfY) {
+          grid[y][x] = 'grass';
+        } else if (y < surfY + 3) {
+          grid[y][x] = 'dirt';
+        } else if (y < surfY + 8) {
+          grid[y][x] = rand(SEED, x, y) < 0.15 ? 'stoneD' : 'stone';
+        } else {
+          grid[y][x] = rand(SEED, x, y) < 0.1 ? 'bedrock' : 'stone';
+        }
+        // Tree leaves
+        for (let tx = 0; tx < cols; tx++) {
+          if (rand(SEED, tx, 999) < 0.07) {
+            const ty = heights[tx] - 1;
+            for (let dy = -2; dy <= 0; dy++) {
+              for (let dx = -2; dx <= 2; dx++) {
+                if (x === tx + dx && y === ty + dy) {
+                  if (Math.abs(dx) + Math.abs(dy) <= 2) {
+                    grid[y][x] = 'leaf';
+                  }
+                }
+              }
+            }
+          }
+        }
+        // Water in valleys
+        if (grid[y][x] === 'sky' && y >= heights[x] && y < heights[x] + 1) {
+          // below surface but above ground — already set
+        }
+      }
+    }
+  }
+
+  function drawBlock(x, y, type) {
+    const c = BLOCKS[type];
+    if (!c) return;
+    const px = x * BS;
+    const py = y * BS;
+    // Base color
+    ctx.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`;
+    ctx.fillRect(px, py, BS, BS);
+    // Top highlight
+    if (type !== 'sky' && type !== 'sky2') {
+      ctx.fillStyle = `rgba(255,255,255,0.12)`;
+      ctx.fillRect(px, py, BS, 2);
+      ctx.fillStyle = `rgba(255,255,255,0.06)`;
+      ctx.fillRect(px, py, 2, BS);
+      // Bottom shadow
+      ctx.fillStyle = `rgba(0,0,0,0.18)`;
+      ctx.fillRect(px, py + BS - 2, BS, 2);
+      // Pixel grid
+      ctx.strokeStyle = `rgba(0,0,0,0.15)`;
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(px + 0.5, py + 0.5, BS - 1, BS - 1);
+    }
+  }
+
+  function drawClouds(offsetX) {
+    const cloudPositions = [
+      {x:0.1, y:0.08, w:6, h:2},
+      {x:0.35, y:0.05, w:8, h:2},
+      {x:0.6, y:0.1, w:5, h:2},
+      {x:0.8, y:0.06, w:7, h:2},
+    ];
+    ctx.fillStyle = `rgba(${BLOCKS.cloud.join(',')},0.75)`;
+    cloudPositions.forEach(cl => {
+      const cx = ((cl.x * W + offsetX) % (W + cl.w * BS)) - cl.w * BS / 2;
+      const cy = cl.y * H;
+      // Draw blocky cloud
+      for (let bx = 0; bx < cl.w; bx++) {
+        for (let by = 0; by < cl.h; by++) {
+          ctx.fillRect(cx + bx * BS, cy + by * BS, BS - 1, BS - 1);
+        }
+      }
+      // Extra top row for roundness
+      for (let bx = 1; bx < cl.w - 1; bx++) {
+        ctx.fillRect(cx + bx * BS, cy - BS, BS - 1, BS - 1);
+      }
+    });
+  }
+
+  function drawSky() {
+    const grad = ctx.createLinearGradient(0, 0, 0, H * 0.55);
+    const s = BLOCKS.sky, s2 = BLOCKS.sky2;
+    grad.addColorStop(0, `rgb(${s2[0]},${s2[1]},${s2[2]})`);
+    grad.addColorStop(1, `rgb(${s[0]},${s[1]},${s[2]})`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H * 0.55);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    drawSky();
+    if (grid) {
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const t = grid[y][x];
+          if (t !== 'sky') drawBlock(x - 1, y, t);
+        }
+      }
+    }
+    drawClouds(cloudX);
+  }
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth || innerWidth;
+    H = canvas.height = canvas.offsetHeight || innerHeight;
+    genTerrain();
+  }
+
+  let animId;
+  function startAnim() {
+    function tick() {
+      cloudX = (cloudX + 0.12) % (W + 200);
+      draw();
+      animId = requestAnimationFrame(tick);
+    }
+    animId = requestAnimationFrame(tick);
+  }
+  function stopAnim() { cancelAnimationFrame(animId); }
+
+  addEventListener('resize', () => { resize(); });
+  resize();
+  startAnim();
+  return { stopAnim, startAnim };
+}
+
+/* ═══ MAIN SITE MC BACKGROUND ═══ */
+const mainMCBg = createMCBackground(document.getElementById('mc-bg'), {
+  sky:[106,186,255], sky2:[40,100,170],
+  grass:[89,168,71], grassD:[60,120,45],
+  dirt:[134,96,67], stone:[128,128,128], stoneD:[90,90,90],
+  leaf:[60,140,50], wood:[102,74,44], cloud:[220,230,255]
+});
+
+/* ═══ PARTICLE BG (green particles on top) ═══ */
+(()=>{
+  const c=document.getElementById('bg-canvas'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight;};
+  addEventListener('resize',resize);resize();
+  for(let i=0;i<60;i++)pts.push({x:Math.random()*3000,y:Math.random()*3000,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,r:Math.random()*1.4+.3,a:Math.random()*.3+.06});
+  (function frame(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(0,255,136,0.018)';ctx.lineWidth=1;
+    for(let x=0;x<W;x+=80){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=80){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(0,255,136,${p.a})`;ctx.fill();});
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.strokeStyle=`rgba(0,255,136,${.04*(1-d/110)})`;ctx.lineWidth=.5;ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.stroke();}}
+    requestAnimationFrame(frame);
+  })();
+})();
+
+/* ═══ CURSOR ═══ */
+(()=>{
+  const outer=document.getElementById('cursor-outer');
+  const inner=document.getElementById('cursor-inner');
+  let mx=-100,my=-100,ox=-100,oy=-100;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;inner.style.left=mx+'px';inner.style.top=my+'px';});
+  document.addEventListener('mousedown',()=>document.body.classList.add('cursor-click'));
+  document.addEventListener('mouseup',()=>document.body.classList.remove('cursor-click'));
+  document.addEventListener('mouseover',e=>{if(e.target.closest('a,button,summary,.dl-card,.mod-item,.nc-cat-card,.nc-sb-item'))document.body.classList.add('cursor-hover');});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,summary,.dl-card,.mod-item,.nc-cat-card,.nc-sb-item'))document.body.classList.remove('cursor-hover');});
+  (function anim(){ox+=(mx-ox)*.12;oy+=(my-oy)*.12;outer.style.left=ox+'px';outer.style.top=oy+'px';requestAnimationFrame(anim);})();
+})();
+
+/* ═══ WIKI ═══ */
+let wikiMCBg = null;
+function openWiki(){
+  document.getElementById('wiki-overlay').classList.add('open');
+  try{history.pushState({wiki:true},'Wiki');}catch(e){}
+  // Init wiki MC bg if not done
+  if(!wikiMCBg){
+    const c=document.getElementById('wiki-mc-bg');
+    c.style.position='fixed';c.style.inset='0';c.style.width='100%';c.style.height='100%';
+    wikiMCBg = createMCBackground(c, {
+      sky:[30,50,30], sky2:[10,25,10],
+      grass:[0,255,136], grassD:[0,180,80],
+      dirt:[0,80,30], stone:[30,80,40], stoneD:[20,55,25],
+      leaf:[0,200,80], wood:[0,100,40], cloud:[100,255,160]
+    });
+  }
+}
+function closeWiki(){
+  document.getElementById('wiki-overlay').classList.remove('open');
+  try{history.back();}catch(e){}
+}
+
+/* ═══ NEXCRAFT HUB ═══ */
+let ncMCBg = null;
+function openNexCraft(){
+  const overlay=document.getElementById('nexcraft-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  try{history.pushState({nexcraft:true},'NexCraft Hub');}catch(e){}
+  // Init NexCraft MC bg
+  if(!ncMCBg){
+    const c=document.getElementById('nc-mc-bg');
+    c.style.position='fixed';c.style.inset='0';c.style.width='100%';c.style.height='100%';
+    ncMCBg = createMCBackground(c, {
+      sky:[10,20,35], sky2:[5,10,20],
+      grass:[15,255,224], grassD:[10,180,160],
+      dirt:[10,60,70], stone:[20,50,80], stoneD:[15,35,55],
+      leaf:[10,200,180], wood:[10,80,100], cloud:[100,220,255]
+    });
+  }
+  // Reset to home page
+  ncShowPage('home');
+}
+function closeNexCraft(){
+  const overlay=document.getElementById('nexcraft-overlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+  try{history.back();}catch(e){}
+}
+
+/* ═══ NEXCRAFT INTERNAL NAV ═══ */
+const NC_PAGES={
+  mods:{title:'🔧 Mods',sub:'Browse and download Minecraft mods.',icon:'🔧'},
+  resource:{title:'🎨 Resource Packs',sub:'Texture and resource packs.',icon:'🎨'},
+  datapacks:{title:'📦 Data Packs',sub:'Server-side data packs — no mod loader required.',icon:'📦'},
+  shaders:{title:'✨ Shaders',sub:'Beautiful lighting and visual shader packs.',icon:'✨'},
+  modpacks:{title:'🧩 Modpacks',sub:'Curated collections of mods bundled together.',icon:'🧩'},
+  plugins:{title:'🔌 Plugins',sub:'Server plugins for Bukkit, Spigot, Paper and more.',icon:'🔌'},
+};
+
+function ncShowPage(page){
+  document.querySelectorAll('.nc-sb-item').forEach(el=>el.classList.remove('nc-active'));
+  // Set active sidebar item
+  document.querySelectorAll('.nc-sb-item').forEach(el=>{
+    if(el.getAttribute('onclick')===`ncShowPage('${page}')`||el.getAttribute('onclick')===`ncShowPage("${page}")`){
+      el.classList.add('nc-active');
+    }
+  });
+  if(page==='home'){
+    document.getElementById('nc-page-home').style.display='';
+    document.getElementById('nc-page-category').style.display='none';
+  } else {
+    document.getElementById('nc-page-home').style.display='none';
+    document.getElementById('nc-page-category').style.display='';
+    const cfg=NC_PAGES[page];
+    if(cfg){
+      const t=document.getElementById('nc-cat-title');
+      const s=document.getElementById('nc-cat-sub');
+      const i=document.getElementById('nc-cat-empty-icon');
+      if(t)t.textContent=cfg.title;
+      if(s)s.textContent=cfg.sub;
+      if(i)i.textContent=cfg.icon;
+    }
+  }
+  const _nm=document.getElementById('nc-main');if(_nm)_nm.scrollTop=0;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   DISCORD OAUTH2 AUTHENTICATION
+   ─────────────────────────────────────────────────────────
+   DEV CONFIG — edit these 3 lines before deploying:
+   ════════════════════════════════════════════════════════════ */
+const DISCORD_CLIENT_ID    = '1500117727199887360';          // [DEV CONFIG] line ~1 of config
+const DISCORD_REDIRECT_URI = 'https://axolotlpvp.qzz.io/auth'; // [DEV CONFIG] line ~2 of config — must match Discord portal exactly
+const DISCORD_SCOPES       = 'identify email';               // [DEV CONFIG] line ~3 of config — space-separated OAuth2 scopes
+/* ════════════════════════════════════════════════════════════
+   HOW TO SET UP:
+   1. Go to https://discord.com/developers/applications
+   2. Create a new application → OAuth2 → Redirects
+   3. Add your DISCORD_REDIRECT_URI above as a redirect
+   4. Copy the Client ID into DISCORD_CLIENT_ID above
+   5. On your server, exchange the ?code= param for a token
+      via POST https://discord.com/api/oauth2/token
+   6. Call GET https://discord.com/api/users/@me with the token
+      to get the user object and store it in _ncDiscordUser
+   ════════════════════════════════════════════════════════════ */
+
+let _ncDiscordUser = null; // { id, username, discriminator, avatar, email }
+
+/* Load saved session from sessionStorage (clears on tab close) */
+(()=>{
+  try{
+    const saved = sessionStorage.getItem('nc_discord_user');
+    if(saved) _ncDiscordUser = JSON.parse(saved);
+  }catch(e){}
+  _ncUpdateAuthUI();
+})();
+
+/* Check for OAuth2 ?code= callback in URL */
+(()=>{
+  const params = new URLSearchParams(location.search);
+  const code = params.get('code');
+  if(code){
+    /* [DEV] Exchange code for token on YOUR backend, then call ncDiscordHandleUser() */
+    /* Example backend call (uncomment and adapt):
+    fetch('/api/discord-auth?code=' + code)
+      .then(r => r.json())
+      .then(user => ncDiscordHandleUser(user))
+      .catch(() => console.warn('Discord auth exchange failed'));
+    */
+    console.info('[NexCraft Auth] Got code from Discord. Exchange it on your backend. Code:', code);
+    /* Remove ?code= from URL without reload */
+    try{ history.replaceState({}, '', location.pathname); }catch(e){}
+  }
+})();
+
+function ncDiscordLogin(){
+  if(_ncDiscordUser){ /* Already authenticated — go straight to upload */
+    ncCloseDiscordAuth();
+    _ncDoOpenUpload();
+    return;
+  }
+  /* Build Discord OAuth2 URL */
+  const url = new URL('https://discord.com/api/oauth2/authorize');
+  url.searchParams.set('client_id',    DISCORD_CLIENT_ID);
+  url.searchParams.set('redirect_uri', DISCORD_REDIRECT_URI);
+  url.searchParams.set('response_type','code');
+  url.searchParams.set('scope',        DISCORD_SCOPES);
+  url.searchParams.set('state',        _ncGenState());
+  /* [DEV] For testing without a real backend, you can use implicit grant:
+     url.searchParams.set('response_type','token'); — returns token directly in URL hash
+     Then read location.hash and call the /users/@me endpoint directly from the browser.
+     NOTE: Implicit flow exposes the token in the URL. Use code flow in production. */
+  window.location.href = url.toString();
+}
+
+function ncDiscordHandleUser(user){
+  /* Called after your backend exchanges the code for user data.
+     user = { id, username, discriminator, avatar, email }       */
+  _ncDiscordUser = user;
+  try{ sessionStorage.setItem('nc_discord_user', JSON.stringify(user)); }catch(e){}
+  _ncUpdateAuthUI();
+  ncCloseDiscordAuth();
+  _ncDoOpenUpload();
+}
+
+function ncDiscordSignOut(){
+  _ncDiscordUser = null;
+  try{ sessionStorage.removeItem('nc_discord_user'); }catch(e){}
+  _ncUpdateAuthUI();
+}
+
+function _ncGenState(){
+  /* CSRF state token */
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  const state = Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+  try{ sessionStorage.setItem('nc_oauth_state', state); }catch(e){}
+  return state;
+}
+
+function _ncDiscordAvatarUrl(user){
+  if(!user||!user.avatar) return null;
+  return 'https://cdn.discordapp.com/avatars/'+user.id+'/'+user.avatar+'.png?size=64';
+}
+
+function _ncUpdateAuthUI(){
+  /* Update the Upload button in topbar to show auth status */
+  const uploadBtn = document.querySelector('.nc-upload-btn');
+  if(!uploadBtn) return;
+  if(_ncDiscordUser){
+    const avatar = _ncDiscordAvatarUrl(_ncDiscordUser);
+    const img = avatar ? `<img src="${avatar}" style="width:18px;height:18px;border-radius:50%;margin-right:.3rem;vertical-align:middle" onerror="this.style.display='none'">` : '👤';
+    uploadBtn.innerHTML = img + ' ' + _ncDiscordUser.username + ' &middot; + Upload';
+  } else {
+    uploadBtn.innerHTML = '+ Upload';
+  }
+}
+
+function ncOpenDiscordAuth(){
+  const el = document.getElementById('nc-discord-auth');
+  if(el) el.classList.add('open');
+}
+function ncCloseDiscordAuth(){
+  const el = document.getElementById('nc-discord-auth');
+  if(el) el.classList.remove('open');
+}
+
+/* ════ NEXCRAFT UPLOAD FLOW ════ */
+let _ncProjectData = {type:'mod', name:'', slug:'', summary:'', visibility:'private'};
+
+function ncOpenUpload(){
+  /* Gate upload behind Discord auth */
+  if(!_ncDiscordUser){
+    ncOpenDiscordAuth();
+    return;
+  }
+  _ncDoOpenUpload();
+}
+function _ncDoOpenUpload(){
+  // Reset form
+  const _sv=(id,v,p='value')=>{const e=document.getElementById(id);if(e)e[p]=v;};
+  _sv('nc-cm-name','');_sv('nc-cm-slug','');_sv('nc-cm-summary','');
+  _sv('nc-cm-char','0 / 256','innerHTML');
+  _sv('nc-cm-submit',true,'disabled');
+  document.querySelectorAll('.nc-type-card').forEach(c=>c.classList.remove('selected'));
+  const defType=document.querySelector('.nc-type-card[data-type="mod"]');
+  if(defType)defType.classList.add('selected');
+  _ncProjectData.type='mod';
+  const cm=document.getElementById('nc-create-modal');
+  if(cm)cm.classList.add('open');
+}
+function ncCloseCreate(){
+  document.getElementById('nc-create-modal').classList.remove('open');
+}
+function ncCloseProject(){
+  document.getElementById('nc-project-page').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function ncSelectType(el, type){
+  document.querySelectorAll('.nc-type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  _ncProjectData.type = type;
+}
+
+function ncUpdateSlug(name){
+  const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const slugEl=document.getElementById('nc-cm-slug');if(slugEl)slugEl.value=slug;
+  _ncProjectData.slug=slug;
+}
+
+function ncUpdateCharCount(el){
+  const len = el.value.length;
+  const warn=document.getElementById('nc-cm-char-warn');
+  const charEl=document.getElementById('nc-cm-char');
+  if(charEl)charEl.innerHTML=len+' / 256';
+  if(warn){
+    if(len<4){warn.textContent='('+len+'/4 — too short)';warn.style.color='#ffa500';}
+    else{warn.textContent='✓ Good length';warn.style.color='#0fffe0';}
+  }
+}
+
+function ncValidateCreate(){
+  const name = document.getElementById('nc-cm-name').value.trim();
+  const summary = document.getElementById('nc-cm-summary').value.trim();
+  const sub=document.getElementById('nc-cm-submit');
+  if(sub)sub.disabled=!(name.length>=3&&summary.length>=4);
+}
+
+function ncSubmitCreate(){
+  const name = document.getElementById('nc-cm-name').value.trim();
+  const summary = document.getElementById('nc-cm-summary').value.trim();
+  _ncProjectData.name = name;
+  _ncProjectData.summary = summary;
+
+  // Close create modal, open project settings
+  document.getElementById('nc-create-modal').classList.remove('open');
+
+  // Pre-fill project page
+  const _set=(id,val,prop='textContent')=>{const el=document.getElementById(id);if(el)el[prop]=val;};
+  _set('nc-pp-project-name', name);
+  _set('nc-pp-name-input', name, 'value');
+  _set('nc-pp-slug-input', _ncProjectData.slug, 'value');
+  _set('nc-pp-summary-input', summary, 'value');
+  _set('nc-pp-summary-count', summary.length);
+
+  // Update checklist summary body
+  const chars = summary.length;
+  _set('nc-cl-summary-body',
+    'Your summary is ' + chars + ' character' + (chars===1?'':'s') + '. ' +
+    (chars < 4 ? 'At least 4 characters is recommended.' : 'Looks good!'));
+
+  // Icon emoji based on type
+  const icons = {mod:'🔧',resource:'🎨',datapack:'📦',shader:'✨',modpack:'🧩',plugin:'🔌'};
+  _set('nc-pp-icon-preview', icons[_ncProjectData.type] || '📦');
+
+  // Show project page
+  const pp=document.getElementById('nc-project-page');
+  if(pp){pp.classList.add('open');pp.scrollTop=0;}
+  document.body.style.overflow = 'hidden';
+  ncShowTab('general');
+}
+
+/* ════ PROJECT SETTINGS TABS ════ */
+function ncShowTab(tab){
+  document.querySelectorAll('.nc-pp-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nc-pp-sb-item').forEach(b=>b.classList.remove('nc-pp-active'));
+
+  const tabEl = document.getElementById('nc-tab-' + tab);
+  if(tabEl) tabEl.classList.add('active');
+
+  document.querySelectorAll('.nc-pp-sb-item').forEach(b=>{
+    if(b.getAttribute('onclick') === "ncShowTab('" + tab + "')") b.classList.add('nc-pp-active');
+  });
+
+  // Scroll checklist into view
+  const cl=document.getElementById('nc-checklist');
+  if(cl) try{cl.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){}
+}
+
+/* ════ VISIBILITY ════ */
+function ncSetVisibility(vis, optEl){
+  ['private','unlisted','public'].forEach(v=>{
+    const r=document.getElementById('nc-vis-'+v);
+    if(r){r.classList.remove('checked');}
+  });
+  const radio=document.getElementById('nc-vis-'+vis);
+  if(radio) radio.classList.add('checked');
+  _ncProjectData.visibility = vis;
+
+  const labels = {private:'🔒 Private', unlisted:'🔗 Unlisted', public:'🌐 Public'};
+  const badge = document.getElementById('nc-pp-status-badge');
+  if(badge) badge.textContent = labels[vis] || vis;
+}
+
+/* ════ LICENSE ════ */
+function ncSelectLicense(el){
+  document.querySelectorAll('.nc-license-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+/* ════ SUMMARY COUNT (on project page) ════ */
+function ncUpdateSummaryCount(el){
+  const c = document.getElementById('nc-pp-summary-count');
+  if(c) c.textContent = el.value.length;
+}
+
+/* ════ SEARCH ════ */
+function ncHandleSearch(val){if(val.trim())ncShowPage('mods');}
+
+/* ════ FILTER TAGS (delegated) ════ */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('.nc-filter-tag');
+  if(!btn)return;
+  const bar=btn.closest('.nc-filter-bar');
+  if(!bar)return;
+  bar.querySelectorAll('.nc-filter-tag').forEach(b=>b.classList.remove('nc-active'));
+  btn.classList.add('nc-active');
+});
+
+/* ════ CLOSE CREATE MODAL on backdrop ════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  const cm=document.getElementById('nc-create-modal');
+  if(cm) cm.addEventListener('click',e=>{if(e.target===e.currentTarget)ncCloseCreate();});
+  const da=document.getElementById('nc-discord-auth');
+  if(da) da.addEventListener('click',e=>{if(e.target===e.currentTarget)ncCloseDiscordAuth();});
+});
+
+/* ═══ POPSTATE (back button) ═══ */
+window.addEventListener('popstate',()=>{
+  document.getElementById('nexcraft-overlay').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('wiki-overlay').classList.remove('open');
+});
+
+/* ════ VERSION PICKER ════ */
+const VP_VERSIONS=[
+  {label:'11.0.0',mc:'26.1.2',name:'Axolotl PVP+ 11.0.0',latest:false},
+  {label:'10.0.0',mc:'26.1.1',name:'Axolotl PVP+ 10.0.0',latest:true},
+  {label:'9.0.0', mc:'26.1',  name:'Axolotl PVP+ 9.0.0', latest:false},
+  {label:'8.0.0', mc:'1.21.11',name:'Axolotl PVP+ 8.0.0',latest:false},
+  {label:'7.0.0 (H TIER 1)',mc:'1.21.11',name:'Axolotl PVP+ 7.0.0 H TIER 1',latest:false},
+  {label:'7.0.0 (NORMAL)', mc:'1.21.11',name:'Axolotl PVP+ 7.0.0 NORMAL',latest:false},
+  {label:'6.0.0',mc:'1.21.10',name:'Axolotl PVP+',latest:false},
+  {label:'5.0.0',mc:'1.21.9', name:'Axolotl PVP+',latest:false},
+  {label:'4.0.0',mc:'1.21.5', name:'Axolotl PVP+ 4.0.0',latest:false},
+  {label:'3.0.0',mc:'1.21.6', name:'Axolotl PVP 3.0.0',latest:false},
+  {label:'2.0.0',mc:'1.21.7', name:'Axolotl PVP 2.0.0',latest:false},
+  {label:'1.0.0',mc:'1.21.8', name:'Axolotl PVP 1.0.0',latest:false},
+];
+let _vpData=null;
+
+async function openVersionPicker(){
+  document.getElementById('vp-modal').classList.add('open');
+  const _vpm=document.getElementById('vp-modal');if(_vpm)_vpm.addEventListener('click',e=>{if(e.target===e.currentTarget)closeVersionPicker();},{once:true});
+  await vpLoadList();
+}
+function closeVersionPicker(){document.getElementById('vp-modal').classList.remove('open');}
+
+async function vpLoadList(){
+  const list=document.getElementById('vpm-list');
+  if(_vpData){vpRenderList(list);return;}
+  list.innerHTML='<div class="vpm-loading"><span class="vpm-spinner"></span>Fetching from Modrinth…</div>';
+  try{
+    const r=await fetch('https://api.modrinth.com/v2/project/axolotl-pvp+/version',{headers:{'User-Agent':'axolotl-pvp-web/1.0'}});
+    if(!r.ok)throw new Error();
+    _vpData=await r.json();
+  }catch(e){_vpData=[];}
+  vpRenderList(list);
+}
+
+function vpRenderList(list){
+  list.innerHTML='';
+  VP_VERSIONS.forEach(v=>{
+    const row=document.createElement('div');
+    row.className='vpm-ver';
+    row.innerHTML=`
+      <div style="display:flex;align-items:center;gap:.7rem">
+        <div>
+          <div class="vpm-ver-num">${v.label}</div>
+          <div class="vpm-ver-sub">${v.name} · <span style="color:rgba(0,255,136,.6);font-family:'Orbitron',sans-serif;font-size:.6rem">MC ${v.mc}</span></div>
+        </div>
+        ${v.latest?'<span class="vpm-ver-tag vpm-ver-tag--latest">LATEST</span>':''}
+      </div>
+      <button class="vpm-dl-btn" onclick="vpDownload('${v.mc}','${v.name.replace(/'/g,"\\\'")}')">↓ GET</button>`;
+    list.appendChild(row);
+  });
+}
+
+async function vpDownload(mcVer,name){
+  const apiVersions=_vpData||[];
+  let match=apiVersions.find(av=>av.game_versions&&av.game_versions.includes(mcVer));
+  if(match){
+    const file=match.files.find(f=>f.primary)||match.files[0];
+    if(file?.url){
+      const a=document.createElement('a');a.href=file.url;a.download=file.filename||'axolotl-pvp-plus.mrpack';
+      document.body.appendChild(a);a.click();document.body.removeChild(a);
+      closeVersionPicker();return;
+    }
+  }
+  window.open('https://modrinth.com/modpack/axolotl-pvp+/versions?g='+encodeURIComponent(mcVer),'_blank');
+  closeVersionPicker();
+}
+
+/* ════ BUG REPORT DROPDOWN ════ */
+(()=>{
+  const bugBtn=document.getElementById('bug-report-btn');
+  const bugDd=document.getElementById('bug-dropdown');
+  if(!bugBtn||!bugDd)return;
+  bugBtn.addEventListener('click',e=>{e.stopPropagation();bugDd.classList.toggle('open');});
+  document.addEventListener('click',e=>{if(bugDd&&!bugDd.contains(e.target))bugDd.classList.remove('open');});
+  bugDd.addEventListener('click',e=>e.stopPropagation());
+})();
+
+/* ═══════════════════════════════════════════
+   LOADING SCREEN + BARREL ROLL ANIMATION
+═══════════════════════════════════════════ */
+(()=>{
+  const screen  = document.getElementById('loading-screen');
+  const fill    = document.getElementById('ls-bar-fill');
+  const pct     = document.getElementById('ls-bar-pct');
+  const tipEl   = document.getElementById('ls-tip');
+  if(!screen) return;
+
+  /* Tips that cycle during loading */
+  const TIPS = [
+    'Tip: Use Zoomify for scoped view in PvP',
+    'Tip: Sodium can double your FPS instantly',
+    'Tip: Allocate 4GB RAM for best performance',
+    'Tip: EntityCulling hides mobs behind walls',
+    'Tip: Report bugs on GitHub or Discord',
+    'Tip: ImmediatelyFast speeds up UI rendering',
+    'Tip: Join our Discord for PvP strategies',
+    'Tip: Iris Shaders works great with Sodium',
+  ];
+  let tipIdx = 0;
+  const tipTimer = setInterval(()=>{
+    tipIdx = (tipIdx+1) % TIPS.length;
+    if(tipEl){ tipEl.style.opacity='0'; setTimeout(()=>{tipEl.textContent=TIPS[tipIdx];tipEl.style.opacity='1';},300); }
+  }, 2200);
+  if(tipEl) tipEl.style.transition='opacity .3s';
+
+  /* Init loading MC background */
+  const lsBg = document.getElementById('ls-mc-bg');
+  if(lsBg){
+    lsBg.style.width  = '100%';
+    lsBg.style.height = '100%';
+    createMCBackground(lsBg, {
+      sky:[40,80,50], sky2:[10,30,15],
+      grass:[0,255,136], grassD:[0,180,80],
+      dirt:[0,80,30],   stone:[20,70,35], stoneD:[10,45,20],
+      leaf:[0,200,80],  wood:[0,100,40],  cloud:[80,255,150]
+    });
+  }
+
+  /* Fake progress: quick to 85%, then waits for window.load */
+  let progress = 0;
+  const fakeStep = () => {
+    if(progress < 85){
+      progress += Math.random() * 8 + 2;
+      if(progress > 85) progress = 85;
+      setBar(progress);
+      setTimeout(fakeStep, 80 + Math.random()*100);
+    }
+  };
+  fakeStep();
+
+  function setBar(v){
+    v = Math.min(100, Math.round(v));
+    if(fill) fill.style.width = v + '%';
+    if(pct)  pct.textContent  = v + '%';
+  }
+
+  /* On full load: race to 100% then hide */
+  window.addEventListener('load', ()=>{
+    clearInterval(tipTimer);
+    let p = progress;
+    const finish = setInterval(()=>{
+      p += 4;
+      setBar(p);
+      if(p >= 100){
+        clearInterval(finish);
+        setTimeout(()=>{
+          if(screen) screen.classList.add('hidden');
+          /* Remove from DOM after transition */
+          setTimeout(()=>{ if(screen && screen.parentNode) screen.parentNode.removeChild(screen); }, 700);
+        }, 300);
+      }
+    }, 30);
+  });
+})();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Axolotl PVP+</title>
     <!-- Open Graph / Discord / Slack / WhatsApp / iMessage embeds -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://axolotlpvp.qzzz.io/" />
