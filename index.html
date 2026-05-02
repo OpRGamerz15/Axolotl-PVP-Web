@@ -109,6 +109,33 @@
     ::-webkit-scrollbar-track{background:var(--bg);}
     ::-webkit-scrollbar-thumb{background:rgba(0,255,136,.3);border-radius:3px;}
 
+
+    /* ═══ WIKI MODRINTH-STYLE ═══ */
+    .wiki-tab-btn{font-family:'Orbitron',sans-serif;font-size:.65rem;letter-spacing:.08em;padding:.7rem 1.2rem;background:none;border:none;color:var(--dim);border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;}
+    .wiki-tab-btn:hover{color:var(--text);}
+    .wiki-tab-btn.active{color:var(--green);border-bottom-color:var(--green);}
+    .wiki-mr-card{background:rgba(0,255,136,.03);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.4rem;}
+    .wiki-mr-card p{color:var(--dim);font-size:.9rem;line-height:1.75;margin-bottom:.6rem;}
+    .wiki-mr-card p:last-child{margin-bottom:0;}
+    .wiki-mr-card ul{padding-left:1.3rem;color:var(--dim);font-size:.88rem;line-height:2;}
+    .wiki-mr-feat{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:1.1rem;}
+    .wiki-mr-feat:last-child{margin-bottom:0;}
+    .wiki-mr-feat-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+    .wiki-mr-feat-title{font-weight:700;color:var(--green);font-size:.9rem;display:block;margin-bottom:.2rem;}
+    .wiki-mr-feat-desc{color:var(--dim);font-size:.85rem;line-height:1.6;margin:0;}
+    .wiki-sb-card{background:rgba(0,255,136,.03);border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;}
+    .wiki-sb-title{font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:900;color:#fff;letter-spacing:.08em;margin-bottom:.8rem;}
+    .wiki-sb-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:var(--dim);margin-bottom:.4rem;text-transform:uppercase;}
+    .wiki-sb-tag{font-size:.65rem;padding:.2rem .55rem;background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.15);border-radius:4px;color:var(--dim);display:inline-block;}
+    .wiki-sb-link{display:flex;align-items:center;gap:.5rem;color:var(--dim);text-decoration:none;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid var(--border);transition:color .15s;}
+    .wiki-sb-link:last-child{border-bottom:none;}
+    .wiki-sb-link:hover{color:var(--green);}
+    .wiki-sb-detail-row{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--dim);padding:.3rem 0;border-bottom:1px solid var(--border);}
+    .wiki-sb-detail-row:last-child{border-bottom:none;}
+    @media(max-width:768px){
+      .wiki-body{flex-direction:column!important;}
+      .wiki-body>div:last-child{width:100%!important;}
+    }
     /* ═══ BUG DROPDOWN ═══ */
     .bug-card-wrap{position:relative;}
     .bug-dropdown{display:none;position:absolute;top:calc(100% + .6rem);left:0;right:0;background:rgba(5,15,8,.98);border:1px solid rgba(0,255,136,.3);border-radius:8px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:100;animation:dropIn .2s ease;}
@@ -521,6 +548,37 @@
       font-style:italic;letter-spacing:.04em;
       max-width:320px;margin-left:auto;margin-right:auto;
     }
+
+    /* ═══ MODRINTH PROJECT BANNER ═══ */
+    .modrinth-banner{
+      display:flex;align-items:center;gap:1.2rem;
+      background:linear-gradient(135deg,rgba(30,198,102,.08),rgba(30,198,102,.03));
+      border:1px solid rgba(30,198,102,.25);border-radius:12px;
+      padding:1.2rem 1.5rem;margin:2rem 3rem;
+      text-decoration:none;transition:all .22s;max-width:1200px;margin-left:auto;margin-right:auto;
+      position:relative;z-index:2;
+    }
+    .modrinth-banner:hover{
+      border-color:rgba(30,198,102,.55);
+      background:linear-gradient(135deg,rgba(30,198,102,.14),rgba(30,198,102,.06));
+      transform:translateY(-2px);box-shadow:0 12px 40px rgba(30,198,102,.12);
+    }
+    .modrinth-banner-icon{
+      width:56px;height:56px;border-radius:10px;flex-shrink:0;
+      background:linear-gradient(135deg,#1ec666,#0ea550);
+      display:flex;align-items:center;justify-content:center;font-size:1.8rem;
+      box-shadow:0 0 16px rgba(30,198,102,.3);
+    }
+    .modrinth-banner-info{flex:1;}
+    .modrinth-banner-label{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.18em;color:rgba(30,198,102,.7);margin-bottom:.25rem;}
+    .modrinth-banner-title{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:900;color:#fff;margin-bottom:.2rem;letter-spacing:.06em;}
+    .modrinth-banner-sub{font-size:.8rem;color:#6a9a7a;line-height:1.5;}
+    .modrinth-banner-meta{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap;}
+    .modrinth-banner-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;padding:.18rem .55rem;border-radius:20px;background:rgba(30,198,102,.1);border:1px solid rgba(30,198,102,.2);color:rgba(30,198,102,.9);}
+    .modrinth-banner-arrow{font-size:1.3rem;color:rgba(30,198,102,.5);flex-shrink:0;transition:transform .2s;}
+    .modrinth-banner:hover .modrinth-banner-arrow{transform:translateX(4px);color:#1ec666;}
+    /* DDoS / right-click protection notice style */
+    .ddos-notice{font-size:.65rem;color:rgba(0,255,136,.2);text-align:center;padding:.4rem;letter-spacing:.08em;}
     @media(max-width:768px){
       header{padding:0 .8rem;height:56px;}
       nav{gap:.25rem;}
@@ -569,42 +627,174 @@
 <canvas id="mc-bg"></canvas>
 <canvas id="bg-canvas"></canvas>
 
-<!-- ═══ WIKI OVERLAY ═══ -->
+<!-- ═══ WIKI OVERLAY — Modrinth-style project page ═══ -->
 <div id="wiki-overlay">
   <canvas class="wiki-mc-bg" id="wiki-mc-bg"></canvas>
+
+  <!-- Topbar -->
   <div class="wiki-header">
-    <div class="wiki-logo">🫧 AXOLOTL PVP+<span style="color:var(--dim);font-size:.55rem;letter-spacing:.18em;margin-left:.5rem">WIKI</span></div>
-    <button class="wiki-close" onclick="closeWiki()">✕ CLOSE</button>
-  </div>
-  <div class="wiki-body">
-    <div class="wiki-section">
-      <h2>⚡ About Axolotl PVP+</h2>
-      <p>Axolotl PVP+ is a lightweight Minecraft modpack made for smooth and competitive PvP. It removes unnecessary features and focuses on high FPS, clean visuals, and combat responsiveness.</p>
-    </div>
-    <div class="wiki-section">
-      <h2>🚀 Key Features</h2>
-      <div class="wiki-features">
-        <div class="wiki-feat"><div class="wiki-feat-title">⚔️ PvP Optimized</div><div class="wiki-feat-desc">Everything tuned for fast combat.</div></div>
-        <div class="wiki-feat"><div class="wiki-feat-title">📈 High Performance</div><div class="wiki-feat-desc">Mods to boost FPS and reduce lag.</div></div>
-        <div class="wiki-feat"><div class="wiki-feat-title">🎯 Clean UI</div><div class="wiki-feat-desc">Better visibility, less clutter.</div></div>
-        <div class="wiki-feat"><div class="wiki-feat-title">🧩 Fabric Based</div><div class="wiki-feat-desc">Built on Fabric for best performance.</div></div>
+    <div style="display:flex;align-items:center;gap:.8rem">
+      <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#1a2a3a,#0d1a20);border:1px solid rgba(0,255,136,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">🫧</div>
+      <div>
+        <div class="wiki-logo" style="font-size:.85rem">Axolotl PVP+ <span style="background:rgba(0,255,136,.12);border:1px solid rgba(0,255,136,.25);color:var(--green);font-size:.55rem;padding:.15rem .5rem;border-radius:20px;letter-spacing:.1em;margin-left:.4rem">🌐 PUBLIC</span></div>
+        <div style="font-size:.72rem;color:var(--dim);margin-top:.1rem">Axolotl PVP+ is a lightweight, high-FPS modpack built exclusively for smooth, competitive PvP battles.</div>
       </div>
     </div>
-    <div class="wiki-section">
-      <h2>📦 Installation</h2>
-      <ol>
-        <li>Install Fabric Loader.</li>
-        <li>Download the modpack from Modrinth.</li>
-        <li>Launch via Modrinth App, Prism, or ATLauncher.</li>
-        <li>Start playing.</li>
-      </ol>
+    <div style="display:flex;align-items:center;gap:.6rem;flex-shrink:0">
+      <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank" style="font-family:'Orbitron',sans-serif;font-size:.58rem;letter-spacing:.08em;padding:.38rem .8rem;background:#1ec666;color:#000;border:none;border-radius:5px;font-weight:700;text-decoration:none">View on Modrinth ↗</a>
+      <button class="wiki-close" onclick="closeWiki()">✕ CLOSE</button>
     </div>
-    <div class="wiki-section">
-      <h2>❓ FAQ</h2>
-      <div class="wiki-faq">
-        <div class="wiki-q"><strong>Does it support survival?</strong><p>No. It is PvP focused.</p></div>
-        <div class="wiki-q"><strong>Which versions work?</strong><p>Check the Modrinth download page for the latest supported version.</p></div>
-        <div class="wiki-q"><strong>Low FPS?</strong><p>Allocate 2–4GB RAM, disable shaders, update GPU drivers.</p></div>
+  </div>
+
+  <!-- Project stats bar -->
+  <div style="background:rgba(0,255,136,.03);border-bottom:1px solid var(--border);padding:.6rem 2.5rem;display:flex;align-items:center;gap:1.5rem;font-size:.78rem;color:var(--dim);position:relative;z-index:10;flex-wrap:wrap;">
+    <span>⬇ <strong style="color:var(--text)">1,288</strong> downloads</span>
+    <span>♥ <strong style="color:var(--text)">2</strong> followers</span>
+    <span style="display:flex;gap:.4rem;align-items:center">
+      <span style="background:rgba(100,150,255,.12);border:1px solid rgba(100,150,255,.2);color:#a0b4ff;font-size:.6rem;padding:.15rem .5rem;border-radius:3px">Combat</span>
+      <span style="background:rgba(100,150,255,.12);border:1px solid rgba(100,150,255,.2);color:#a0b4ff;font-size:.6rem;padding:.15rem .5rem;border-radius:3px">Multiplayer</span>
+      <span style="background:rgba(100,150,255,.12);border:1px solid rgba(100,150,255,.2);color:#a0b4ff;font-size:.6rem;padding:.15rem .5rem;border-radius:3px">Optimization</span>
+    </span>
+  </div>
+
+  <!-- Tab bar -->
+  <div style="background:rgba(5,10,7,.9);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;gap:0;position:relative;z-index:10">
+    <button class="wiki-tab-btn active" onclick="wikiTab(this,'desc')" id="wtab-desc">Description</button>
+    <button class="wiki-tab-btn" onclick="wikiTab(this,'changelog')" id="wtab-changelog">Changelog</button>
+    <button class="wiki-tab-btn" onclick="wikiTab(this,'versions')" id="wtab-versions">Versions</button>
+  </div>
+
+  <!-- Layout -->
+  <div class="wiki-body" style="max-width:1100px;display:flex;gap:2rem;padding:2rem 2.5rem 5rem;align-items:flex-start">
+
+    <!-- LEFT: description content -->
+    <div style="flex:1;min-width:0;position:relative;z-index:1">
+
+      <!-- Description tab -->
+      <div id="wiki-desc">
+        <!-- Intro -->
+        <div class="wiki-mr-card">
+          <p>Axolotl PVP+ is a lightweight, performance-focused Minecraft modpack designed to deliver high FPS and a smooth PvP experience.</p>
+          <p>Built for competitive players, this modpack removes unnecessary clutter and focuses on speed, responsiveness, and clean visuals.</p>
+          <ul><li>Built in Bangladesh ⚡ | বাংলাদেশে নির্মিত</li></ul>
+        </div>
+
+        <!-- Version notice -->
+        <div class="wiki-mr-card" style="border-color:rgba(0,255,136,.25);background:rgba(0,255,136,.04);margin-top:1rem">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem">
+            <span style="font-size:.75rem">✅</span>
+            <strong style="font-family:'Orbitron',sans-serif;font-size:.75rem;color:var(--green);letter-spacing:.06em">Version Notice</strong>
+          </div>
+          <p style="font-weight:700;color:#fff;font-size:.95rem;margin-bottom:.3rem">New Version Uploaded (11.0.0)</p>
+          <hr style="border:none;border-top:1px solid var(--border);margin:.8rem 0"/>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">
+            <span>💬</span>
+            <strong style="font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--text)">Message To You All User(s)</strong>
+          </div>
+          <p style="color:var(--dim);font-style:italic">Loading..</p>
+        </div>
+
+        <!-- Features -->
+        <div class="wiki-mr-card" style="margin-top:1rem">
+          <div class="wiki-mr-feat"><span class="wiki-mr-feat-icon">⚡</span><div><strong class="wiki-mr-feat-title">Performance Boost</strong><p class="wiki-mr-feat-desc">Experience smoother gameplay with powerful optimization mods that increase FPS and reduce lag.</p></div></div>
+          <div class="wiki-mr-feat"><span class="wiki-mr-feat-icon">⚔️</span><div><strong class="wiki-mr-feat-title">PvP Focused</strong><p class="wiki-mr-feat-desc">Improved combat visibility and responsiveness to help you perform better in fights.</p></div></div>
+          <div class="wiki-mr-feat"><span class="wiki-mr-feat-icon">🎯</span><div><strong class="wiki-mr-feat-title">Clean Interface</strong><p class="wiki-mr-feat-desc">Minimal and modern UI for distraction-free gameplay.</p></div></div>
+          <div class="wiki-mr-feat"><span class="wiki-mr-feat-icon">💻</span><div><strong class="wiki-mr-feat-title">Low-End Friendly</strong><p class="wiki-mr-feat-desc">Optimized to run well on both low-end and high-end PCs.</p></div></div>
+        </div>
+
+        <!-- Included mods -->
+        <div class="wiki-mr-card" style="margin-top:1rem">
+          <strong style="display:block;color:var(--text);margin-bottom:.8rem">Included Mods:</strong>
+          <ul style="padding-left:1.3rem;color:var(--dim);font-size:.88rem;line-height:2">
+            <li>Sodium – Rendering and FPS optimization</li>
+            <li>Low Fire – Better visibility in combat</li>
+            <li>Mandala's GUI (Dark Mode) – Clean UI redesign</li>
+            <li>Snow Operator Tab – Improved player list</li>
+            <li>TCDCommons API – Library support</li>
+            <li>TipTapShow – Better click feedback</li>
+            <li>VTDownloader – Utility support</li>
+          </ul>
+          <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0"/>
+          <strong style="display:block;color:var(--text);margin-bottom:.5rem">Why Axolotl PVP+?</strong>
+          <p style="color:var(--dim);font-size:.88rem;line-height:1.7">If you want higher FPS, smoother gameplay, and a competitive PvP advantage without unnecessary mods, this modpack is made for you.</p>
+        </div>
+      </div>
+
+      <!-- Changelog tab -->
+      <div id="wiki-changelog" style="display:none">
+        <div class="wiki-mr-card">
+          <strong style="font-family:'Orbitron',sans-serif;font-size:.8rem;color:var(--green);display:block;margin-bottom:.8rem">11.0.0 — Latest</strong>
+          <ul style="padding-left:1.3rem;color:var(--dim);font-size:.88rem;line-height:2">
+            <li>New version uploaded</li>
+            <li>Performance improvements</li>
+            <li>Updated mod compatibility</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Versions tab -->
+      <div id="wiki-versions" style="display:none">
+        <div class="wiki-mr-card">
+          <p style="color:var(--dim);font-size:.88rem;margin-bottom:1rem">All versions of Axolotl PVP+. Click to download from Modrinth.</p>
+          <a href="https://modrinth.com/modpack/axolotl-pvp+/versions" target="_blank" style="font-family:'Orbitron',sans-serif;font-size:.65rem;padding:.55rem 1.2rem;background:#1ec666;color:#000;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block">View All Versions on Modrinth ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT sidebar -->
+    <div style="width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:.8rem;position:relative;z-index:1">
+
+      <!-- Links -->
+      <div class="wiki-sb-card">
+        <div class="wiki-sb-title">Links</div>
+        <a href="https://github.com/OpRGamerZ15/" target="_blank" class="wiki-sb-link">🐙 View source ↗</a>
+        <a href="#" onclick="openWiki();return false;" class="wiki-sb-link">📖 Visit wiki ↗</a>
+        <a href="https://dcserver.link/nexterasmp" target="_blank" class="wiki-sb-link">💬 Join Discord server ↗</a>
+        <a href="https://github.com/OpRGamerZ15/" target="_blank" class="wiki-sb-link">⚠ Report issues ↗</a>
+      </div>
+
+      <!-- Compatibility -->
+      <div class="wiki-sb-card">
+        <div class="wiki-sb-title">Compatibility</div>
+        <div class="wiki-sb-label">Minecraft: Java Edition</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem">
+          <span class="wiki-sb-tag">26.1.x</span>
+          <span class="wiki-sb-tag">1.21.5–1.21.11</span>
+        </div>
+        <div class="wiki-sb-label">Platforms</div>
+        <div style="margin-bottom:.8rem"><span class="wiki-sb-tag" style="background:rgba(255,130,70,.1);border-color:rgba(255,130,70,.3);color:#ff8246">🔥 Fabric</span></div>
+        <div class="wiki-sb-label">Environments</div>
+        <span class="wiki-sb-tag">💻 Client-side</span>
+      </div>
+
+      <!-- Tags -->
+      <div class="wiki-sb-card">
+        <div class="wiki-sb-title">Tags</div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <span class="wiki-sb-tag">Combat</span>
+          <span class="wiki-sb-tag">Multiplayer</span>
+          <span class="wiki-sb-tag">Optimization</span>
+        </div>
+      </div>
+
+      <!-- Creators -->
+      <div class="wiki-sb-card">
+        <div class="wiki-sb-title">Creators</div>
+        <div style="display:flex;align-items:center;gap:.7rem">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00ff88,#00ffcc);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:900;color:#000;flex-shrink:0">O</div>
+          <div>
+            <div style="font-weight:700;color:#fff;font-size:.88rem">OpRGamerZ15 👑</div>
+            <div style="font-size:.72rem;color:var(--dim)">Foundryx</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details -->
+      <div class="wiki-sb-card">
+        <div class="wiki-sb-title">Details</div>
+        <div class="wiki-sb-detail-row">📄 <span>Licensed <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank" style="color:var(--green)">Axolotl PVP ↗</a></span></div>
+        <div class="wiki-sb-detail-row">📅 <span>Published 7 months ago</span></div>
+        <div class="wiki-sb-detail-row">🔄 <span>Updated 2 weeks ago</span></div>
       </div>
     </div>
   </div>
@@ -1243,12 +1433,31 @@
     </div>
   </section>
 
+  <!-- Modrinth Project Banner -->
+  <a class="modrinth-banner" href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">
+    <div class="modrinth-banner-icon">🫧</div>
+    <div class="modrinth-banner-info">
+      <div class="modrinth-banner-label">VIEW ON MODRINTH</div>
+      <div class="modrinth-banner-title">Axolotl PVP+</div>
+      <div class="modrinth-banner-sub">Browse versions, read the full description, and download directly from Modrinth.</div>
+      <div class="modrinth-banner-meta">
+        <span class="modrinth-banner-tag">Modpack</span>
+        <span class="modrinth-banner-tag">Public</span>
+        <span class="modrinth-banner-tag">ID: 91CERPNE</span>
+        <span class="modrinth-banner-tag">Fabric</span>
+        <span class="modrinth-banner-tag">PvP</span>
+      </div>
+    </div>
+    <div class="modrinth-banner-arrow">→</div>
+  </a>
+
   <footer>
     <p>© 2025 Axolotl PVP+ · Not affiliated with Mojang or Microsoft ·
       <a href="https://modrinth.com/modpack/axolotl-pvp+" target="_blank">Modrinth</a> ·
       <a href="https://github.com/OpRGamerZ15/" target="_blank">GitHub</a> ·
       <a href="https://dcserver.link/nexterasmp" target="_blank">Discord</a>
     </p>
+    <p class="ddos-notice">Protected · Unauthorized reproduction prohibited</p>
   </footer>
 </div>
 
@@ -1479,6 +1688,16 @@ const mainMCBg = createMCBackground(document.getElementById('mc-bg'), {
   (function anim(){ox+=(mx-ox)*.12;oy+=(my-oy)*.12;outer.style.left=ox+'px';outer.style.top=oy+'px';requestAnimationFrame(anim);})();
 })();
 
+
+/* ════ WIKI TABS ════ */
+function wikiTab(btn, tab){
+  document.querySelectorAll('.wiki-tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['desc','changelog','versions'].forEach(t=>{
+    const el=document.getElementById('wiki-'+t);
+    if(el) el.style.display = t===tab ? '' : 'none';
+  });
+}
 /* ═══ WIKI ═══ */
 let wikiMCBg = null;
 function openWiki(){
@@ -1993,6 +2212,80 @@ async function vpDownload(mcVer,name){
       }
     }, 30);
   });
+})();
+
+/* ═══════════════════════════════════════════════════
+   DDOS & CONTENT PROTECTION
+   - Disables right-click context menu
+   - Disables text selection via keyboard shortcuts
+   - Disables drag of images/elements
+   - Disables DevTools shortcut keys (F12, Ctrl+Shift+I/J/U)
+   - Disables Ctrl+S (save page)
+   - Disables Ctrl+P (print)
+   - Disables Ctrl+A (select all)
+   - Shows a warning toast on attempt
+═══════════════════════════════════════════════════ */
+(()=>{
+  /* Right-click block */
+  document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    showProtectionToast();
+  });
+
+  /* Drag block */
+  document.addEventListener('dragstart', e => e.preventDefault());
+
+  /* Keyboard shortcut block */
+  document.addEventListener('keydown', e => {
+    const ctrl = e.ctrlKey || e.metaKey;
+    // F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S, Ctrl+P, Ctrl+A
+    if(
+      e.key === 'F12' ||
+      (ctrl && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) ||
+      (ctrl && ['u','U','s','S','p','P','a','A'].includes(e.key))
+    ){
+      e.preventDefault();
+      showProtectionToast();
+    }
+  });
+
+  /* Text selection block on non-input elements */
+  document.addEventListener('selectstart', e => {
+    if(!e.target.closest('input,textarea,select')){
+      e.preventDefault();
+    }
+  });
+
+  /* Copy block */
+  document.addEventListener('copy', e => {
+    if(!e.target.closest('input,textarea')){
+      e.preventDefault();
+      showProtectionToast();
+    }
+  });
+
+  /* Toast UI */
+  let _toastTimer = null;
+  function showProtectionToast(){
+    let toast = document.getElementById('_protection_toast');
+    if(!toast){
+      toast = document.createElement('div');
+      toast.id = '_protection_toast';
+      toast.style.cssText = [
+        'position:fixed','bottom:2rem','left:50%','transform:translateX(-50%)',
+        'background:rgba(5,10,7,.97)','border:1px solid rgba(0,255,136,.3)',
+        'border-radius:8px','padding:.7rem 1.4rem','z-index:2147483647',
+        'font-family:Orbitron,sans-serif','font-size:.62rem','letter-spacing:.1em',
+        'color:#00ff88','box-shadow:0 0 24px rgba(0,255,136,.2)',
+        'pointer-events:none','opacity:0','transition:opacity .2s'
+      ].join(';');
+      toast.textContent = '🛡️ CONTENT PROTECTED';
+      document.body.appendChild(toast);
+    }
+    clearTimeout(_toastTimer);
+    toast.style.opacity = '1';
+    _toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+  }
 })();
 </script>
 </body>
