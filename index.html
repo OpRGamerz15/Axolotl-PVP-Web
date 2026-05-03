@@ -715,18 +715,6 @@
     .nc-pm-badge{margin-left:auto;font-family:'Space Mono',monospace;font-size:.52rem;padding:.15rem .45rem;border-radius:20px;background:rgba(123,92,255,.2);border:1px solid rgba(123,92,255,.3);color:#b99dff;}
 
     /* ═══ NC PROFILE PANELS (slide-in from right) ═══ */
-    #nc-profile-panel{
-      display:none;position:fixed;top:56px;right:0;bottom:0;z-index:9850;
-      width:440px;max-width:100vw;
-      background:#0c0f14;border-left:1px solid rgba(15,255,224,.12);
-      overflow-y:auto;box-shadow:-20px 0 60px rgba(0,0,0,.6);
-    }
-    #nc-profile-panel.open{display:block;animation:slideInRight .25s cubic-bezier(.34,1.56,.64,1);}
-    @keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-    .nc-panel-header{position:sticky;top:0;z-index:10;background:rgba(12,15,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(15,255,224,.1);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;}
-    .nc-panel-title{font-family:'Space Mono',monospace;font-size:.8rem;font-weight:700;color:#fff;letter-spacing:.06em;}
-    .nc-panel-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;transition:color .18s;}
-    .nc-panel-close:hover{color:#ff5c8a;}
     .nc-panel-body{padding:1.2rem;}
     /* Project cards in profile */
     .nc-proj-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.9rem;transition:all .2s;cursor:pointer;}
@@ -2309,25 +2297,35 @@ function ncProfileAction(action){
 
 /* ─── Panel render functions ─── */
 function _renderProfile(){
-  if(!_ncDiscordUser) return '<p style="color:#4a6a7a;font-size:.85rem">Not logged in.</p>';
-  const av = _ncDiscordAvatarUrl(_ncDiscordUser);
-  return `
-    <div style="text-align:center;padding:1.5rem 0 1rem">
-      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#0fffe0,#7b5cff);margin:0 auto .9rem;overflow:hidden;border:3px solid rgba(15,255,224,.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:900;color:#07090c">
-        ${av ? `<img src="${av}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.textContent='${(_ncDiscordUser.username||'?')[0].toUpperCase()}'">` : (_ncDiscordUser.username||'?')[0].toUpperCase()}
-      </div>
-      <div style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.25rem">${_ncDiscordUser.username||'User'}</div>
-      <div style="font-size:.75rem;color:#4a6a7a">${_ncDiscordUser.email||_ncDiscordUser.id||''}</div>
-    </div>
-    <div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem;margin-bottom:.8rem">
-      <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:#4a6a7a;margin-bottom:.5rem">DISCORD ID</div>
-      <div style="font-family:'Space Mono',monospace;font-size:.78rem;color:#d4e8f0">${_ncDiscordUser.id||'—'}</div>
-    </div>
-    <div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem">
-      <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:#4a6a7a;margin-bottom:.5rem">PROJECTS</div>
-      <div style="font-size:1.2rem;font-weight:700;color:#0fffe0">${_ncProjects.length}</div>
-    </div>`;
+  if(!_ncDiscordUser) return '<p style="color:#4a6a7a">Not logged in.</p>';
+  const av      = _ncDiscordAvatarUrl(_ncDiscordUser);
+  const initial = (_ncDiscordUser.username||'?')[0].toUpperCase();
+  const none    = 'none';
+  const imgTag  = av ? '<img src="'+av+'" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='+JSON.stringify(none)+'">' : initial;
+  let expHtml = '';
+  try{
+    const exp=parseInt(localStorage.getItem('nc_discord_expiry')||'0',10);
+    const days=exp?Math.ceil((exp-Date.now())/86400000):0;
+    if(days>0) expHtml='<div style="margin-top:.5rem;font-family:monospace;font-size:.58rem;color:#2a4a5a">Session expires in '+days+' day'+(days===1?'':'s')+'</div>';
+  }catch(e){}
+  return (
+    '<div style="text-align:center;padding:1.5rem 0 1rem">'+
+      '<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#0fffe0,#7b5cff);margin:0 auto .9rem;overflow:hidden;border:3px solid rgba(15,255,224,.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:900;color:#07090c">'+imgTag+'</div>'+
+      '<div style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.25rem">'+(_ncDiscordUser.username||'User')+'</div>'+
+      '<div style="font-size:.75rem;color:#4a6a7a">'+(_ncDiscordUser.email||_ncDiscordUser.id||'')+'</div>'+
+      expHtml+
+    '</div>'+
+    '<div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem;margin-bottom:.8rem">'+
+      '<div style="font-family:monospace;font-size:.6rem;color:#4a6a7a;margin-bottom:.5rem">DISCORD ID</div>'+
+      '<div style="font-family:monospace;font-size:.78rem;color:#d4e8f0">'+(_ncDiscordUser.id||'—')+'</div>'+
+    '</div>'+
+    '<div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem">'+
+      '<div style="font-family:monospace;font-size:.6rem;color:#4a6a7a;margin-bottom:.5rem">PROJECTS</div>'+
+      '<div style="font-size:1.2rem;font-weight:700;color:#0fffe0">'+_ncProjects.length+'</div>'+
+    '</div>'
+  );
 }
+
 
 function _renderProjects(){
   if(_ncProjects.length === 0){
@@ -2908,5 +2906,14 @@ async function vpDownload(mcVer,name){
   }
 })();
 </script>
+
+  <!-- ═══ NC PROFILE SIDE PANEL (outside all overlays, top-level) ═══ -->
+  <div id="nc-profile-panel">
+    <div class="nc-panel-header">
+      <div class="nc-panel-title" id="nc-panel-title">Panel</div>
+      <button class="nc-panel-close" onclick="ncCloseProfilePanel()">✕</button>
+    </div>
+    <div class="nc-panel-body" id="nc-panel-body"></div>
+  </div>
 </body>
 </html>
