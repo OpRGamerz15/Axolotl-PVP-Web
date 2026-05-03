@@ -166,6 +166,61 @@
     .nc-pm-item.danger:hover{background:rgba(255,92,138,.06);}
     .nc-pm-item-icon{width:18px;text-align:center;font-size:.9rem;flex-shrink:0;}
     .nc-pm-badge{margin-left:auto;font-family:'Space Mono',monospace;font-size:.52rem;padding:.15rem .45rem;border-radius:20px;background:rgba(123,92,255,.2);border:1px solid rgba(123,92,255,.3);color:#b99dff;}
+
+    /* ═══ NC PROFILE PANELS (slide-in from right) ═══ */
+    #nc-profile-panel{
+      display:none;position:fixed;top:56px;right:0;bottom:0;z-index:9850;
+      width:440px;max-width:100vw;
+      background:#0c0f14;border-left:1px solid rgba(15,255,224,.12);
+      overflow-y:auto;box-shadow:-20px 0 60px rgba(0,0,0,.6);
+    }
+    #nc-profile-panel.open{display:block;animation:slideInRight .25s cubic-bezier(.34,1.56,.64,1);}
+    @keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+    .nc-panel-header{position:sticky;top:0;z-index:10;background:rgba(12,15,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(15,255,224,.1);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;}
+    .nc-panel-title{font-family:'Space Mono',monospace;font-size:.8rem;font-weight:700;color:#fff;letter-spacing:.06em;}
+    .nc-panel-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;transition:color .18s;}
+    .nc-panel-close:hover{color:#ff5c8a;}
+    .nc-panel-body{padding:1.2rem;}
+    /* Project cards in profile */
+    .nc-proj-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.9rem;transition:all .2s;cursor:pointer;}
+    .nc-proj-card:hover{border-color:rgba(15,255,224,.28);background:rgba(15,255,224,.06);transform:translateX(3px);}
+    .nc-proj-icon{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:1px solid rgba(15,255,224,.15);}
+    .nc-proj-name{font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.18rem;}
+    .nc-proj-meta{font-size:.72rem;color:#4a6a7a;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+    .nc-proj-type-badge{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:3px;background:rgba(15,255,224,.08);border:1px solid rgba(15,255,224,.15);color:#0fffe0;}
+    .nc-proj-vis{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:3px;}
+    .nc-proj-vis.public{background:rgba(30,198,102,.1);border:1px solid rgba(30,198,102,.2);color:#1ec666;}
+    .nc-proj-vis.private{background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);color:#ffa500;}
+    .nc-proj-arrow{margin-left:auto;color:#2a4a5a;font-size:.9rem;transition:color .18s;}
+    .nc-proj-card:hover .nc-proj-arrow{color:#0fffe0;}
+    .nc-proj-empty{text-align:center;padding:3rem 1rem;}
+    .nc-proj-empty-icon{font-size:2.5rem;opacity:.3;margin-bottom:.8rem;}
+    .nc-proj-empty-title{color:#fff;font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
+    .nc-proj-empty-sub{color:#4a6a7a;font-size:.8rem;line-height:1.6;margin-bottom:1.2rem;}
+    /* Notification items */
+    .nc-notif-item{display:flex;gap:.8rem;padding:.9rem 0;border-bottom:1px solid rgba(15,255,224,.06);}
+    .nc-notif-item:last-child{border-bottom:none;}
+    .nc-notif-dot{width:8px;height:8px;border-radius:50%;background:#0fffe0;flex-shrink:0;margin-top:.3rem;}
+    .nc-notif-dot.read{background:#2a4a5a;}
+    .nc-notif-text{font-size:.84rem;color:#d4e8f0;line-height:1.5;flex:1;}
+    .nc-notif-time{font-size:.68rem;color:#4a6a7a;white-space:nowrap;margin-top:.15rem;}
+    /* Collection grid */
+    .nc-coll-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+    .nc-coll-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem;transition:all .18s;}
+    .nc-coll-card:hover{border-color:rgba(15,255,224,.25);}
+    .nc-coll-name{font-weight:700;color:#fff;font-size:.84rem;margin-bottom:.25rem;}
+    .nc-coll-count{font-size:.72rem;color:#4a6a7a;}
+    /* Settings fields */
+    .nc-settings-section{margin-bottom:1.5rem;}
+    .nc-settings-title{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;color:#4a6a7a;text-transform:uppercase;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-settings-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(15,255,224,.04);}
+    .nc-settings-row:last-child{border-bottom:none;}
+    .nc-settings-label{font-size:.85rem;color:#d4e8f0;font-weight:600;}
+    .nc-settings-desc{font-size:.72rem;color:#4a6a7a;margin-top:.1rem;}
+    .nc-toggle{width:36px;height:20px;background:#1a2a3a;border-radius:20px;position:relative;transition:background .2s;border:none;flex-shrink:0;}
+    .nc-toggle.on{background:linear-gradient(135deg,#0fffe0,#7b5cff);}
+    .nc-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s;}
+    .nc-toggle.on::after{transform:translateX(16px);}
     @media(max-width:768px){
       .wiki-body{flex-direction:column!important;}
       .wiki-body>div:last-child{width:100%!important;}
@@ -658,6 +713,61 @@
     .nc-pm-item.danger:hover{background:rgba(255,92,138,.06);}
     .nc-pm-item-icon{width:18px;text-align:center;font-size:.9rem;flex-shrink:0;}
     .nc-pm-badge{margin-left:auto;font-family:'Space Mono',monospace;font-size:.52rem;padding:.15rem .45rem;border-radius:20px;background:rgba(123,92,255,.2);border:1px solid rgba(123,92,255,.3);color:#b99dff;}
+
+    /* ═══ NC PROFILE PANELS (slide-in from right) ═══ */
+    #nc-profile-panel{
+      display:none;position:fixed;top:56px;right:0;bottom:0;z-index:9850;
+      width:440px;max-width:100vw;
+      background:#0c0f14;border-left:1px solid rgba(15,255,224,.12);
+      overflow-y:auto;box-shadow:-20px 0 60px rgba(0,0,0,.6);
+    }
+    #nc-profile-panel.open{display:block;animation:slideInRight .25s cubic-bezier(.34,1.56,.64,1);}
+    @keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+    .nc-panel-header{position:sticky;top:0;z-index:10;background:rgba(12,15,20,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(15,255,224,.1);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;}
+    .nc-panel-title{font-family:'Space Mono',monospace;font-size:.8rem;font-weight:700;color:#fff;letter-spacing:.06em;}
+    .nc-panel-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;transition:color .18s;}
+    .nc-panel-close:hover{color:#ff5c8a;}
+    .nc-panel-body{padding:1.2rem;}
+    /* Project cards in profile */
+    .nc-proj-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.9rem;transition:all .2s;cursor:pointer;}
+    .nc-proj-card:hover{border-color:rgba(15,255,224,.28);background:rgba(15,255,224,.06);transform:translateX(3px);}
+    .nc-proj-icon{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:1px solid rgba(15,255,224,.15);}
+    .nc-proj-name{font-weight:700;color:#fff;font-size:.9rem;margin-bottom:.18rem;}
+    .nc-proj-meta{font-size:.72rem;color:#4a6a7a;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+    .nc-proj-type-badge{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:3px;background:rgba(15,255,224,.08);border:1px solid rgba(15,255,224,.15);color:#0fffe0;}
+    .nc-proj-vis{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.08em;padding:.15rem .45rem;border-radius:3px;}
+    .nc-proj-vis.public{background:rgba(30,198,102,.1);border:1px solid rgba(30,198,102,.2);color:#1ec666;}
+    .nc-proj-vis.private{background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);color:#ffa500;}
+    .nc-proj-arrow{margin-left:auto;color:#2a4a5a;font-size:.9rem;transition:color .18s;}
+    .nc-proj-card:hover .nc-proj-arrow{color:#0fffe0;}
+    .nc-proj-empty{text-align:center;padding:3rem 1rem;}
+    .nc-proj-empty-icon{font-size:2.5rem;opacity:.3;margin-bottom:.8rem;}
+    .nc-proj-empty-title{color:#fff;font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
+    .nc-proj-empty-sub{color:#4a6a7a;font-size:.8rem;line-height:1.6;margin-bottom:1.2rem;}
+    /* Notification items */
+    .nc-notif-item{display:flex;gap:.8rem;padding:.9rem 0;border-bottom:1px solid rgba(15,255,224,.06);}
+    .nc-notif-item:last-child{border-bottom:none;}
+    .nc-notif-dot{width:8px;height:8px;border-radius:50%;background:#0fffe0;flex-shrink:0;margin-top:.3rem;}
+    .nc-notif-dot.read{background:#2a4a5a;}
+    .nc-notif-text{font-size:.84rem;color:#d4e8f0;line-height:1.5;flex:1;}
+    .nc-notif-time{font-size:.68rem;color:#4a6a7a;white-space:nowrap;margin-top:.15rem;}
+    /* Collection grid */
+    .nc-coll-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+    .nc-coll-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem;transition:all .18s;}
+    .nc-coll-card:hover{border-color:rgba(15,255,224,.25);}
+    .nc-coll-name{font-weight:700;color:#fff;font-size:.84rem;margin-bottom:.25rem;}
+    .nc-coll-count{font-size:.72rem;color:#4a6a7a;}
+    /* Settings fields */
+    .nc-settings-section{margin-bottom:1.5rem;}
+    .nc-settings-title{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;color:#4a6a7a;text-transform:uppercase;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-settings-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(15,255,224,.04);}
+    .nc-settings-row:last-child{border-bottom:none;}
+    .nc-settings-label{font-size:.85rem;color:#d4e8f0;font-weight:600;}
+    .nc-settings-desc{font-size:.72rem;color:#4a6a7a;margin-top:.1rem;}
+    .nc-toggle{width:36px;height:20px;background:#1a2a3a;border-radius:20px;position:relative;transition:background .2s;border:none;flex-shrink:0;}
+    .nc-toggle.on{background:linear-gradient(135deg,#0fffe0,#7b5cff);}
+    .nc-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s;}
+    .nc-toggle.on::after{transform:translateX(16px);}
     @media(max-width:768px){
       header{padding:0 .8rem;height:56px;}
       nav{gap:.25rem;}
@@ -916,23 +1026,21 @@
           <div class="nc-pm-email" id="nc-pm-email">user@email.com</div>
         </div>
         <div class="nc-pm-section">
-          <button class="nc-pm-item" onclick="ncProfileAction('profile')"><span class="nc-pm-item-icon">👤</span>Profile</button>
-          <button class="nc-pm-item accent" onclick="ncProfileAction('upgrade')"><span class="nc-pm-item-icon">⬆</span>Upgrade to NexCraft+<span class="nc-pm-badge">PRO</span></button>
-          <button class="nc-pm-item" onclick="ncProfileAction('servers')"><span class="nc-pm-item-icon">🖥️</span>My servers</button>
-          <button class="nc-pm-item" onclick="ncProfileAction('settings')"><span class="nc-pm-item-icon">⚙️</span>Settings</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('profile')"><span class="nc-pm-item-icon">👤</span>Profile</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('servers')"><span class="nc-pm-item-icon">🖥️</span>My servers</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('settings')"><span class="nc-pm-item-icon">⚙️</span>Settings</button>
         </div>
         <div class="nc-pm-divider"></div>
         <div class="nc-pm-section">
-          <button class="nc-pm-item" onclick="ncProfileAction('notifications')"><span class="nc-pm-item-icon">🔔</span>Notifications</button>
-          <button class="nc-pm-item" onclick="ncProfileAction('reports')"><span class="nc-pm-item-icon">🚩</span>Active reports</button>
-          <button class="nc-pm-item" onclick="ncProfileAction('collections')"><span class="nc-pm-item-icon">📚</span>Collections</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('notifications')"><span class="nc-pm-item-icon">🔔</span>Notifications</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('reports')"><span class="nc-pm-item-icon">🚩</span>Active reports</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('collections')"><span class="nc-pm-item-icon">📚</span>Collections</button>
         </div>
         <div class="nc-pm-divider"></div>
         <div class="nc-pm-section">
-          <button class="nc-pm-item" onclick="ncShowPage('modpacks');ncCloseProfileMenu()"><span class="nc-pm-item-icon">📦</span>Projects</button>
-          <button class="nc-pm-item" onclick="ncProfileAction('orgs')"><span class="nc-pm-item-icon">🏢</span>Organizations</button>
-          <button class="nc-pm-item" onclick="ncProfileAction('analytics')"><span class="nc-pm-item-icon">📊</span>Analytics</button>
-          <button class="nc-pm-item" onclick="ncProfileAction('revenue')"><span class="nc-pm-item-icon">💵</span>Revenue</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('projects')"><span class="nc-pm-item-icon">📦</span>Projects</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('orgs')"><span class="nc-pm-item-icon">🏢</span>Organizations</button>
+          <button class="nc-pm-item" onclick="ncOpenProfilePanel('analytics')"><span class="nc-pm-item-icon">📊</span>Analytics</button>
         </div>
         <div class="nc-pm-divider"></div>
         <div class="nc-pm-section">
@@ -1868,6 +1976,7 @@ const NC_SLUG_MAP = {
   'plugins':   '/nexcraft/plugins',
 };
 const NC_SLUG_REVERSE = {
+  '/':                        'home',
   '/nexcraft':                'home',
   '/nexcraft/':               'home',
   '/nexcraft/mods':           'mods',
@@ -2008,13 +2117,25 @@ const DISCORD_SCOPES       = 'identify';
 
 let _ncDiscordUser = null;
 
-/* ── Restore session ── */
+/* ── Restore session (persists 1 week via localStorage) ── */
+const NC_SESSION_KEY  = 'nc_discord_user';
+const NC_EXPIRY_KEY   = 'nc_discord_expiry';
+const NC_WEEK_MS      = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
+
 (()=>{
   try{
-    const saved = sessionStorage.getItem('nc_discord_user');
-    if(saved) _ncDiscordUser = JSON.parse(saved);
+    const expiry = parseInt(localStorage.getItem(NC_EXPIRY_KEY)||'0', 10);
+    const saved  = localStorage.getItem(NC_SESSION_KEY);
+    if(saved && expiry && Date.now() < expiry){
+      _ncDiscordUser = JSON.parse(saved);
+    } else if(saved){
+      // Expired — clear
+      localStorage.removeItem(NC_SESSION_KEY);
+      localStorage.removeItem(NC_EXPIRY_KEY);
+    }
   }catch(e){}
   _ncUpdateAuthUI();
+  _ncLoadProjects();
 })();
 
 /* ── Handle implicit token returned in URL hash after Discord redirect ── */
@@ -2055,7 +2176,10 @@ function ncDiscordLogin(){
 
 function ncDiscordHandleUser(user){
   _ncDiscordUser = user;
-  try{ sessionStorage.setItem('nc_discord_user', JSON.stringify(user)); }catch(e){}
+  try{
+    localStorage.setItem(NC_SESSION_KEY,  JSON.stringify(user));
+    localStorage.setItem(NC_EXPIRY_KEY,   String(Date.now() + NC_WEEK_MS));
+  }catch(e){}
   _ncUpdateAuthUI();
   ncCloseDiscordAuth();
   _ncDoOpenUpload();
@@ -2063,7 +2187,11 @@ function ncDiscordHandleUser(user){
 
 function ncDiscordSignOut(){
   _ncDiscordUser = null;
-  try{ sessionStorage.removeItem('nc_discord_user'); }catch(e){}
+  try{
+    localStorage.removeItem(NC_SESSION_KEY);
+    localStorage.removeItem(NC_EXPIRY_KEY);
+    localStorage.removeItem('nc_projects');
+  }catch(e){}
   _ncUpdateAuthUI();
 }
 
@@ -2123,20 +2251,242 @@ function ncCloseProfileMenu(){
   if(btn)  btn.classList.remove('open');
 }
 
-function ncProfileAction(action){
+/* ════ PROJECT STORAGE (in-session) ════ */
+let _ncProjects = [];
+
+function _ncSaveProjects(){
+  try{ localStorage.setItem('nc_projects', JSON.stringify(_ncProjects)); }catch(e){}
+}
+function _ncLoadProjects(){
+  try{
+    const s = localStorage.getItem('nc_projects');
+    if(s) _ncProjects = JSON.parse(s);
+  }catch(e){}
+}
+/* _ncLoadProjects() called after session restore above */
+
+const TYPE_ICONS = {mod:'🔧',resource:'🎨',datapack:'📦',shader:'✨',modpack:'🧩',plugin:'🔌'};
+
+/* ════ PROFILE SIDE PANEL ════ */
+function ncOpenProfilePanel(panel){
   ncCloseProfileMenu();
-  /* Placeholder actions — expand as needed */
-  const msgs = {
-    profile:      'Profile page coming soon!',
-    servers:      'My Servers — coming soon!',
-    settings:     'Settings — coming soon!',
-    notifications:'Notifications — coming soon!',
-    reports:      'Active Reports — coming soon!',
-    collections:  'Collections — coming soon!',
-    orgs:         'Organizations — coming soon!',
-    analytics:    'Analytics — coming soon!',
+  const el = document.getElementById('nc-profile-panel');
+  const titleEl = document.getElementById('nc-panel-title');
+  const bodyEl  = document.getElementById('nc-panel-body');
+  if(!el||!titleEl||!bodyEl) return;
+
+  const PANELS = {
+    profile: { title:'Profile', render: _renderProfile },
+    servers: { title:'My Servers', render: _renderServers },
+    settings:{ title:'Settings', render: _renderSettings },
+    notifications:{ title:'Notifications', render: _renderNotifications },
+    reports: { title:'Active Reports', render: _renderReports },
+    collections:{ title:'Collections', render: _renderCollections },
+    projects:{ title:'Projects', render: _renderProjects },
+    orgs:    { title:'Organizations', render: _renderOrgs },
+    analytics:{ title:'Analytics', render: _renderAnalytics },
   };
-  if(msgs[action]) alert(msgs[action]);
+
+  const cfg = PANELS[panel];
+  if(!cfg) return;
+  titleEl.textContent = cfg.title;
+  bodyEl.innerHTML = cfg.render();
+  el.classList.add('open');
+  // Attach toggle events
+  el.querySelectorAll('.nc-toggle').forEach(t=>{
+    t.addEventListener('click',()=>t.classList.toggle('on'));
+  });
+}
+
+function ncCloseProfilePanel(){
+  const el=document.getElementById('nc-profile-panel');
+  if(el) el.classList.remove('open');
+}
+
+function ncProfileAction(action){
+  ncOpenProfilePanel(action);
+}
+
+/* ─── Panel render functions ─── */
+function _renderProfile(){
+  if(!_ncDiscordUser) return '<p style="color:#4a6a7a;font-size:.85rem">Not logged in.</p>';
+  const av = _ncDiscordAvatarUrl(_ncDiscordUser);
+  return `
+    <div style="text-align:center;padding:1.5rem 0 1rem">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#0fffe0,#7b5cff);margin:0 auto .9rem;overflow:hidden;border:3px solid rgba(15,255,224,.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:900;color:#07090c">
+        ${av ? `<img src="${av}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.textContent='${(_ncDiscordUser.username||'?')[0].toUpperCase()}'">` : (_ncDiscordUser.username||'?')[0].toUpperCase()}
+      </div>
+      <div style="font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.25rem">${_ncDiscordUser.username||'User'}</div>
+      <div style="font-size:.75rem;color:#4a6a7a">${_ncDiscordUser.email||_ncDiscordUser.id||''}</div>
+    </div>
+    <div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem;margin-bottom:.8rem">
+      <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:#4a6a7a;margin-bottom:.5rem">DISCORD ID</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.78rem;color:#d4e8f0">${_ncDiscordUser.id||'—'}</div>
+    </div>
+    <div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem 1rem">
+      <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:#4a6a7a;margin-bottom:.5rem">PROJECTS</div>
+      <div style="font-size:1.2rem;font-weight:700;color:#0fffe0">${_ncProjects.length}</div>
+    </div>`;
+}
+
+function _renderProjects(){
+  if(_ncProjects.length === 0){
+    return `<div class="nc-proj-empty">
+      <div class="nc-proj-empty-icon">📦</div>
+      <div class="nc-proj-empty-title">No projects yet</div>
+      <div class="nc-proj-empty-sub">Create your first project by clicking the + Publish button.</div>
+      <button class="nc-add-version-btn" onclick="ncCloseProfilePanel();ncOpenUpload()">+ Create Project</button>
+    </div>`;
+  }
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div style="font-size:.78rem;color:#4a6a7a">${_ncProjects.length} project${_ncProjects.length!==1?'s':''}</div>
+      <button class="nc-add-version-btn" style="font-size:.58rem;padding:.35rem .8rem" onclick="ncCloseProfilePanel();ncOpenUpload()">+ New</button>
+    </div>
+    ${_ncProjects.map((p,i)=>`
+    <div class="nc-proj-card" onclick="ncEditProject(${i})">
+      <div class="nc-proj-icon">${TYPE_ICONS[p.type]||'📦'}</div>
+      <div style="flex:1;min-width:0">
+        <div class="nc-proj-name">${p.name}</div>
+        <div class="nc-proj-meta">
+          <span class="nc-proj-type-badge">${p.type||'mod'}</span>
+          <span class="nc-proj-vis ${p.visibility==='public'?'public':'private'}">${p.visibility==='public'?'🌐 Public':'🔒 Private'}</span>
+          <span style="color:#2a4a5a">${p.slug||''}</span>
+        </div>
+      </div>
+      <span class="nc-proj-arrow">→</span>
+    </div>`).join('')}`;
+}
+
+function ncEditProject(idx){
+  const p = _ncProjects[idx];
+  if(!p) return;
+  ncCloseProfilePanel();
+  // Pre-fill project settings page
+  _ncProjectData = {...p};
+  const _set=(id,val,prop='textContent')=>{const el=document.getElementById(id);if(el)el[prop]=val;};
+  _set('nc-pp-project-name', p.name);
+  _set('nc-pp-name-input', p.name, 'value');
+  _set('nc-pp-slug-input', p.slug||'', 'value');
+  _set('nc-pp-summary-input', p.summary||'', 'value');
+  _set('nc-pp-summary-count', (p.summary||'').length);
+  _set('nc-pp-icon-preview', TYPE_ICONS[p.type]||'📦');
+  const pp=document.getElementById('nc-project-page');
+  if(pp){pp.classList.add('open');pp.scrollTop=0;}
+  document.body.style.overflow='hidden';
+  ncShowTab('general');
+}
+
+function _renderServers(){
+  return `<div class="nc-proj-empty">
+    <div class="nc-proj-empty-icon">🖥️</div>
+    <div class="nc-proj-empty-title">No servers yet</div>
+    <div class="nc-proj-empty-sub">Host a Minecraft server to manage it here.</div>
+    <button class="nc-add-version-btn">+ Host a server</button>
+  </div>`;
+}
+
+function _renderSettings(){
+  return `
+    <div class="nc-settings-section">
+      <div class="nc-settings-title">Appearance</div>
+      <div class="nc-settings-row">
+        <div><div class="nc-settings-label">Dark mode</div><div class="nc-settings-desc">Use dark theme across NexCraft Hub</div></div>
+        <button class="nc-toggle on"></button>
+      </div>
+      <div class="nc-settings-row">
+        <div><div class="nc-settings-label">Animated background</div><div class="nc-settings-desc">Minecraft terrain background animation</div></div>
+        <button class="nc-toggle on"></button>
+      </div>
+    </div>
+    <div class="nc-settings-section">
+      <div class="nc-settings-title">Notifications</div>
+      <div class="nc-settings-row">
+        <div><div class="nc-settings-label">Project updates</div><div class="nc-settings-desc">Notify when your projects get activity</div></div>
+        <button class="nc-toggle on"></button>
+      </div>
+      <div class="nc-settings-row">
+        <div><div class="nc-settings-label">New followers</div><div class="nc-settings-desc">Notify when someone follows your project</div></div>
+        <button class="nc-toggle"></button>
+      </div>
+    </div>
+    <div class="nc-settings-section">
+      <div class="nc-settings-title">Privacy</div>
+      <div class="nc-settings-row">
+        <div><div class="nc-settings-label">Show profile publicly</div><div class="nc-settings-desc">Allow others to view your profile page</div></div>
+        <button class="nc-toggle on"></button>
+      </div>
+    </div>`;
+}
+
+function _renderNotifications(){
+  return `
+    <div class="nc-notif-item">
+      <div class="nc-notif-dot"></div>
+      <div style="flex:1">
+        <div class="nc-notif-text">Welcome to <strong>NexCraft Hub</strong>! Create your first project to get started.</div>
+        <div class="nc-notif-time">Just now</div>
+      </div>
+    </div>
+    <div class="nc-notif-item">
+      <div class="nc-notif-dot read"></div>
+      <div style="flex:1">
+        <div class="nc-notif-text"><strong>Axolotl PVP+</strong> has been updated to version 11.0.0</div>
+        <div class="nc-notif-time">2 weeks ago</div>
+      </div>
+    </div>`;
+}
+
+function _renderReports(){
+  return `<div class="nc-proj-empty">
+    <div class="nc-proj-empty-icon">🚩</div>
+    <div class="nc-proj-empty-title">No active reports</div>
+    <div class="nc-proj-empty-sub">Any reports you've submitted will appear here.</div>
+  </div>`;
+}
+
+function _renderCollections(){
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+      <div style="font-size:.78rem;color:#4a6a7a">0 collections</div>
+      <button class="nc-add-version-btn" style="font-size:.58rem;padding:.35rem .8rem">+ New collection</button>
+    </div>
+    <div class="nc-proj-empty" style="padding:2rem 1rem">
+      <div class="nc-proj-empty-icon">📚</div>
+      <div class="nc-proj-empty-title">No collections</div>
+      <div class="nc-proj-empty-sub">Save projects into collections to organise your favourites.</div>
+    </div>`;
+}
+
+function _renderOrgs(){
+  return `<div class="nc-proj-empty">
+    <div class="nc-proj-empty-icon">🏢</div>
+    <div class="nc-proj-empty-title">No organizations</div>
+    <div class="nc-proj-empty-sub">Create or join an organization to collaborate on projects.</div>
+    <button class="nc-add-version-btn">+ Create organization</button>
+  </div>`;
+}
+
+function _renderAnalytics(){
+  if(_ncProjects.length === 0){
+    return `<div class="nc-proj-empty">
+      <div class="nc-proj-empty-icon">📊</div>
+      <div class="nc-proj-empty-title">No data yet</div>
+      <div class="nc-proj-empty-sub">Analytics will appear once you have published projects with downloads.</div>
+    </div>`;
+  }
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem">
+      <div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem;text-align:center">
+        <div style="font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;color:#0fffe0">0</div>
+        <div style="font-size:.7rem;color:#4a6a7a;margin-top:.2rem">Total Downloads</div>
+      </div>
+      <div style="background:rgba(15,255,224,.04);border:1px solid rgba(15,255,224,.1);border-radius:8px;padding:.9rem;text-align:center">
+        <div style="font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;color:#7b5cff">${_ncProjects.length}</div>
+        <div style="font-size:.7rem;color:#4a6a7a;margin-top:.2rem">Projects</div>
+      </div>
+    </div>
+    <div style="font-size:.8rem;color:#4a6a7a;text-align:center">Detailed analytics available after first download.</div>`;
 }
 
 /* Close dropdown when clicking outside */
@@ -2242,7 +2592,17 @@ function ncSubmitCreate(){
   const icons = {mod:'🔧',resource:'🎨',datapack:'📦',shader:'✨',modpack:'🧩',plugin:'🔌'};
   _set('nc-pp-icon-preview', icons[_ncProjectData.type] || '📦');
 
-  // Show project page
+  // Save project to session
+  const newProj = {
+    type: _ncProjectData.type,
+    name, slug: _ncProjectData.slug,
+    summary, visibility: 'private',
+    created: Date.now()
+  };
+  _ncProjects.push(newProj);
+  _ncSaveProjects();
+
+  // Show project settings page
   const pp=document.getElementById('nc-project-page');
   if(pp){pp.classList.add('open');pp.scrollTop=0;}
   document.body.style.overflow = 'hidden';
