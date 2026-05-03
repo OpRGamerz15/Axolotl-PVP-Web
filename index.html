@@ -1399,7 +1399,7 @@
             <div class="nc-cl-item">
               <div class="nc-cl-item-title"><span class="nc-cl-item-icon" style="color:#ffa500">⚠</span>Submit for review</div>
               <div class="nc-cl-item-body">Your project must be reviewed by moderators before being published.</div>
-              <button class="nc-submit-review-btn">✈ Submit for review</button>
+              <button class="nc-submit-review-btn" id="nc-submit-review-btn" disabled style="opacity:.4;pointer-events:none">✈ Submit for review</button>
             </div>
           </div>
         </div>
@@ -1434,7 +1434,8 @@
             <div class="nc-pp-icon-row">
               <div class="nc-pp-icon-preview" id="nc-pp-icon-preview">📦</div>
               <div>
-                <button class="nc-pp-icon-btn">⬆ Upload icon</button>
+<input type="file" id="nc-icon-file" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="ncHandleIconFile(this.files[0])"/>
+                <button class="nc-pp-icon-btn" onclick="document.getElementById('nc-icon-file').click()">⬆ Upload icon</button>
                 <div class="nc-pp-hint" style="margin-top:.4rem">PNG, JPEG, or WebP. Max 500KB.</div>
               </div>
             </div>
@@ -1461,7 +1462,7 @@
           <div class="nc-danger-box">
             <div class="nc-danger-title">Delete project</div>
             <div class="nc-danger-desc">Permanently removes your project and all its versions from NexCraft Hub. This action cannot be undone. Be careful!</div>
-            <button class="nc-delete-btn">🗑 Delete project</button>
+            <button class="nc-delete-btn" onclick="ncDeleteFromSettings()">🗑 Delete project</button>
           </div>
         </div>
 
@@ -1564,10 +1565,17 @@
           <div class="nc-pp-field">
             <label class="nc-pp-label">Featured image</label>
             <div class="nc-pp-hint" style="margin-bottom:.8rem">The featured image is how your project makes its first impression in search results.</div>
-            <div class="nc-gallery-drop">
-              <div class="nc-gallery-drop-icon">🖼️</div>
-              <div class="nc-gallery-drop-text">Drag and drop an image here, or click to browse.<br><span style="font-size:.75rem;opacity:.6">PNG, JPEG, WebP or GIF. Max 4MB.</span></div>
-              <button class="nc-gallery-drop-btn">Browse files</button>
+            <div class="nc-gallery-drop" id="nc-gallery-drop" onclick="document.getElementById('nc-gallery-file').click()" ondragover="event.preventDefault();this.style.borderColor='#0fffe0'" ondragleave="this.style.borderColor=''" ondrop="ncHandleGalleryDrop(event)">
+              <div id="nc-gallery-preview" style="display:none;margin-bottom:.8rem">
+                <img id="nc-gallery-img" src="" style="max-width:100%;max-height:200px;border-radius:8px;border:1px solid rgba(15,255,224,.2)"/>
+                <button onclick="event.stopPropagation();ncClearGallery()" style="display:block;margin:.5rem auto 0;font-family:'Space Mono',monospace;font-size:.58rem;padding:.25rem .65rem;border:1px solid rgba(255,92,138,.3);border-radius:4px;color:#ff5c8a;background:none">✕ Remove</button>
+              </div>
+              <div id="nc-gallery-empty">
+                <div class="nc-gallery-drop-icon">🖼️</div>
+                <div class="nc-gallery-drop-text">Drag and drop an image here, or click to browse.<br><span style="font-size:.75rem;opacity:.6">PNG, JPEG, WebP or GIF. Max 4MB.</span></div>
+                <button class="nc-gallery-drop-btn" onclick="event.stopPropagation();document.getElementById('nc-gallery-file').click()">Browse files</button>
+              </div>
+              <input type="file" id="nc-gallery-file" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none" onchange="ncHandleGalleryFile(this.files[0])"/>
             </div>
           </div>
         </div>
