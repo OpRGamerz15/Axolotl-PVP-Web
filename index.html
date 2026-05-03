@@ -8,6 +8,8 @@
   <meta property="og:title" content="Axolotl PVP+"/>
   <meta property="og:description" content="High-performance PVP-focused Minecraft modpack. Boost your FPS. Built for competitive PvP."/>
   <meta name="theme-color" content="#00ff88"/>
+  <link rel="canonical" href="https://www.axolotlpvp.qzz.io/"/>
+  <meta property="og:url" content="https://www.axolotlpvp.qzz.io/"/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     /* ═══ RESET & CURSOR ═══ */
@@ -221,6 +223,64 @@
     .nc-toggle.on{background:linear-gradient(135deg,#0fffe0,#7b5cff);}
     .nc-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s;}
     .nc-toggle.on::after{transform:translateX(16px);}
+
+    /* ═══ NC PROJECT VIEW OVERLAY (Modrinth-style) ═══ */
+    #nc-proj-view{display:none;position:fixed;inset:0;z-index:9810;background:#07090c;overflow-y:auto;}
+    #nc-proj-view.open{display:block;animation:overlayIn .25s ease;}
+    .nc-pv-topbar{position:sticky;top:0;z-index:20;height:54px;background:rgba(7,9,12,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(15,255,224,.1);display:flex;align-items:center;gap:.8rem;padding:0 1.5rem;}
+    .nc-pv-back{font-family:'Space Mono',monospace;font-size:.6rem;padding:.35rem .75rem;border:1px solid rgba(255,92,138,.3);border-radius:5px;color:#ff5c8a;background:none;transition:all .2s;}
+    .nc-pv-back:hover{border-color:#ff5c8a;background:rgba(255,92,138,.06);}
+    .nc-pv-edit-btn{font-family:'Space Mono',monospace;font-size:.6rem;padding:.35rem .85rem;border:none;border-radius:5px;background:#1ec666;color:#000;font-weight:700;display:flex;align-items:center;gap:.4rem;transition:all .2s;margin-left:auto;}
+    .nc-pv-edit-btn:hover{box-shadow:0 0 16px rgba(30,198,102,.4);}
+    .nc-pv-action-btn{width:32px;height:32px;border-radius:6px;border:1px solid rgba(15,255,224,.15);background:none;color:#4a6a7a;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .18s;}
+    .nc-pv-action-btn:hover{border-color:rgba(15,255,224,.3);color:#d4e8f0;}
+    /* Hero */
+    .nc-pv-hero{padding:1.2rem 2rem;border-bottom:1px solid rgba(15,255,224,.08);background:rgba(15,255,224,.02);}
+    .nc-pv-hero-row{display:flex;align-items:flex-start;gap:1.1rem;}
+    .nc-pv-proj-icon{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));border:1px solid rgba(15,255,224,.2);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;}
+    .nc-pv-proj-name{font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.2rem;}
+    .nc-pv-proj-desc{font-size:.85rem;color:#4a6a7a;line-height:1.6;margin-bottom:.6rem;}
+    .nc-pv-proj-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;font-size:.78rem;color:#4a6a7a;}
+    .nc-pv-vis-badge{font-family:'Space Mono',monospace;font-size:.58rem;padding:.18rem .6rem;border-radius:20px;}
+    .nc-pv-vis-badge.private{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.25);color:#ffa500;}
+    .nc-pv-vis-badge.public{background:rgba(30,198,102,.1);border:1px solid rgba(30,198,102,.25);color:#1ec666;}
+    /* Tabs */
+    .nc-pv-tabs{display:flex;border-bottom:1px solid rgba(15,255,224,.08);padding:0 2rem;background:#07090c;position:sticky;top:54px;z-index:15;}
+    .nc-pv-tab{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;padding:.7rem 1rem;background:none;border:none;color:#4a6a7a;border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;}
+    .nc-pv-tab:hover{color:#d4e8f0;}
+    .nc-pv-tab.active{color:#0fffe0;border-bottom-color:#0fffe0;}
+    /* Layout */
+    .nc-pv-layout{display:flex;gap:1.5rem;padding:1.5rem 2rem 4rem;max-width:1100px;margin:0 auto;}
+    .nc-pv-main{flex:1;min-width:0;}
+    .nc-pv-sidebar{width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:.8rem;}
+    .nc-pv-tab-content{display:none;}
+    .nc-pv-tab-content.active{display:block;}
+    /* Content cards */
+    .nc-pv-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1rem;}
+    .nc-pv-card p{color:#7a9aaa;font-size:.88rem;line-height:1.75;margin-bottom:.6rem;}
+    .nc-pv-card p:last-child{margin-bottom:0;}
+    .nc-pv-sb-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem 1.1rem;}
+    .nc-pv-sb-title{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;color:#fff;letter-spacing:.08em;margin-bottom:.8rem;}
+    .nc-pv-sb-row{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#4a6a7a;padding:.3rem 0;border-bottom:1px solid rgba(15,255,224,.06);}
+    .nc-pv-sb-row:last-child{border-bottom:none;}
+    .nc-pv-sb-tag{font-size:.65rem;padding:.2rem .55rem;background:rgba(15,255,224,.06);border:1px solid rgba(15,255,224,.15);border-radius:4px;color:#4a6a7a;display:inline-block;margin:.1rem .1rem;}
+    /* Delete danger zone */
+    .nc-pv-danger{background:rgba(255,92,138,.04);border:1px solid rgba(255,92,138,.2);border-radius:10px;padding:1.2rem 1.4rem;margin-top:1.5rem;}
+    .nc-pv-danger-title{font-weight:800;color:#ff5c8a;margin-bottom:.4rem;font-size:.9rem;}
+    .nc-pv-danger-desc{font-size:.8rem;color:#4a6a7a;line-height:1.5;margin-bottom:1rem;}
+    .nc-pv-delete-btn{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.5rem 1.1rem;background:#ff5c8a;color:#fff;border:none;border-radius:6px;display:flex;align-items:center;gap:.4rem;transition:all .2s;}
+    .nc-pv-delete-btn:hover{background:#ff2a5a;box-shadow:0 0 18px rgba(255,92,138,.4);}
+    /* Publish checklist */
+    .nc-pv-checklist{background:rgba(15,255,224,.02);border:1px solid rgba(15,255,224,.1);border-radius:10px;overflow:hidden;margin-bottom:1.2rem;}
+    .nc-pv-cl-head{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-pv-cl-title{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;color:#fff;}
+    .nc-pv-cl-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+    .nc-pv-cl-item{padding:.9rem 1rem;border:1px solid rgba(15,255,224,.05);font-size:.78rem;}
+    .nc-pv-cl-item-title{font-weight:700;color:#fff;margin-bottom:.3rem;font-size:.78rem;}
+    .nc-pv-cl-item-body{color:#4a6a7a;line-height:1.5;font-size:.72rem;}
+    .nc-pv-submit-btn{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.45rem 1rem;background:linear-gradient(135deg,#ffa500,#ff7800);color:#fff;border:none;border-radius:5px;margin-top:.5rem;transition:all .18s;}
+    .nc-pv-submit-btn:hover{box-shadow:0 0 14px rgba(255,165,0,.4);}
+    @media(max-width:768px){.nc-pv-layout{flex-direction:column;padding:1rem;}.nc-pv-sidebar{width:100%;}}
     @media(max-width:768px){
       .wiki-body{flex-direction:column!important;}
       .wiki-body>div:last-child{width:100%!important;}
@@ -756,6 +816,64 @@
     .nc-toggle.on{background:linear-gradient(135deg,#0fffe0,#7b5cff);}
     .nc-toggle::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s;}
     .nc-toggle.on::after{transform:translateX(16px);}
+
+    /* ═══ NC PROJECT VIEW OVERLAY (Modrinth-style) ═══ */
+    #nc-proj-view{display:none;position:fixed;inset:0;z-index:9810;background:#07090c;overflow-y:auto;}
+    #nc-proj-view.open{display:block;animation:overlayIn .25s ease;}
+    .nc-pv-topbar{position:sticky;top:0;z-index:20;height:54px;background:rgba(7,9,12,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(15,255,224,.1);display:flex;align-items:center;gap:.8rem;padding:0 1.5rem;}
+    .nc-pv-back{font-family:'Space Mono',monospace;font-size:.6rem;padding:.35rem .75rem;border:1px solid rgba(255,92,138,.3);border-radius:5px;color:#ff5c8a;background:none;transition:all .2s;}
+    .nc-pv-back:hover{border-color:#ff5c8a;background:rgba(255,92,138,.06);}
+    .nc-pv-edit-btn{font-family:'Space Mono',monospace;font-size:.6rem;padding:.35rem .85rem;border:none;border-radius:5px;background:#1ec666;color:#000;font-weight:700;display:flex;align-items:center;gap:.4rem;transition:all .2s;margin-left:auto;}
+    .nc-pv-edit-btn:hover{box-shadow:0 0 16px rgba(30,198,102,.4);}
+    .nc-pv-action-btn{width:32px;height:32px;border-radius:6px;border:1px solid rgba(15,255,224,.15);background:none;color:#4a6a7a;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .18s;}
+    .nc-pv-action-btn:hover{border-color:rgba(15,255,224,.3);color:#d4e8f0;}
+    /* Hero */
+    .nc-pv-hero{padding:1.2rem 2rem;border-bottom:1px solid rgba(15,255,224,.08);background:rgba(15,255,224,.02);}
+    .nc-pv-hero-row{display:flex;align-items:flex-start;gap:1.1rem;}
+    .nc-pv-proj-icon{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));border:1px solid rgba(15,255,224,.2);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;}
+    .nc-pv-proj-name{font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.2rem;}
+    .nc-pv-proj-desc{font-size:.85rem;color:#4a6a7a;line-height:1.6;margin-bottom:.6rem;}
+    .nc-pv-proj-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;font-size:.78rem;color:#4a6a7a;}
+    .nc-pv-vis-badge{font-family:'Space Mono',monospace;font-size:.58rem;padding:.18rem .6rem;border-radius:20px;}
+    .nc-pv-vis-badge.private{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.25);color:#ffa500;}
+    .nc-pv-vis-badge.public{background:rgba(30,198,102,.1);border:1px solid rgba(30,198,102,.25);color:#1ec666;}
+    /* Tabs */
+    .nc-pv-tabs{display:flex;border-bottom:1px solid rgba(15,255,224,.08);padding:0 2rem;background:#07090c;position:sticky;top:54px;z-index:15;}
+    .nc-pv-tab{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.06em;padding:.7rem 1rem;background:none;border:none;color:#4a6a7a;border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap;}
+    .nc-pv-tab:hover{color:#d4e8f0;}
+    .nc-pv-tab.active{color:#0fffe0;border-bottom-color:#0fffe0;}
+    /* Layout */
+    .nc-pv-layout{display:flex;gap:1.5rem;padding:1.5rem 2rem 4rem;max-width:1100px;margin:0 auto;}
+    .nc-pv-main{flex:1;min-width:0;}
+    .nc-pv-sidebar{width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:.8rem;}
+    .nc-pv-tab-content{display:none;}
+    .nc-pv-tab-content.active{display:block;}
+    /* Content cards */
+    .nc-pv-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1rem;}
+    .nc-pv-card p{color:#7a9aaa;font-size:.88rem;line-height:1.75;margin-bottom:.6rem;}
+    .nc-pv-card p:last-child{margin-bottom:0;}
+    .nc-pv-sb-card{background:rgba(15,255,224,.03);border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem 1.1rem;}
+    .nc-pv-sb-title{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;color:#fff;letter-spacing:.08em;margin-bottom:.8rem;}
+    .nc-pv-sb-row{display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:#4a6a7a;padding:.3rem 0;border-bottom:1px solid rgba(15,255,224,.06);}
+    .nc-pv-sb-row:last-child{border-bottom:none;}
+    .nc-pv-sb-tag{font-size:.65rem;padding:.2rem .55rem;background:rgba(15,255,224,.06);border:1px solid rgba(15,255,224,.15);border-radius:4px;color:#4a6a7a;display:inline-block;margin:.1rem .1rem;}
+    /* Delete danger zone */
+    .nc-pv-danger{background:rgba(255,92,138,.04);border:1px solid rgba(255,92,138,.2);border-radius:10px;padding:1.2rem 1.4rem;margin-top:1.5rem;}
+    .nc-pv-danger-title{font-weight:800;color:#ff5c8a;margin-bottom:.4rem;font-size:.9rem;}
+    .nc-pv-danger-desc{font-size:.8rem;color:#4a6a7a;line-height:1.5;margin-bottom:1rem;}
+    .nc-pv-delete-btn{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.5rem 1.1rem;background:#ff5c8a;color:#fff;border:none;border-radius:6px;display:flex;align-items:center;gap:.4rem;transition:all .2s;}
+    .nc-pv-delete-btn:hover{background:#ff2a5a;box-shadow:0 0 18px rgba(255,92,138,.4);}
+    /* Publish checklist */
+    .nc-pv-checklist{background:rgba(15,255,224,.02);border:1px solid rgba(15,255,224,.1);border-radius:10px;overflow:hidden;margin-bottom:1.2rem;}
+    .nc-pv-cl-head{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.2rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-pv-cl-title{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;color:#fff;}
+    .nc-pv-cl-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+    .nc-pv-cl-item{padding:.9rem 1rem;border:1px solid rgba(15,255,224,.05);font-size:.78rem;}
+    .nc-pv-cl-item-title{font-weight:700;color:#fff;margin-bottom:.3rem;font-size:.78rem;}
+    .nc-pv-cl-item-body{color:#4a6a7a;line-height:1.5;font-size:.72rem;}
+    .nc-pv-submit-btn{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.45rem 1rem;background:linear-gradient(135deg,#ffa500,#ff7800);color:#fff;border:none;border-radius:5px;margin-top:.5rem;transition:all .18s;}
+    .nc-pv-submit-btn:hover{box-shadow:0 0 14px rgba(255,165,0,.4);}
+    @media(max-width:768px){.nc-pv-layout{flex-direction:column;padding:1rem;}.nc-pv-sidebar{width:100%;}}
     @media(max-width:768px){
       header{padding:0 .8rem;height:56px;}
       nav{gap:.25rem;}
@@ -2352,29 +2470,141 @@ function _renderProjects(){
           <span style="color:#2a4a5a">${p.slug||''}</span>
         </div>
       </div>
-      <span class="nc-proj-arrow">→</span>
+      <button style="background:none;border:none;color:#ff5c8a;font-size:.85rem;padding:.3rem;transition:all .18s;flex-shrink:0" onclick="event.stopPropagation();ncQuickDelete(${i})" title="Delete">🗑</button>
     </div>`).join('')}`;
 }
+
+let _ncCurrentProjIdx = -1;
 
 function ncEditProject(idx){
   const p = _ncProjects[idx];
   if(!p) return;
+  _ncCurrentProjIdx = idx;
   ncCloseProfilePanel();
-  // Pre-fill project settings page
+  // Open Modrinth-style project VIEW overlay
+  ncOpenProjView(idx);
+}
+
+function ncOpenProjView(idx){
+  const p = _ncProjects[idx];
+  if(!p) return;
+  _ncCurrentProjIdx = idx;
+
+  const _s = (id,v,prop='textContent')=>{const e=document.getElementById(id);if(e)e[prop]=v;};
+
+  // Populate hero
+  _s('nc-pv-icon',       TYPE_ICONS[p.type]||'📦');
+  _s('nc-pv-name',       p.name);
+  _s('nc-pv-desc',       p.summary||'No description added yet.');
+  _s('nc-pv-breadcrumb', 'Projects / ' + p.name);
+  _s('nc-pv-type-tag',   p.type||'mod');
+
+  // Visibility badge
+  const visBadge = document.getElementById('nc-pv-vis-badge');
+  if(visBadge){
+    visBadge.className = 'nc-pv-vis-badge ' + (p.visibility==='public'?'public':'private');
+    visBadge.textContent = p.visibility==='public' ? '🌐 Public' : '🔒 Private';
+  }
+
+  // Description body
+  _s('nc-pv-desc-body', p.summary
+    ? '<p>' + p.summary + '</p>'
+    : '<p style="color:#4a6a7a;font-style:italic">No description added yet. Go to Settings tab to add one.</p>', 'innerHTML');
+
+  // Checklist summary msg
+  const chars = (p.summary||'').length;
+  _s('nc-pv-cl-summary-msg', 'Your summary is ' + chars + ' char' + (chars===1?'':'s') + '. ' + (chars>=30?'✓ Good!':'At least 30 recommended.'));
+
+  // Sidebar details
+  const created = p.created ? new Date(p.created).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'Unknown';
+  _s('nc-pv-created',     'Created ' + created);
+  _s('nc-pv-vis-detail',  p.visibility==='public'?'🌐 Public':'🔒 Private');
+  _s('nc-pv-type-detail',  p.type||'mod');
+
+  // Tags
+  _s('nc-pv-tag-list', '<span class="nc-pv-sb-tag">' + (p.type||'mod') + '</span>', 'innerHTML');
+
+  // Creator
+  if(_ncDiscordUser){
+    const av = _ncDiscordAvatarUrl(_ncDiscordUser);
+    const initial = (_ncDiscordUser.username||'?')[0].toUpperCase();
+    const avEl = document.getElementById('nc-pv-creator-av');
+    if(avEl) avEl.innerHTML = av ? '<img src="'+av+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.style.display='+JSON.stringify('none')+'">' : initial;
+    _s('nc-pv-creator-name', _ncDiscordUser.username||'You');
+  }
+
+  // Reset to description tab
+  document.querySelectorAll('.nc-pv-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nc-pv-tab-content').forEach(t=>t.classList.remove('active'));
+  const firstTab = document.querySelector('.nc-pv-tab');
+  const firstContent = document.getElementById('pv-desc');
+  if(firstTab) firstTab.classList.add('active');
+  if(firstContent) firstContent.classList.add('active');
+
+  // Open overlay
+  const ov = document.getElementById('nc-proj-view');
+  if(ov){ ov.classList.add('open'); ov.scrollTop=0; }
+  document.body.style.overflow = 'hidden';
+
+  // Update URL
+  const slug = p.slug || p.name.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  try{ history.pushState({projView:idx}, p.name, '/nexcraft/project/'+slug); }catch(e){}
+  document.title = p.name + ' · NexCraft Hub';
+}
+
+function ncCloseProjView(){
+  const ov = document.getElementById('nc-proj-view');
+  if(ov) ov.classList.remove('open');
+  document.body.style.overflow = '';
+  try{ history.back(); }catch(e){}
+}
+
+function ncProjViewTab(btn, tabId){
+  document.querySelectorAll('.nc-pv-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nc-pv-tab-content').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const tc = document.getElementById(tabId);
+  if(tc) tc.classList.add('active');
+}
+
+function ncProjViewEdit(){
+  const p = _ncProjects[_ncCurrentProjIdx];
+  if(!p) return;
+  // Pre-fill settings page
   _ncProjectData = {...p};
-  const _set=(id,val,prop='textContent')=>{const el=document.getElementById(id);if(el)el[prop]=val;};
-  _set('nc-pp-project-name', p.name);
-  _set('nc-pp-name-input', p.name, 'value');
-  _set('nc-pp-slug-input', p.slug||'', 'value');
-  _set('nc-pp-summary-input', p.summary||'', 'value');
-  _set('nc-pp-summary-count', (p.summary||'').length);
-  _set('nc-pp-icon-preview', TYPE_ICONS[p.type]||'📦');
-  const pp=document.getElementById('nc-project-page');
-  if(pp){pp.classList.add('open');pp.scrollTop=0;}
-  document.body.style.overflow='hidden';
+  const _s=(id,v,prop='textContent')=>{const e=document.getElementById(id);if(e)e[prop]=v;};
+  _s('nc-pp-project-name', p.name);
+  _s('nc-pp-name-input',   p.name,    'value');
+  _s('nc-pp-slug-input',   p.slug||'','value');
+  _s('nc-pp-summary-input',p.summary||'','value');
+  _s('nc-pp-summary-count',(p.summary||'').length);
+  _s('nc-pp-icon-preview', TYPE_ICONS[p.type]||'📦');
+  const pp = document.getElementById('nc-project-page');
+  if(pp){ pp.classList.add('open'); pp.scrollTop=0; }
+  document.body.style.overflow = 'hidden';
   ncShowTab('general');
 }
 
+function ncDeleteCurrentProject(){
+  const p = _ncProjects[_ncCurrentProjIdx];
+  if(!p) return;
+  if(!confirm('Delete "' + p.name + '"? This cannot be undone.')) return;
+  _ncProjects.splice(_ncCurrentProjIdx, 1);
+  _ncSaveProjects();
+  ncCloseProjView();
+  // Reopen projects panel to show updated list
+  setTimeout(()=>ncOpenProfilePanel('projects'), 400);
+}
+
+
+function ncQuickDelete(idx){
+  const p = _ncProjects[idx];
+  if(!p) return;
+  if(!confirm('Delete "'+p.name+'"? This cannot be undone.')) return;
+  _ncProjects.splice(idx,1);
+  _ncSaveProjects();
+  ncOpenProfilePanel('projects'); // refresh list
+}
 function _renderServers(){
   return `<div class="nc-proj-empty">
     <div class="nc-proj-empty-icon">🖥️</div>
@@ -2914,6 +3144,131 @@ async function vpDownload(mcVer,name){
       <button class="nc-panel-close" onclick="ncCloseProfilePanel()">✕</button>
     </div>
     <div class="nc-panel-body" id="nc-panel-body"></div>
+  </div>
+
+  <!-- ═══ NC PROJECT VIEW OVERLAY ═══ -->
+  <div id="nc-proj-view">
+    <!-- Topbar -->
+    <div class="nc-pv-topbar">
+      <button class="nc-pv-back" onclick="ncCloseProjView()">← Back</button>
+      <span id="nc-pv-breadcrumb" style="font-family:'Space Mono',monospace;font-size:.6rem;color:#4a6a7a"></span>
+      <button class="nc-pv-edit-btn" onclick="ncProjViewEdit()">⚙ Edit project</button>
+      <button class="nc-pv-action-btn" title="Download">⬇</button>
+      <button class="nc-pv-action-btn" title="Follow">♥</button>
+      <button class="nc-pv-action-btn" title="Bookmark">🔖</button>
+    </div>
+    <!-- Hero -->
+    <div class="nc-pv-hero">
+      <div class="nc-pv-hero-row">
+        <div class="nc-pv-proj-icon" id="nc-pv-icon">📦</div>
+        <div style="flex:1;min-width:0">
+          <div class="nc-pv-proj-name" id="nc-pv-name">Project</div>
+          <div class="nc-pv-proj-desc" id="nc-pv-desc">No description.</div>
+          <div class="nc-pv-proj-meta">
+            <span id="nc-pv-vis-badge" class="nc-pv-vis-badge private">🔒 Private</span>
+            <span id="nc-pv-type-tag" style="font-family:'Space Mono',monospace;font-size:.58rem;padding:.18rem .55rem;border-radius:3px;background:rgba(15,255,224,.08);border:1px solid rgba(15,255,224,.15);color:#0fffe0"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Tabs -->
+    <div class="nc-pv-tabs">
+      <button class="nc-pv-tab active" onclick="ncProjViewTab(this,'pv-desc')">Description</button>
+      <button class="nc-pv-tab" onclick="ncProjViewTab(this,'pv-gallery')">Gallery</button>
+      <button class="nc-pv-tab" onclick="ncProjViewTab(this,'pv-changelog')">Changelog</button>
+      <button class="nc-pv-tab" onclick="ncProjViewTab(this,'pv-versions')">Versions</button>
+      <button class="nc-pv-tab" onclick="ncProjViewTab(this,'pv-settings')">Settings</button>
+    </div>
+    <!-- Layout -->
+    <div class="nc-pv-layout">
+      <div class="nc-pv-main">
+        <!-- Description tab -->
+        <div class="nc-pv-tab-content active" id="pv-desc">
+          <div class="nc-pv-checklist">
+            <div class="nc-pv-cl-head">
+              <div class="nc-pv-cl-title">Publishing checklist</div>
+              <div style="font-size:.6rem;color:#4a6a7a;font-family:'Space Mono',monospace"><span style="color:#ff5c8a">✱ Required</span> · <span style="color:#ffa500">⚠ Warning</span> · <span style="color:#7b5cff">💡 Suggestion</span></div>
+            </div>
+            <div class="nc-pv-cl-grid">
+              <div class="nc-pv-cl-item"><div class="nc-pv-cl-item-title"><span style="color:#ff5c8a">✱</span> Upload a version</div><div class="nc-pv-cl-item-body">At least one version is required for review.</div></div>
+              <div class="nc-pv-cl-item"><div class="nc-pv-cl-item-title"><span style="color:#ff5c8a">✱</span> Add a description</div><div class="nc-pv-cl-item-body">A clear description is required.</div></div>
+              <div class="nc-pv-cl-item"><div class="nc-pv-cl-item-title"><span style="color:#ff5c8a">✱</span> Select a license</div><div class="nc-pv-cl-item-body">Choose the license for this project.</div></div>
+              <div class="nc-pv-cl-item"><div class="nc-pv-cl-item-title"><span style="color:#ffa500">⚠</span> Expand the summary</div><div class="nc-pv-cl-item-body" id="nc-pv-cl-summary-msg">At least 30 characters recommended.</div><button class="nc-pv-submit-btn">✈ Submit for review</button></div>
+            </div>
+          </div>
+          <div class="nc-pv-card" id="nc-pv-desc-body">
+            <p style="color:#4a6a7a;font-style:italic">No description added yet. Go to the Settings tab to add one.</p>
+          </div>
+        </div>
+        <!-- Gallery tab -->
+        <div class="nc-pv-tab-content" id="pv-gallery">
+          <div class="nc-pv-card" style="text-align:center;padding:3rem">
+            <div style="font-size:2.5rem;opacity:.3;margin-bottom:.8rem">🖼️</div>
+            <div style="color:#fff;font-weight:700;margin-bottom:.4rem">No gallery images</div>
+            <div style="color:#4a6a7a;font-size:.82rem">Add screenshots to make your project stand out.</div>
+          </div>
+        </div>
+        <!-- Changelog tab -->
+        <div class="nc-pv-tab-content" id="pv-changelog">
+          <div class="nc-pv-card">
+            <div style="color:#4a6a7a;font-size:.88rem">No changelog entries yet. Upload a version to add changelog notes.</div>
+          </div>
+        </div>
+        <!-- Versions tab -->
+        <div class="nc-pv-tab-content" id="pv-versions">
+          <div class="nc-pv-card" style="text-align:center;padding:3rem">
+            <div style="font-size:2.5rem;opacity:.3;margin-bottom:.8rem">📦</div>
+            <div style="color:#fff;font-weight:700;margin-bottom:.4rem">No versions uploaded</div>
+            <div style="color:#4a6a7a;font-size:.82rem;margin-bottom:1.2rem">Upload at least one version to submit for review.</div>
+            <button class="nc-add-version-btn">+ Upload a version</button>
+          </div>
+        </div>
+        <!-- Settings tab -->
+        <div class="nc-pv-tab-content" id="pv-settings">
+          <div class="nc-pv-card">
+            <button class="nc-pv-edit-btn" style="margin-bottom:1rem" onclick="ncProjViewEdit()">⚙ Open full settings →</button>
+            <div style="font-size:.82rem;color:#4a6a7a;line-height:1.6">Edit name, description, tags, license, gallery, links, members and more in the full settings panel.</div>
+          </div>
+          <div class="nc-pv-danger">
+            <div class="nc-pv-danger-title">🗑 Delete project</div>
+            <div class="nc-pv-danger-desc">Permanently removes this project from NexCraft Hub. This action <strong style="color:#ff5c8a">cannot be undone</strong>.</div>
+            <button class="nc-pv-delete-btn" onclick="ncDeleteCurrentProject()">🗑 Delete project</button>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <div class="nc-pv-sidebar">
+        <div class="nc-pv-sb-card">
+          <div class="nc-pv-sb-title">Compatibility</div>
+          <div style="font-size:.72rem;font-weight:700;color:#d4e8f0;margin-bottom:.4rem">Minecraft: Java Edition</div>
+          <div style="margin-bottom:.8rem" id="nc-pv-mc-tags"><span class="nc-pv-sb-tag">1.21.x</span></div>
+          <div style="font-size:.65rem;font-family:'Space Mono',monospace;color:#4a6a7a;margin-bottom:.35rem;text-transform:uppercase">Platforms</div>
+          <div style="margin-bottom:.8rem"><span class="nc-pv-sb-tag" style="color:#ff8246;border-color:rgba(255,130,70,.3)">🔥 Fabric</span></div>
+          <div style="font-size:.65rem;font-family:'Space Mono',monospace;color:#4a6a7a;margin-bottom:.35rem;text-transform:uppercase">Environments</div>
+          <span class="nc-pv-sb-tag">💻 Client-side</span>
+        </div>
+        <div class="nc-pv-sb-card">
+          <div class="nc-pv-sb-title">Tags</div>
+          <div id="nc-pv-tag-list"><span class="nc-pv-sb-tag">Untagged</span></div>
+        </div>
+        <div class="nc-pv-sb-card">
+          <div class="nc-pv-sb-title">Details</div>
+          <div class="nc-pv-sb-row">📅 <span id="nc-pv-created">Just created</span></div>
+          <div class="nc-pv-sb-row">🔒 <span id="nc-pv-vis-detail">Private</span></div>
+          <div class="nc-pv-sb-row">🏷️ <span id="nc-pv-type-detail">mod</span></div>
+        </div>
+        <div class="nc-pv-sb-card">
+          <div class="nc-pv-sb-title">Creators</div>
+          <div id="nc-pv-creator-row" style="display:flex;align-items:center;gap:.7rem">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0fffe0,#7b5cff);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#07090c;flex-shrink:0" id="nc-pv-creator-av">?</div>
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:.85rem" id="nc-pv-creator-name">You</div>
+              <div style="font-size:.7rem;color:#4a6a7a">Owner</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
