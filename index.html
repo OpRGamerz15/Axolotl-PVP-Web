@@ -280,7 +280,193 @@
     .nc-pv-cl-item-body{color:#4a6a7a;line-height:1.5;font-size:.72rem;}
     .nc-pv-submit-btn{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.45rem 1rem;background:linear-gradient(135deg,#ffa500,#ff7800);color:#fff;border:none;border-radius:5px;margin-top:.5rem;transition:all .18s;}
     .nc-pv-submit-btn:hover{box-shadow:0 0 14px rgba(255,165,0,.4);}
+
+    /* ═══════════════════════════════════════
+       NEXCRAFT BROWSE / SEARCH OVERHAUL
+    ═══════════════════════════════════════ */
+    /* Search bar inside main */
+    .nc-browse-search{display:flex;align-items:center;gap:.7rem;margin-bottom:1.5rem;}
+    .nc-browse-search-wrap{flex:1;position:relative;}
+    .nc-browse-search-wrap input{width:100%;background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:10px;padding:.65rem 1rem .65rem 2.6rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.9rem;transition:all .2s;}
+    .nc-browse-search-wrap input:focus{outline:none;border-color:#0fffe0;box-shadow:0 0 0 3px rgba(15,255,224,.07);}
+    .nc-browse-search-wrap input::placeholder{color:#2a4a5a;}
+    .nc-browse-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#2a4a5a;font-size:1rem;pointer-events:none;}
+    /* Sort select */
+    .nc-sort-select{background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Space Mono',monospace;font-size:.62rem;cursor:pointer;}
+    .nc-sort-select:focus{outline:none;border-color:#0fffe0;}
+    /* Browse layout: sidebar filters + main grid */
+    .nc-browse-layout{display:flex;gap:1.2rem;align-items:flex-start;}
+    .nc-browse-filters{width:200px;flex-shrink:0;position:sticky;top:112px;}
+    .nc-browse-grid-wrap{flex:1;min-width:0;}
+    .nc-filter-section{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:.9rem 1rem;margin-bottom:.8rem;}
+    .nc-filter-section-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:#4a6a7a;text-transform:uppercase;margin-bottom:.7rem;}
+    .nc-filter-check{display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;cursor:pointer;}
+    .nc-filter-check:last-child{margin-bottom:0;}
+    .nc-filter-check-box{width:15px;height:15px;border-radius:3px;border:1px solid rgba(15,255,224,.25);background:none;flex-shrink:0;transition:all .18s;display:flex;align-items:center;justify-content:center;font-size:.65rem;}
+    .nc-filter-check.checked .nc-filter-check-box{background:#0fffe0;border-color:#0fffe0;color:#07090c;}
+    .nc-filter-check-label{font-size:.8rem;color:#7a9aaa;}
+    .nc-filter-check:hover .nc-filter-check-label{color:#d4e8f0;}
+    /* Project card grid */
+    .nc-proj-grid{display:grid;grid-template-columns:1fr;gap:.75rem;}
+    /* Project browse card (horizontal, like Modrinth) */
+    .nc-browse-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:12px;padding:1.1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:all .22s;cursor:pointer;text-decoration:none;color:inherit;}
+    .nc-browse-card:hover{border-color:rgba(15,255,224,.3);background:#111620;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+    .nc-browse-card-icon{width:64px;height:64px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,rgba(15,255,224,.12),rgba(123,92,255,.12));border:1px solid rgba(15,255,224,.15);display:flex;align-items:center;justify-content:center;font-size:1.9rem;overflow:hidden;}
+    .nc-browse-card-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+    .nc-browse-card-body{flex:1;min-width:0;}
+    .nc-browse-card-title{font-size:.98rem;font-weight:800;color:#fff;margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;}
+    .nc-browse-card-desc{font-size:.8rem;color:#4a6a7a;line-height:1.55;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .nc-browse-card-meta{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+    .nc-browse-card-stat{font-family:'Space Mono',monospace;font-size:.6rem;color:#4a6a7a;display:flex;align-items:center;gap:.3rem;}
+    .nc-browse-card-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.06em;padding:.15rem .5rem;border-radius:3px;background:rgba(15,255,224,.07);border:1px solid rgba(15,255,224,.12);color:#0fffe0;}
+    .nc-browse-card-tag.loader{background:rgba(255,130,70,.07);border-color:rgba(255,130,70,.2);color:#ff8246;}
+    .nc-browse-card-tag.env{background:rgba(123,92,255,.07);border-color:rgba(123,92,255,.2);color:#b99dff;}
+    .nc-browse-card-updated{font-family:'Space Mono',monospace;font-size:.55rem;color:#2a4a5a;margin-left:auto;white-space:nowrap;}
+    /* Results header */
+    .nc-results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-results-count{font-family:'Space Mono',monospace;font-size:.65rem;color:#4a6a7a;}
+    .nc-view-toggle{display:flex;gap:.3rem;}
+    .nc-view-btn{width:28px;height:28px;border-radius:5px;border:1px solid rgba(15,255,224,.15);background:none;color:#4a6a7a;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+    .nc-view-btn.active{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* Grid view */
+    .nc-proj-grid.grid-view{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+    .nc-proj-grid.grid-view .nc-browse-card{flex-direction:column;}
+    .nc-proj-grid.grid-view .nc-browse-card-icon{width:100%;height:100px;border-radius:8px 8px 0 0;border:none;margin:-1.1rem -1.2rem 1rem;width:calc(100% + 2.4rem);}
+    /* Version upload modal */
+    #nc-version-modal{display:none;position:fixed;inset:0;z-index:9950;background:rgba(0,0,0,.9);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1rem;}
+    #nc-version-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .nc-vm-box{background:#0c0f14;border:1px solid rgba(15,255,224,.2);border-radius:16px;width:580px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 0 80px rgba(15,255,224,.1);}
+    .nc-vm-top{height:2px;background:linear-gradient(90deg,#0fffe0,#7b5cff);border-radius:16px 16px 0 0;}
+    .nc-vm-body{padding:1.8rem 2rem;}
+    .nc-vm-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .nc-vm-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;}
+    .nc-vm-close:hover{color:#ff5c8a;}
+    .nc-vm-field{margin-bottom:1.2rem;}
+    .nc-vm-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:#4a6a7a;display:block;margin-bottom:.45rem;text-transform:uppercase;}
+    .nc-vm-input,.nc-vm-textarea,.nc-vm-select{width:100%;background:#111620;border:1px solid rgba(15,255,224,.15);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.88rem;transition:border-color .2s;}
+    .nc-vm-input:focus,.nc-vm-textarea:focus,.nc-vm-select:focus{outline:none;border-color:#0fffe0;}
+    .nc-vm-input::placeholder,.nc-vm-textarea::placeholder{color:#2a4a5a;}
+    .nc-vm-textarea{min-height:100px;resize:vertical;}
+    .nc-vm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+    .nc-vm-tag{font-family:'Space Mono',monospace;font-size:.58rem;padding:.25rem .65rem;border:1px solid rgba(15,255,224,.15);border-radius:20px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-vm-tag.sel{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* File drop zone */
+    .nc-vm-drop{border:2px dashed rgba(15,255,224,.2);border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;}
+    .nc-vm-drop:hover,.nc-vm-drop.drag{border-color:#0fffe0;background:rgba(15,255,224,.03);}
+    .nc-vm-drop-icon{font-size:2rem;margin-bottom:.6rem;opacity:.5;}
+    .nc-vm-drop-text{font-size:.82rem;color:#4a6a7a;line-height:1.6;}
+    .nc-vm-drop-file{font-family:'Space Mono',monospace;font-size:.72rem;color:#0fffe0;margin-top:.5rem;display:none;}
+    .nc-vm-footer{display:flex;gap:.7rem;justify-content:flex-end;padding:1rem 2rem;border-top:1px solid rgba(15,255,224,.08);}
+    .nc-vm-cancel{font-family:'Space Mono',monospace;font-size:.62rem;padding:.5rem 1rem;border:1px solid rgba(15,255,224,.18);border-radius:6px;color:#4a6a7a;background:none;}
+    .nc-vm-submit{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.5rem 1.3rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:6px;transition:all .2s;}
+    .nc-vm-submit:hover{box-shadow:0 0 20px rgba(15,255,224,.35);}
+    /* Home page featured section */
+    .nc-featured-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.5rem;}
+    .nc-featured-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;cursor:pointer;transition:all .2s;}
+    .nc-featured-card:hover{border-color:rgba(15,255,224,.28);transform:translateY(-2px);}
+    .nc-featured-card-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;}
+    .nc-featured-card-icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .nc-featured-card-name{font-weight:700;color:#fff;font-size:.88rem;}
+    .nc-featured-card-type{font-size:.65rem;color:#4a6a7a;}
+    .nc-featured-card-desc{font-size:.75rem;color:#4a6a7a;line-height:1.5;}
+    @media(max-width:768px){
+      .nc-browse-filters{display:none;}
+      .nc-featured-row{grid-template-columns:1fr 1fr;}
+    }
     @media(max-width:768px){.nc-pv-layout{flex-direction:column;padding:1rem;}.nc-pv-sidebar{width:100%;}}
+
+    /* ═══════════════════════════════════════
+       NEXCRAFT BROWSE / SEARCH OVERHAUL
+    ═══════════════════════════════════════ */
+    /* Search bar inside main */
+    .nc-browse-search{display:flex;align-items:center;gap:.7rem;margin-bottom:1.5rem;}
+    .nc-browse-search-wrap{flex:1;position:relative;}
+    .nc-browse-search-wrap input{width:100%;background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:10px;padding:.65rem 1rem .65rem 2.6rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.9rem;transition:all .2s;}
+    .nc-browse-search-wrap input:focus{outline:none;border-color:#0fffe0;box-shadow:0 0 0 3px rgba(15,255,224,.07);}
+    .nc-browse-search-wrap input::placeholder{color:#2a4a5a;}
+    .nc-browse-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#2a4a5a;font-size:1rem;pointer-events:none;}
+    /* Sort select */
+    .nc-sort-select{background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Space Mono',monospace;font-size:.62rem;cursor:pointer;}
+    .nc-sort-select:focus{outline:none;border-color:#0fffe0;}
+    /* Browse layout: sidebar filters + main grid */
+    .nc-browse-layout{display:flex;gap:1.2rem;align-items:flex-start;}
+    .nc-browse-filters{width:200px;flex-shrink:0;position:sticky;top:112px;}
+    .nc-browse-grid-wrap{flex:1;min-width:0;}
+    .nc-filter-section{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:.9rem 1rem;margin-bottom:.8rem;}
+    .nc-filter-section-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:#4a6a7a;text-transform:uppercase;margin-bottom:.7rem;}
+    .nc-filter-check{display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;cursor:pointer;}
+    .nc-filter-check:last-child{margin-bottom:0;}
+    .nc-filter-check-box{width:15px;height:15px;border-radius:3px;border:1px solid rgba(15,255,224,.25);background:none;flex-shrink:0;transition:all .18s;display:flex;align-items:center;justify-content:center;font-size:.65rem;}
+    .nc-filter-check.checked .nc-filter-check-box{background:#0fffe0;border-color:#0fffe0;color:#07090c;}
+    .nc-filter-check-label{font-size:.8rem;color:#7a9aaa;}
+    .nc-filter-check:hover .nc-filter-check-label{color:#d4e8f0;}
+    /* Project card grid */
+    .nc-proj-grid{display:grid;grid-template-columns:1fr;gap:.75rem;}
+    /* Project browse card (horizontal, like Modrinth) */
+    .nc-browse-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:12px;padding:1.1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:all .22s;cursor:pointer;text-decoration:none;color:inherit;}
+    .nc-browse-card:hover{border-color:rgba(15,255,224,.3);background:#111620;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+    .nc-browse-card-icon{width:64px;height:64px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,rgba(15,255,224,.12),rgba(123,92,255,.12));border:1px solid rgba(15,255,224,.15);display:flex;align-items:center;justify-content:center;font-size:1.9rem;overflow:hidden;}
+    .nc-browse-card-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+    .nc-browse-card-body{flex:1;min-width:0;}
+    .nc-browse-card-title{font-size:.98rem;font-weight:800;color:#fff;margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;}
+    .nc-browse-card-desc{font-size:.8rem;color:#4a6a7a;line-height:1.55;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .nc-browse-card-meta{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+    .nc-browse-card-stat{font-family:'Space Mono',monospace;font-size:.6rem;color:#4a6a7a;display:flex;align-items:center;gap:.3rem;}
+    .nc-browse-card-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.06em;padding:.15rem .5rem;border-radius:3px;background:rgba(15,255,224,.07);border:1px solid rgba(15,255,224,.12);color:#0fffe0;}
+    .nc-browse-card-tag.loader{background:rgba(255,130,70,.07);border-color:rgba(255,130,70,.2);color:#ff8246;}
+    .nc-browse-card-tag.env{background:rgba(123,92,255,.07);border-color:rgba(123,92,255,.2);color:#b99dff;}
+    .nc-browse-card-updated{font-family:'Space Mono',monospace;font-size:.55rem;color:#2a4a5a;margin-left:auto;white-space:nowrap;}
+    /* Results header */
+    .nc-results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-results-count{font-family:'Space Mono',monospace;font-size:.65rem;color:#4a6a7a;}
+    .nc-view-toggle{display:flex;gap:.3rem;}
+    .nc-view-btn{width:28px;height:28px;border-radius:5px;border:1px solid rgba(15,255,224,.15);background:none;color:#4a6a7a;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+    .nc-view-btn.active{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* Grid view */
+    .nc-proj-grid.grid-view{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+    .nc-proj-grid.grid-view .nc-browse-card{flex-direction:column;}
+    .nc-proj-grid.grid-view .nc-browse-card-icon{width:100%;height:100px;border-radius:8px 8px 0 0;border:none;margin:-1.1rem -1.2rem 1rem;width:calc(100% + 2.4rem);}
+    /* Version upload modal */
+    #nc-version-modal{display:none;position:fixed;inset:0;z-index:9950;background:rgba(0,0,0,.9);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1rem;}
+    #nc-version-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .nc-vm-box{background:#0c0f14;border:1px solid rgba(15,255,224,.2);border-radius:16px;width:580px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 0 80px rgba(15,255,224,.1);}
+    .nc-vm-top{height:2px;background:linear-gradient(90deg,#0fffe0,#7b5cff);border-radius:16px 16px 0 0;}
+    .nc-vm-body{padding:1.8rem 2rem;}
+    .nc-vm-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .nc-vm-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;}
+    .nc-vm-close:hover{color:#ff5c8a;}
+    .nc-vm-field{margin-bottom:1.2rem;}
+    .nc-vm-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:#4a6a7a;display:block;margin-bottom:.45rem;text-transform:uppercase;}
+    .nc-vm-input,.nc-vm-textarea,.nc-vm-select{width:100%;background:#111620;border:1px solid rgba(15,255,224,.15);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.88rem;transition:border-color .2s;}
+    .nc-vm-input:focus,.nc-vm-textarea:focus,.nc-vm-select:focus{outline:none;border-color:#0fffe0;}
+    .nc-vm-input::placeholder,.nc-vm-textarea::placeholder{color:#2a4a5a;}
+    .nc-vm-textarea{min-height:100px;resize:vertical;}
+    .nc-vm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+    .nc-vm-tag{font-family:'Space Mono',monospace;font-size:.58rem;padding:.25rem .65rem;border:1px solid rgba(15,255,224,.15);border-radius:20px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-vm-tag.sel{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* File drop zone */
+    .nc-vm-drop{border:2px dashed rgba(15,255,224,.2);border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;}
+    .nc-vm-drop:hover,.nc-vm-drop.drag{border-color:#0fffe0;background:rgba(15,255,224,.03);}
+    .nc-vm-drop-icon{font-size:2rem;margin-bottom:.6rem;opacity:.5;}
+    .nc-vm-drop-text{font-size:.82rem;color:#4a6a7a;line-height:1.6;}
+    .nc-vm-drop-file{font-family:'Space Mono',monospace;font-size:.72rem;color:#0fffe0;margin-top:.5rem;display:none;}
+    .nc-vm-footer{display:flex;gap:.7rem;justify-content:flex-end;padding:1rem 2rem;border-top:1px solid rgba(15,255,224,.08);}
+    .nc-vm-cancel{font-family:'Space Mono',monospace;font-size:.62rem;padding:.5rem 1rem;border:1px solid rgba(15,255,224,.18);border-radius:6px;color:#4a6a7a;background:none;}
+    .nc-vm-submit{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.5rem 1.3rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:6px;transition:all .2s;}
+    .nc-vm-submit:hover{box-shadow:0 0 20px rgba(15,255,224,.35);}
+    /* Home page featured section */
+    .nc-featured-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.5rem;}
+    .nc-featured-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;cursor:pointer;transition:all .2s;}
+    .nc-featured-card:hover{border-color:rgba(15,255,224,.28);transform:translateY(-2px);}
+    .nc-featured-card-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;}
+    .nc-featured-card-icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .nc-featured-card-name{font-weight:700;color:#fff;font-size:.88rem;}
+    .nc-featured-card-type{font-size:.65rem;color:#4a6a7a;}
+    .nc-featured-card-desc{font-size:.75rem;color:#4a6a7a;line-height:1.5;}
+    @media(max-width:768px){
+      .nc-browse-filters{display:none;}
+      .nc-featured-row{grid-template-columns:1fr 1fr;}
+    }
     @media(max-width:768px){
       .wiki-body{flex-direction:column!important;}
       .wiki-body>div:last-child{width:100%!important;}
@@ -873,7 +1059,193 @@
     .nc-pv-cl-item-body{color:#4a6a7a;line-height:1.5;font-size:.72rem;}
     .nc-pv-submit-btn{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;padding:.45rem 1rem;background:linear-gradient(135deg,#ffa500,#ff7800);color:#fff;border:none;border-radius:5px;margin-top:.5rem;transition:all .18s;}
     .nc-pv-submit-btn:hover{box-shadow:0 0 14px rgba(255,165,0,.4);}
+
+    /* ═══════════════════════════════════════
+       NEXCRAFT BROWSE / SEARCH OVERHAUL
+    ═══════════════════════════════════════ */
+    /* Search bar inside main */
+    .nc-browse-search{display:flex;align-items:center;gap:.7rem;margin-bottom:1.5rem;}
+    .nc-browse-search-wrap{flex:1;position:relative;}
+    .nc-browse-search-wrap input{width:100%;background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:10px;padding:.65rem 1rem .65rem 2.6rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.9rem;transition:all .2s;}
+    .nc-browse-search-wrap input:focus{outline:none;border-color:#0fffe0;box-shadow:0 0 0 3px rgba(15,255,224,.07);}
+    .nc-browse-search-wrap input::placeholder{color:#2a4a5a;}
+    .nc-browse-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#2a4a5a;font-size:1rem;pointer-events:none;}
+    /* Sort select */
+    .nc-sort-select{background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Space Mono',monospace;font-size:.62rem;cursor:pointer;}
+    .nc-sort-select:focus{outline:none;border-color:#0fffe0;}
+    /* Browse layout: sidebar filters + main grid */
+    .nc-browse-layout{display:flex;gap:1.2rem;align-items:flex-start;}
+    .nc-browse-filters{width:200px;flex-shrink:0;position:sticky;top:112px;}
+    .nc-browse-grid-wrap{flex:1;min-width:0;}
+    .nc-filter-section{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:.9rem 1rem;margin-bottom:.8rem;}
+    .nc-filter-section-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:#4a6a7a;text-transform:uppercase;margin-bottom:.7rem;}
+    .nc-filter-check{display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;cursor:pointer;}
+    .nc-filter-check:last-child{margin-bottom:0;}
+    .nc-filter-check-box{width:15px;height:15px;border-radius:3px;border:1px solid rgba(15,255,224,.25);background:none;flex-shrink:0;transition:all .18s;display:flex;align-items:center;justify-content:center;font-size:.65rem;}
+    .nc-filter-check.checked .nc-filter-check-box{background:#0fffe0;border-color:#0fffe0;color:#07090c;}
+    .nc-filter-check-label{font-size:.8rem;color:#7a9aaa;}
+    .nc-filter-check:hover .nc-filter-check-label{color:#d4e8f0;}
+    /* Project card grid */
+    .nc-proj-grid{display:grid;grid-template-columns:1fr;gap:.75rem;}
+    /* Project browse card (horizontal, like Modrinth) */
+    .nc-browse-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:12px;padding:1.1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:all .22s;cursor:pointer;text-decoration:none;color:inherit;}
+    .nc-browse-card:hover{border-color:rgba(15,255,224,.3);background:#111620;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+    .nc-browse-card-icon{width:64px;height:64px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,rgba(15,255,224,.12),rgba(123,92,255,.12));border:1px solid rgba(15,255,224,.15);display:flex;align-items:center;justify-content:center;font-size:1.9rem;overflow:hidden;}
+    .nc-browse-card-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+    .nc-browse-card-body{flex:1;min-width:0;}
+    .nc-browse-card-title{font-size:.98rem;font-weight:800;color:#fff;margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;}
+    .nc-browse-card-desc{font-size:.8rem;color:#4a6a7a;line-height:1.55;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .nc-browse-card-meta{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+    .nc-browse-card-stat{font-family:'Space Mono',monospace;font-size:.6rem;color:#4a6a7a;display:flex;align-items:center;gap:.3rem;}
+    .nc-browse-card-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.06em;padding:.15rem .5rem;border-radius:3px;background:rgba(15,255,224,.07);border:1px solid rgba(15,255,224,.12);color:#0fffe0;}
+    .nc-browse-card-tag.loader{background:rgba(255,130,70,.07);border-color:rgba(255,130,70,.2);color:#ff8246;}
+    .nc-browse-card-tag.env{background:rgba(123,92,255,.07);border-color:rgba(123,92,255,.2);color:#b99dff;}
+    .nc-browse-card-updated{font-family:'Space Mono',monospace;font-size:.55rem;color:#2a4a5a;margin-left:auto;white-space:nowrap;}
+    /* Results header */
+    .nc-results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-results-count{font-family:'Space Mono',monospace;font-size:.65rem;color:#4a6a7a;}
+    .nc-view-toggle{display:flex;gap:.3rem;}
+    .nc-view-btn{width:28px;height:28px;border-radius:5px;border:1px solid rgba(15,255,224,.15);background:none;color:#4a6a7a;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+    .nc-view-btn.active{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* Grid view */
+    .nc-proj-grid.grid-view{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+    .nc-proj-grid.grid-view .nc-browse-card{flex-direction:column;}
+    .nc-proj-grid.grid-view .nc-browse-card-icon{width:100%;height:100px;border-radius:8px 8px 0 0;border:none;margin:-1.1rem -1.2rem 1rem;width:calc(100% + 2.4rem);}
+    /* Version upload modal */
+    #nc-version-modal{display:none;position:fixed;inset:0;z-index:9950;background:rgba(0,0,0,.9);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1rem;}
+    #nc-version-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .nc-vm-box{background:#0c0f14;border:1px solid rgba(15,255,224,.2);border-radius:16px;width:580px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 0 80px rgba(15,255,224,.1);}
+    .nc-vm-top{height:2px;background:linear-gradient(90deg,#0fffe0,#7b5cff);border-radius:16px 16px 0 0;}
+    .nc-vm-body{padding:1.8rem 2rem;}
+    .nc-vm-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .nc-vm-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;}
+    .nc-vm-close:hover{color:#ff5c8a;}
+    .nc-vm-field{margin-bottom:1.2rem;}
+    .nc-vm-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:#4a6a7a;display:block;margin-bottom:.45rem;text-transform:uppercase;}
+    .nc-vm-input,.nc-vm-textarea,.nc-vm-select{width:100%;background:#111620;border:1px solid rgba(15,255,224,.15);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.88rem;transition:border-color .2s;}
+    .nc-vm-input:focus,.nc-vm-textarea:focus,.nc-vm-select:focus{outline:none;border-color:#0fffe0;}
+    .nc-vm-input::placeholder,.nc-vm-textarea::placeholder{color:#2a4a5a;}
+    .nc-vm-textarea{min-height:100px;resize:vertical;}
+    .nc-vm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+    .nc-vm-tag{font-family:'Space Mono',monospace;font-size:.58rem;padding:.25rem .65rem;border:1px solid rgba(15,255,224,.15);border-radius:20px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-vm-tag.sel{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* File drop zone */
+    .nc-vm-drop{border:2px dashed rgba(15,255,224,.2);border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;}
+    .nc-vm-drop:hover,.nc-vm-drop.drag{border-color:#0fffe0;background:rgba(15,255,224,.03);}
+    .nc-vm-drop-icon{font-size:2rem;margin-bottom:.6rem;opacity:.5;}
+    .nc-vm-drop-text{font-size:.82rem;color:#4a6a7a;line-height:1.6;}
+    .nc-vm-drop-file{font-family:'Space Mono',monospace;font-size:.72rem;color:#0fffe0;margin-top:.5rem;display:none;}
+    .nc-vm-footer{display:flex;gap:.7rem;justify-content:flex-end;padding:1rem 2rem;border-top:1px solid rgba(15,255,224,.08);}
+    .nc-vm-cancel{font-family:'Space Mono',monospace;font-size:.62rem;padding:.5rem 1rem;border:1px solid rgba(15,255,224,.18);border-radius:6px;color:#4a6a7a;background:none;}
+    .nc-vm-submit{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.5rem 1.3rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:6px;transition:all .2s;}
+    .nc-vm-submit:hover{box-shadow:0 0 20px rgba(15,255,224,.35);}
+    /* Home page featured section */
+    .nc-featured-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.5rem;}
+    .nc-featured-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;cursor:pointer;transition:all .2s;}
+    .nc-featured-card:hover{border-color:rgba(15,255,224,.28);transform:translateY(-2px);}
+    .nc-featured-card-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;}
+    .nc-featured-card-icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .nc-featured-card-name{font-weight:700;color:#fff;font-size:.88rem;}
+    .nc-featured-card-type{font-size:.65rem;color:#4a6a7a;}
+    .nc-featured-card-desc{font-size:.75rem;color:#4a6a7a;line-height:1.5;}
+    @media(max-width:768px){
+      .nc-browse-filters{display:none;}
+      .nc-featured-row{grid-template-columns:1fr 1fr;}
+    }
     @media(max-width:768px){.nc-pv-layout{flex-direction:column;padding:1rem;}.nc-pv-sidebar{width:100%;}}
+
+    /* ═══════════════════════════════════════
+       NEXCRAFT BROWSE / SEARCH OVERHAUL
+    ═══════════════════════════════════════ */
+    /* Search bar inside main */
+    .nc-browse-search{display:flex;align-items:center;gap:.7rem;margin-bottom:1.5rem;}
+    .nc-browse-search-wrap{flex:1;position:relative;}
+    .nc-browse-search-wrap input{width:100%;background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:10px;padding:.65rem 1rem .65rem 2.6rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.9rem;transition:all .2s;}
+    .nc-browse-search-wrap input:focus{outline:none;border-color:#0fffe0;box-shadow:0 0 0 3px rgba(15,255,224,.07);}
+    .nc-browse-search-wrap input::placeholder{color:#2a4a5a;}
+    .nc-browse-search-icon{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#2a4a5a;font-size:1rem;pointer-events:none;}
+    /* Sort select */
+    .nc-sort-select{background:#111620;border:1px solid rgba(15,255,224,.2);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Space Mono',monospace;font-size:.62rem;cursor:pointer;}
+    .nc-sort-select:focus{outline:none;border-color:#0fffe0;}
+    /* Browse layout: sidebar filters + main grid */
+    .nc-browse-layout{display:flex;gap:1.2rem;align-items:flex-start;}
+    .nc-browse-filters{width:200px;flex-shrink:0;position:sticky;top:112px;}
+    .nc-browse-grid-wrap{flex:1;min-width:0;}
+    .nc-filter-section{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:.9rem 1rem;margin-bottom:.8rem;}
+    .nc-filter-section-title{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:#4a6a7a;text-transform:uppercase;margin-bottom:.7rem;}
+    .nc-filter-check{display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;cursor:pointer;}
+    .nc-filter-check:last-child{margin-bottom:0;}
+    .nc-filter-check-box{width:15px;height:15px;border-radius:3px;border:1px solid rgba(15,255,224,.25);background:none;flex-shrink:0;transition:all .18s;display:flex;align-items:center;justify-content:center;font-size:.65rem;}
+    .nc-filter-check.checked .nc-filter-check-box{background:#0fffe0;border-color:#0fffe0;color:#07090c;}
+    .nc-filter-check-label{font-size:.8rem;color:#7a9aaa;}
+    .nc-filter-check:hover .nc-filter-check-label{color:#d4e8f0;}
+    /* Project card grid */
+    .nc-proj-grid{display:grid;grid-template-columns:1fr;gap:.75rem;}
+    /* Project browse card (horizontal, like Modrinth) */
+    .nc-browse-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:12px;padding:1.1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:all .22s;cursor:pointer;text-decoration:none;color:inherit;}
+    .nc-browse-card:hover{border-color:rgba(15,255,224,.3);background:#111620;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+    .nc-browse-card-icon{width:64px;height:64px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,rgba(15,255,224,.12),rgba(123,92,255,.12));border:1px solid rgba(15,255,224,.15);display:flex;align-items:center;justify-content:center;font-size:1.9rem;overflow:hidden;}
+    .nc-browse-card-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+    .nc-browse-card-body{flex:1;min-width:0;}
+    .nc-browse-card-title{font-size:.98rem;font-weight:800;color:#fff;margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;}
+    .nc-browse-card-desc{font-size:.8rem;color:#4a6a7a;line-height:1.55;margin-bottom:.55rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .nc-browse-card-meta{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;}
+    .nc-browse-card-stat{font-family:'Space Mono',monospace;font-size:.6rem;color:#4a6a7a;display:flex;align-items:center;gap:.3rem;}
+    .nc-browse-card-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.06em;padding:.15rem .5rem;border-radius:3px;background:rgba(15,255,224,.07);border:1px solid rgba(15,255,224,.12);color:#0fffe0;}
+    .nc-browse-card-tag.loader{background:rgba(255,130,70,.07);border-color:rgba(255,130,70,.2);color:#ff8246;}
+    .nc-browse-card-tag.env{background:rgba(123,92,255,.07);border-color:rgba(123,92,255,.2);color:#b99dff;}
+    .nc-browse-card-updated{font-family:'Space Mono',monospace;font-size:.55rem;color:#2a4a5a;margin-left:auto;white-space:nowrap;}
+    /* Results header */
+    .nc-results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid rgba(15,255,224,.08);}
+    .nc-results-count{font-family:'Space Mono',monospace;font-size:.65rem;color:#4a6a7a;}
+    .nc-view-toggle{display:flex;gap:.3rem;}
+    .nc-view-btn{width:28px;height:28px;border-radius:5px;border:1px solid rgba(15,255,224,.15);background:none;color:#4a6a7a;font-size:.8rem;display:flex;align-items:center;justify-content:center;transition:all .18s;}
+    .nc-view-btn.active{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* Grid view */
+    .nc-proj-grid.grid-view{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+    .nc-proj-grid.grid-view .nc-browse-card{flex-direction:column;}
+    .nc-proj-grid.grid-view .nc-browse-card-icon{width:100%;height:100px;border-radius:8px 8px 0 0;border:none;margin:-1.1rem -1.2rem 1rem;width:calc(100% + 2.4rem);}
+    /* Version upload modal */
+    #nc-version-modal{display:none;position:fixed;inset:0;z-index:9950;background:rgba(0,0,0,.9);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:1rem;}
+    #nc-version-modal.open{display:flex;animation:dlFadeIn .22s ease;}
+    .nc-vm-box{background:#0c0f14;border:1px solid rgba(15,255,224,.2);border-radius:16px;width:580px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:0 0 80px rgba(15,255,224,.1);}
+    .nc-vm-top{height:2px;background:linear-gradient(90deg,#0fffe0,#7b5cff);border-radius:16px 16px 0 0;}
+    .nc-vm-body{padding:1.8rem 2rem;}
+    .nc-vm-title{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;}
+    .nc-vm-close{background:none;border:none;color:#4a6a7a;font-size:1.1rem;}
+    .nc-vm-close:hover{color:#ff5c8a;}
+    .nc-vm-field{margin-bottom:1.2rem;}
+    .nc-vm-label{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;color:#4a6a7a;display:block;margin-bottom:.45rem;text-transform:uppercase;}
+    .nc-vm-input,.nc-vm-textarea,.nc-vm-select{width:100%;background:#111620;border:1px solid rgba(15,255,224,.15);border-radius:8px;padding:.62rem .9rem;color:#d4e8f0;font-family:'Syne',sans-serif;font-size:.88rem;transition:border-color .2s;}
+    .nc-vm-input:focus,.nc-vm-textarea:focus,.nc-vm-select:focus{outline:none;border-color:#0fffe0;}
+    .nc-vm-input::placeholder,.nc-vm-textarea::placeholder{color:#2a4a5a;}
+    .nc-vm-textarea{min-height:100px;resize:vertical;}
+    .nc-vm-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+    .nc-vm-tag{font-family:'Space Mono',monospace;font-size:.58rem;padding:.25rem .65rem;border:1px solid rgba(15,255,224,.15);border-radius:20px;color:#4a6a7a;background:none;transition:all .18s;}
+    .nc-vm-tag.sel{border-color:#0fffe0;color:#0fffe0;background:rgba(15,255,224,.07);}
+    /* File drop zone */
+    .nc-vm-drop{border:2px dashed rgba(15,255,224,.2);border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:all .2s;}
+    .nc-vm-drop:hover,.nc-vm-drop.drag{border-color:#0fffe0;background:rgba(15,255,224,.03);}
+    .nc-vm-drop-icon{font-size:2rem;margin-bottom:.6rem;opacity:.5;}
+    .nc-vm-drop-text{font-size:.82rem;color:#4a6a7a;line-height:1.6;}
+    .nc-vm-drop-file{font-family:'Space Mono',monospace;font-size:.72rem;color:#0fffe0;margin-top:.5rem;display:none;}
+    .nc-vm-footer{display:flex;gap:.7rem;justify-content:flex-end;padding:1rem 2rem;border-top:1px solid rgba(15,255,224,.08);}
+    .nc-vm-cancel{font-family:'Space Mono',monospace;font-size:.62rem;padding:.5rem 1rem;border:1px solid rgba(15,255,224,.18);border-radius:6px;color:#4a6a7a;background:none;}
+    .nc-vm-submit{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.5rem 1.3rem;background:linear-gradient(135deg,#0fffe0,#7b5cff);color:#07090c;border:none;border-radius:6px;transition:all .2s;}
+    .nc-vm-submit:hover{box-shadow:0 0 20px rgba(15,255,224,.35);}
+    /* Home page featured section */
+    .nc-featured-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1.5rem;}
+    .nc-featured-card{background:#0c0f14;border:1px solid rgba(15,255,224,.1);border-radius:10px;padding:1rem;cursor:pointer;transition:all .2s;}
+    .nc-featured-card:hover{border-color:rgba(15,255,224,.28);transform:translateY(-2px);}
+    .nc-featured-card-top{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem;}
+    .nc-featured-card-icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,rgba(15,255,224,.15),rgba(123,92,255,.15));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+    .nc-featured-card-name{font-weight:700;color:#fff;font-size:.88rem;}
+    .nc-featured-card-type{font-size:.65rem;color:#4a6a7a;}
+    .nc-featured-card-desc{font-size:.75rem;color:#4a6a7a;line-height:1.5;}
+    @media(max-width:768px){
+      .nc-browse-filters{display:none;}
+      .nc-featured-row{grid-template-columns:1fr 1fr;}
+    }
     @media(max-width:768px){
       header{padding:0 .8rem;height:56px;}
       nav{gap:.25rem;}
@@ -1175,49 +1547,174 @@
     </nav>
 
     <main id="nc-main">
-      <!-- Home page -->
+      <!-- ═══ HOME PAGE ═══ -->
       <div id="nc-page-home">
         <div class="nc-home-hero">
           <div class="nc-hero-tag">FREE · OPEN · COMMUNITY</div>
           <div class="nc-hero-title">The <span>NexCraft Hub</span> for Minecraft Content</div>
-          <div class="nc-hero-sub">Browse and share mods, resource packs, data packs, shaders, modpacks and plugins. 100% free, no launcher required.</div>
+          <div class="nc-hero-sub">Browse and share mods, resource packs, data packs, shaders, modpacks and plugins. 100% free, no account required to browse.</div>
           <div class="nc-hero-btns">
             <button class="nc-hbtn-primary" onclick="ncShowPage('mods')">Browse Content →</button>
-            <button class="nc-hbtn-primary" style="background:linear-gradient(135deg,#7b5cff,#ff5c8a)" onclick="ncOpenUpload()">+ Upload</button>
+            <button class="nc-hbtn-primary" style="background:linear-gradient(135deg,#7b5cff,#ff5c8a)" onclick="ncOpenUpload()">+ Publish</button>
             <a class="nc-hbtn-secondary" href="https://dcserver.link/nexterasmp" target="_blank">Join Discord</a>
           </div>
         </div>
+
+        <!-- Live stats -->
         <div class="nc-stats-bar">
-          <div class="nc-stat-card"><div class="nc-stat-num">0</div><div class="nc-stat-lbl">Total Projects</div></div>
-          <div class="nc-stat-card"><div class="nc-stat-num">0</div><div class="nc-stat-lbl">Downloads</div></div>
-          <div class="nc-stat-card"><div class="nc-stat-num">0</div><div class="nc-stat-lbl">Authors</div></div>
+          <div class="nc-stat-card"><div class="nc-stat-num" id="nc-stat-projects">0</div><div class="nc-stat-lbl">Total Projects</div></div>
+          <div class="nc-stat-card"><div class="nc-stat-num" id="nc-stat-authors">0</div><div class="nc-stat-lbl">Authors</div></div>
           <div class="nc-stat-card"><div class="nc-stat-num">6</div><div class="nc-stat-lbl">Categories</div></div>
+          <div class="nc-stat-card"><div class="nc-stat-num">∞</div><div class="nc-stat-lbl">Free Forever</div></div>
         </div>
-        <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--nc-dim);margin-bottom:1rem;">BROWSE CATEGORIES</div>
-        <div class="nc-cat-grid">
-          <div class="nc-cat-card" onclick="ncShowPage('mods')"><div class="nc-cat-icon">🔧</div><div class="nc-cat-name">Mods</div><div class="nc-cat-sub">0 projects</div></div>
-          <div class="nc-cat-card" onclick="ncShowPage('resource')"><div class="nc-cat-icon">🎨</div><div class="nc-cat-name">Resource Packs</div><div class="nc-cat-sub">0 projects</div></div>
-          <div class="nc-cat-card" onclick="ncShowPage('datapacks')"><div class="nc-cat-icon">📦</div><div class="nc-cat-name">Data Packs</div><div class="nc-cat-sub">0 projects</div></div>
-          <div class="nc-cat-card" onclick="ncShowPage('shaders')"><div class="nc-cat-icon">✨</div><div class="nc-cat-name">Shaders</div><div class="nc-cat-sub">0 projects</div></div>
-          <div class="nc-cat-card" onclick="ncShowPage('modpacks')"><div class="nc-cat-icon">🧩</div><div class="nc-cat-name">Modpacks</div><div class="nc-cat-sub">0 projects</div></div>
-          <div class="nc-cat-card" onclick="ncShowPage('plugins')"><div class="nc-cat-icon">🔌</div><div class="nc-cat-name">Plugins</div><div class="nc-cat-sub">0 projects</div></div>
+
+        <!-- Search shortcut -->
+        <div class="nc-browse-search" style="margin-bottom:1.5rem">
+          <div class="nc-browse-search-wrap" style="flex:1">
+            <span class="nc-browse-search-icon">⌕</span>
+            <input type="text" placeholder="Search NexCraft Hub…" oninput="ncHomeSearch(this.value)" onfocus="if(this.value)ncShowPage('search')" onclick="ncShowPage('search')"/>
+          </div>
+        </div>
+
+        <!-- Category grid -->
+        <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:#4a6a7a;margin-bottom:.9rem">BROWSE BY CATEGORY</div>
+        <div class="nc-cat-grid" style="margin-bottom:2rem">
+          <div class="nc-cat-card" onclick="ncShowPage('mods')">
+            <div class="nc-cat-icon">🔧</div><div class="nc-cat-name">Mods</div>
+            <div class="nc-cat-sub" id="nc-count-mods">0 projects</div>
+          </div>
+          <div class="nc-cat-card" onclick="ncShowPage('resource')">
+            <div class="nc-cat-icon">🎨</div><div class="nc-cat-name">Resource Packs</div>
+            <div class="nc-cat-sub" id="nc-count-resource">0 projects</div>
+          </div>
+          <div class="nc-cat-card" onclick="ncShowPage('datapacks')">
+            <div class="nc-cat-icon">📦</div><div class="nc-cat-name">Data Packs</div>
+            <div class="nc-cat-sub" id="nc-count-datapacks">0 projects</div>
+          </div>
+          <div class="nc-cat-card" onclick="ncShowPage('shaders')">
+            <div class="nc-cat-icon">✨</div><div class="nc-cat-name">Shaders</div>
+            <div class="nc-cat-sub" id="nc-count-shaders">0 projects</div>
+          </div>
+          <div class="nc-cat-card" onclick="ncShowPage('modpacks')">
+            <div class="nc-cat-icon">🧩</div><div class="nc-cat-name">Modpacks</div>
+            <div class="nc-cat-sub" id="nc-count-modpacks">0 projects</div>
+          </div>
+          <div class="nc-cat-card" onclick="ncShowPage('plugins')">
+            <div class="nc-cat-icon">🔌</div><div class="nc-cat-name">Plugins</div>
+            <div class="nc-cat-sub" id="nc-count-plugins">0 projects</div>
+          </div>
+        </div>
+
+        <!-- Recent projects (dynamic) -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem">
+          <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.16em;color:#4a6a7a">RECENTLY ADDED</div>
+          <button onclick="ncShowPage('mods')" style="font-family:'Space Mono',monospace;font-size:.58rem;color:#0fffe0;background:none;border:none">View all →</button>
+        </div>
+        <div id="nc-home-recent" class="nc-proj-grid" style="margin-bottom:2rem">
+          <div style="text-align:center;padding:2rem;color:#2a4a5a;font-size:.82rem;border:1px dashed rgba(15,255,224,.1);border-radius:10px">
+            No projects yet — <button onclick="ncOpenUpload()" style="color:#0fffe0;background:none;border:none;font-family:'Space Mono',monospace;font-size:.78rem">be the first to publish!</button>
+          </div>
         </div>
       </div>
 
-      <!-- Category page -->
+      <!-- ═══ BROWSE / CATEGORY PAGE ═══ -->
       <div id="nc-page-category" style="display:none">
-        <div class="nc-page-title" id="nc-cat-title"></div>
-        <div class="nc-page-subtitle" id="nc-cat-sub"></div>
-        <div class="nc-filter-bar">
-          <button class="nc-filter-tag nc-active">All</button>
-          <button class="nc-filter-tag">Newest</button>
-          <button class="nc-filter-tag">Popular</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.6rem">
+          <div>
+            <div class="nc-page-title" id="nc-cat-title" style="font-size:1.4rem;font-weight:800;color:#fff"></div>
+            <div class="nc-page-subtitle" id="nc-cat-subtitle" style="font-size:.8rem;color:#4a6a7a;margin-top:.2rem"></div>
+          </div>
+          <button class="nc-hbtn-primary" style="font-size:.62rem;padding:.5rem 1rem" onclick="ncOpenUpload()">+ Publish</button>
         </div>
-        <div class="nc-empty">
-          <div class="nc-empty-icon" id="nc-cat-empty-icon">🔧</div>
-          <div class="nc-empty-title">No content yet</div>
-          <div class="nc-empty-sub">Be the first to upload content in this category. It's free and takes less than a minute.</div>
-          <button class="nc-empty-btn" onclick="ncOpenUpload()">+ Upload Now</button>
+
+        <!-- Search + sort -->
+        <div class="nc-browse-search">
+          <div class="nc-browse-search-wrap">
+            <span class="nc-browse-search-icon">⌕</span>
+            <input type="text" id="nc-browse-search-input" placeholder="Search projects…" oninput="ncBrowseFilter()"/>
+          </div>
+          <select class="nc-sort-select" id="nc-sort-select" onchange="ncBrowseFilter()">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="name">Name (A-Z)</option>
+          </select>
+        </div>
+
+        <div class="nc-browse-layout">
+          <!-- Filter sidebar -->
+          <div class="nc-browse-filters">
+            <div class="nc-filter-section">
+              <div class="nc-filter-section-title">Loaders</div>
+              <label class="nc-filter-check checked" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box">✓</div>
+                <span class="nc-filter-check-label">Fabric</span>
+              </label>
+              <label class="nc-filter-check" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box"></div>
+                <span class="nc-filter-check-label">Forge</span>
+              </label>
+              <label class="nc-filter-check" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box"></div>
+                <span class="nc-filter-check-label">NeoForge</span>
+              </label>
+              <label class="nc-filter-check" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box"></div>
+                <span class="nc-filter-check-label">Quilt</span>
+              </label>
+            </div>
+            <div class="nc-filter-section">
+              <div class="nc-filter-section-title">Environments</div>
+              <label class="nc-filter-check checked" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box">✓</div>
+                <span class="nc-filter-check-label">Client</span>
+              </label>
+              <label class="nc-filter-check" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box"></div>
+                <span class="nc-filter-check-label">Server</span>
+              </label>
+            </div>
+            <div class="nc-filter-section">
+              <div class="nc-filter-section-title">MC Version</div>
+              <label class="nc-filter-check checked" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box">✓</div>
+                <span class="nc-filter-check-label">1.21.x</span>
+              </label>
+              <label class="nc-filter-check" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box"></div>
+                <span class="nc-filter-check-label">1.20.x</span>
+              </label>
+              <label class="nc-filter-check" onclick="ncToggleFilter(this)">
+                <div class="nc-filter-check-box"></div>
+                <span class="nc-filter-check-label">1.19.x</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div class="nc-browse-grid-wrap">
+            <div class="nc-results-header">
+              <div class="nc-results-count" id="nc-results-count">0 projects</div>
+              <div class="nc-view-toggle">
+                <button class="nc-view-btn active" id="nc-view-list" onclick="ncSetView('list')" title="List view">☰</button>
+                <button class="nc-view-btn" id="nc-view-grid" onclick="ncSetView('grid')" title="Grid view">⊞</button>
+              </div>
+            </div>
+            <div class="nc-proj-grid" id="nc-proj-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SEARCH PAGE ═══ -->
+      <div id="nc-page-search" style="display:none">
+        <div style="font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:1rem">Search Results</div>
+        <div class="nc-browse-search" style="margin-bottom:1.5rem">
+          <div class="nc-browse-search-wrap">
+            <span class="nc-browse-search-icon">⌕</span>
+            <input type="text" id="nc-search-input" placeholder="Search all NexCraft projects…" oninput="ncGlobalSearch(this.value)"/>
+          </div>
+        </div>
+        <div class="nc-proj-grid" id="nc-search-results">
+          <div style="text-align:center;padding:2rem;color:#2a4a5a;font-size:.82rem">Type above to search</div>
         </div>
       </div>
     </main>
@@ -2088,6 +2585,7 @@ const NC_SLUG_MAP = {
   'shaders':   '/nexcraft/shaders',
   'modpacks':  '/nexcraft/modpacks',
   'plugins':   '/nexcraft/plugins',
+  'search':    '/nexcraft/search',
 };
 const NC_SLUG_REVERSE = {
   '/':                        'home',
@@ -2124,6 +2622,7 @@ function openNexCraft(page){
   }
 
   ncShowPage(page || 'home', false); // false = don't push state again
+  if((page||'home')==='home') ncUpdateHomeStats();
   // Set URL hash
   const slug = NC_SLUG_MAP[page||'home'] || '/nexcraft';
   try{ history.pushState({nc:page||'home'},'',slug); }catch(e){}
@@ -2231,6 +2730,134 @@ const DISCORD_SCOPES       = 'identify';
 
 let _ncDiscordUser = null;
 
+
+let _ncProjects = [];
+
+/* ═══════════════════════════════════════════════════════════
+   NEXCRAFT PERSISTENT DATA MANAGER
+   All user data is stored in localStorage under stable keys.
+   Data survives: page reloads, HTML updates, browser restarts.
+   Data only clears on: explicit sign-out (auth only) or
+   the user manually clearing browser storage.
+   Keys are prefixed with 'nc_v1_' for version safety.
+═══════════════════════════════════════════════════════════ */
+const NC_DATA_KEYS = {
+  projects:      'nc_v1_projects',
+  organizations: 'nc_v1_organizations',
+  collections:   'nc_v1_collections',
+  notifications: 'nc_v1_notifications',
+  settings:      'nc_v1_settings',
+  servers:       'nc_v1_servers',
+};
+
+/* Generic save/load helpers */
+function _ncDataSave(key, data){
+  try{
+    localStorage.setItem(NC_DATA_KEYS[key]||('nc_v1_'+key), JSON.stringify({
+      data,
+      savedAt: Date.now(),
+      version: 1
+    }));
+    return true;
+  }catch(e){ console.warn('[NexCraft] Save failed for',key,e); return false; }
+}
+
+function _ncDataLoad(key, fallback){
+  try{
+    const raw = localStorage.getItem(NC_DATA_KEYS[key]||('nc_v1_'+key));
+    if(!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return parsed.data !== undefined ? parsed.data : parsed; // backwards compat
+  }catch(e){ return fallback; }
+}
+
+/* ── Projects ── */
+function _ncSaveProjects(){ _ncDataSave('projects', _ncProjects); }
+function _ncLoadProjects(){
+  _ncProjects = _ncDataLoad('projects', []);
+}
+
+/* ── Organizations ── */
+let _ncOrgs = [];
+function _ncSaveOrgs(){ _ncDataSave('organizations', _ncOrgs); }
+function _ncLoadOrgs(){ _ncOrgs = _ncDataLoad('organizations', []); }
+
+/* ── Collections ── */
+let _ncCollections = [];
+function _ncSaveCollections(){ _ncDataSave('collections', _ncCollections); }
+function _ncLoadCollections(){ _ncCollections = _ncDataLoad('collections', []); }
+
+/* ── Notifications ── */
+let _ncNotifications = [];
+function _ncSaveNotifications(){ _ncDataSave('notifications', _ncNotifications); }
+function _ncLoadNotifications(){
+  _ncNotifications = _ncDataLoad('notifications', [
+    { id: 1, text: 'Welcome to NexCraft Hub! Create your first project.', read: false, time: Date.now() },
+  ]);
+}
+
+/* ── Settings ── */
+let _ncSettings = { darkMode:true, animBg:true, notifProjects:true, notifFollowers:false, showPublic:true };
+function _ncSaveSettings(){ _ncDataSave('settings', _ncSettings); }
+function _ncLoadSettings(){ _ncSettings = { ..._ncSettings, ..._ncDataLoad('settings', {}) }; }
+
+/* ── Servers ── */
+let _ncServers = [];
+function _ncSaveServers(){ _ncDataSave('servers', _ncServers); }
+function _ncLoadServers(){ _ncServers = _ncDataLoad('servers', []); }
+
+/* ── Load all on startup ── */
+function _ncLoadAllData(){
+  _ncLoadProjects();
+  _ncLoadOrgs();
+  _ncLoadCollections();
+  _ncLoadNotifications();
+  _ncLoadSettings();
+  _ncLoadServers();
+}
+
+/* ── Export / Import (data backup) ── */
+function ncExportData(){
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    version: 1,
+    projects:      _ncProjects,
+    organizations: _ncOrgs,
+    collections:   _ncCollections,
+    notifications: _ncNotifications,
+    settings:      _ncSettings,
+    servers:       _ncServers,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'nexcraft-backup-'+Date.now()+'.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function ncImportData(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const payload = JSON.parse(e.target.result);
+      if(payload.projects)      { _ncProjects = payload.projects;           _ncSaveProjects(); }
+      if(payload.organizations) { _ncOrgs = payload.organizations;          _ncSaveOrgs(); }
+      if(payload.collections)   { _ncCollections = payload.collections;     _ncSaveCollections(); }
+      if(payload.settings)      { _ncSettings = {..._ncSettings,...payload.settings}; _ncSaveSettings(); }
+      alert('Data imported successfully! '+(_ncProjects.length)+' projects restored.');
+      ncUpdateHomeStats();
+    }catch(err){ alert('Import failed: invalid backup file.'); }
+  };
+  reader.readAsText(file);
+}
+
+/* _ncLoadAllData() called after session restore below */
+
 /* ── Restore session (persists 1 week via localStorage) ── */
 const NC_SESSION_KEY  = 'nc_discord_user';
 const NC_EXPIRY_KEY   = 'nc_discord_expiry';
@@ -2249,7 +2876,7 @@ const NC_WEEK_MS      = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
     }
   }catch(e){}
   _ncUpdateAuthUI();
-  _ncLoadProjects();
+  _ncLoadAllData();
 })();
 
 /* ── Handle implicit token returned in URL hash after Discord redirect ── */
@@ -2304,7 +2931,7 @@ function ncDiscordSignOut(){
   try{
     localStorage.removeItem(NC_SESSION_KEY);
     localStorage.removeItem(NC_EXPIRY_KEY);
-    localStorage.removeItem('nc_projects');
+    /* NOTE: Projects & user data are kept on sign-out so they survive re-login */
   }catch(e){}
   _ncUpdateAuthUI();
 }
@@ -2366,18 +2993,6 @@ function ncCloseProfileMenu(){
 }
 
 /* ════ PROJECT STORAGE (in-session) ════ */
-let _ncProjects = [];
-
-function _ncSaveProjects(){
-  try{ localStorage.setItem('nc_projects', JSON.stringify(_ncProjects)); }catch(e){}
-}
-function _ncLoadProjects(){
-  try{
-    const s = localStorage.getItem('nc_projects');
-    if(s) _ncProjects = JSON.parse(s);
-  }catch(e){}
-}
-/* _ncLoadProjects() called after session restore above */
 
 const TYPE_ICONS = {mod:'🔧',resource:'🎨',datapack:'📦',shader:'✨',modpack:'🧩',plugin:'🔌'};
 
@@ -2837,6 +3452,7 @@ function ncSubmitCreate(){
   };
   _ncProjects.push(newProj);
   _ncSaveProjects();
+  _ncAddNotification('Project <strong>'+name+'</strong> created successfully!');
 
   // Show project settings page
   const pp=document.getElementById('nc-project-page');
@@ -3143,6 +3759,145 @@ async function vpDownload(mcVer,name){
     _toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 2000);
   }
 })();
+
+/* ════ BROWSE STATE ════ */
+let _ncCurrentCategory='mods';
+let _ncViewMode='list';
+
+function _ncEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function _ncTimeAgo(ts){
+  const d=Math.floor((Date.now()-ts)/86400000),h=Math.floor((Date.now()-ts)/3600000),m=Math.floor((Date.now()-ts)/60000);
+  return d>0?d+'d ago':h>0?h+'h ago':m>0?m+'m ago':'just now';
+}
+function ncRenderCard(p,idx){
+  const iconHTML=p.iconUrl?'<img src="'+p.iconUrl+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px">':(TYPE_ICONS[p.type]||'📦');
+  const ago=p.created?_ncTimeAgo(p.created):'just now';
+  return '<div class="nc-browse-card" onclick="ncEditProject('+idx+')">'+
+    '<div class="nc-browse-card-icon">'+iconHTML+'</div>'+
+    '<div class="nc-browse-card-body">'+
+      '<div class="nc-browse-card-title">'+_ncEsc(p.name)+
+        ' <span class="nc-browse-card-tag">'+_ncEsc(p.type||'mod')+'</span>'+
+        ' <span class="nc-browse-card-tag env">'+(p.visibility==='public'?'🌐 Public':'🔒 Private')+'</span>'+
+      '</div>'+
+      '<div class="nc-browse-card-desc">'+_ncEsc(p.summary||'No description.')+'</div>'+
+      '<div class="nc-browse-card-meta">'+
+        '<span class="nc-browse-card-stat">⬇ 0</span>'+
+        '<span class="nc-browse-card-tag loader">Fabric</span>'+
+        '<span class="nc-browse-card-updated">'+ago+'</span>'+
+      '</div>'+
+    '</div></div>';
+}
+function ncUpdateHomeStats(){
+  const _s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  _s('nc-stat-projects',_ncProjects.length);
+  _s('nc-stat-authors',_ncDiscordUser?1:0);
+  const cats={mods:'mod',resource:'resource',datapacks:'datapack',shaders:'shader',modpacks:'modpack',plugins:'plugin'};
+  Object.entries(cats).forEach(([cat,type])=>{
+    const n=_ncProjects.filter(p=>p.type===type).length;
+    const el=document.getElementById('nc-count-'+cat);
+    if(el)el.textContent=n+' project'+(n!==1?'s':'');
+  });
+  const recent=document.getElementById('nc-home-recent');
+  if(!recent)return;
+  const sorted=_ncProjects.slice().sort((a,b)=>(b.created||0)-(a.created||0)).slice(0,4);
+  recent.innerHTML=sorted.length===0
+    ?'<div style="text-align:center;padding:2rem;color:#2a4a5a;font-size:.82rem;border:1px dashed rgba(15,255,224,.1);border-radius:10px">No projects yet — <button onclick="ncOpenUpload()" style="color:#0fffe0;background:none;border:none;font-family:Space Mono,monospace;font-size:.78rem">be the first to publish!</button></div>'
+    :sorted.map(p=>ncRenderCard(p,_ncProjects.indexOf(p))).join('');
+}
+function ncBrowseFilter(){
+  const search=((document.getElementById('nc-browse-search-input')||{}).value||'').toLowerCase();
+  const sort=(document.getElementById('nc-sort-select')||{}).value||'newest';
+  const grid=document.getElementById('nc-proj-grid');
+  const countEl=document.getElementById('nc-results-count');
+  if(!grid)return;
+  const typeMap={mods:'mod',resource:'resource',datapacks:'datapack',shaders:'shader',modpacks:'modpack',plugins:'plugin'};
+  const expectedType=typeMap[_ncCurrentCategory];
+  let list=_ncProjects.filter(p=>{
+    const matchCat=!expectedType||p.type===expectedType;
+    const matchSearch=!search||(p.name||'').toLowerCase().includes(search)||(p.summary||'').toLowerCase().includes(search);
+    return matchCat&&matchSearch;
+  });
+  if(sort==='newest')list=list.slice().sort((a,b)=>(b.created||0)-(a.created||0));
+  else if(sort==='oldest')list=list.slice().sort((a,b)=>(a.created||0)-(b.created||0));
+  else if(sort==='name')list=list.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  if(countEl)countEl.textContent=list.length+' project'+(list.length!==1?'s':'');
+  if(list.length===0){
+    grid.innerHTML='<div style="text-align:center;padding:3rem 2rem;border:1px dashed rgba(15,255,224,.15);border-radius:12px">'+
+      '<div style="font-size:2.5rem;margin-bottom:.8rem;opacity:.3">'+(NC_PAGES[_ncCurrentCategory]||{icon:'📦'}).icon+'</div>'+
+      '<div style="color:#fff;font-weight:700;margin-bottom:.4rem">No projects yet</div>'+
+      '<div style="color:#4a6a7a;font-size:.82rem;margin-bottom:1.2rem">Be the first to publish in this category!</div>'+
+      '<button class="nc-empty-btn" onclick="ncOpenUpload()">+ Publish Now</button></div>';
+  }else{
+    grid.innerHTML=list.map(p=>ncRenderCard(p,_ncProjects.indexOf(p))).join('');
+  }
+}
+function ncGlobalSearch(q){
+  const results=document.getElementById('nc-search-results');
+  if(!results)return;
+  if(!q.trim()){results.innerHTML='<div style="text-align:center;padding:2rem;color:#2a4a5a;font-size:.82rem">Type above to search</div>';return;}
+  const matched=_ncProjects.filter(p=>(p.name||'').toLowerCase().includes(q.toLowerCase())||(p.summary||'').toLowerCase().includes(q.toLowerCase()));
+  results.innerHTML=matched.length===0
+    ?'<div style="text-align:center;padding:2rem;color:#2a4a5a">No results for "'+_ncEsc(q)+'"</div>'
+    :matched.map(p=>ncRenderCard(p,_ncProjects.indexOf(p))).join('');
+}
+function ncHomeSearch(val){
+  if(val.trim()){ncShowPage('search');setTimeout(()=>{const si=document.getElementById('nc-search-input');if(si){si.value=val;ncGlobalSearch(val);}},80);}
+}
+function ncSetView(mode){
+  _ncViewMode=mode;
+  const grid=document.getElementById('nc-proj-grid');
+  if(grid)grid.classList.toggle('grid-view',mode==='grid');
+  const lb=document.getElementById('nc-view-list');
+  const gb=document.getElementById('nc-view-grid');
+  if(lb)lb.classList.toggle('active',mode==='list');
+  if(gb)gb.classList.toggle('active',mode==='grid');
+}
+function ncToggleSetting(key,btn){
+  _ncSettings[key]=!_ncSettings[key];
+  btn.classList.toggle('on',_ncSettings[key]);
+  _ncSaveSettings();
+}
+
+function ncToggleFilter(el){
+  el.classList.toggle('checked');
+  const box=el.querySelector('.nc-filter-check-box');
+  if(box)box.textContent=el.classList.contains('checked')?'✓':'';
+  ncBrowseFilter();
+}
+/* ════ VERSION MODAL ════ */
+let _ncVmFile=null;
+function ncOpenVersionModal(){const m=document.getElementById('nc-version-modal');if(m)m.classList.add('open');}
+function ncCloseVersionModal(){
+  const m=document.getElementById('nc-version-modal');if(m)m.classList.remove('open');
+  _ncVmFile=null;
+  const fn=document.getElementById('nc-vm-drop-filename');if(fn){fn.style.display='none';fn.textContent='';}
+}
+function ncVmFileDrop(e){
+  e.preventDefault();
+  const drop=document.getElementById('nc-vm-drop');if(drop)drop.classList.remove('drag');
+  const file=e.dataTransfer&&e.dataTransfer.files[0];if(file)ncVmFileSelect(file);
+}
+function ncVmFileSelect(file){
+  if(!file)return;_ncVmFile=file;
+  const fn=document.getElementById('nc-vm-drop-filename');
+  if(fn){fn.textContent='📁 '+file.name+' ('+Math.round(file.size/1024)+'KB)';fn.style.display='block';}
+}
+function ncVmSubmit(){
+  const ver=(document.getElementById('nc-vm-ver-num')||{}).value||'';
+  if(!ver.trim()){alert('Version number is required.');return;}
+  if(!_ncVmFile){alert('Please attach a file.');return;}
+  if(_ncCurrentProjIdx>=0){
+    const p=_ncProjects[_ncCurrentProjIdx];
+    if(!p.versions)p.versions=[];
+    p.versions.push({num:ver,name:(document.getElementById('nc-vm-ver-name')||{}).value||'',
+      channel:(document.getElementById('nc-vm-channel')||{}).value||'release',
+      changelog:(document.getElementById('nc-vm-changelog')||{}).value||'',
+      filename:_ncVmFile.name,date:Date.now()});
+    _ncSaveProjects();
+  }
+  ncCloseVersionModal();alert('Version '+ver+' uploaded!');
+}
+document.addEventListener('click',e=>{if(e.target.classList.contains('nc-add-version-btn'))ncOpenVersionModal();});
 </script>
 
   <!-- ═══ NC PROFILE SIDE PANEL (outside all overlays, top-level) ═══ -->
@@ -3275,6 +4030,77 @@ async function vpDownload(mcVer,name){
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VERSION UPLOAD MODAL ═══ -->
+  <div id="nc-version-modal">
+    <div class="nc-vm-box">
+      <div class="nc-vm-top"></div>
+      <div class="nc-vm-body">
+        <div class="nc-vm-title">
+          Upload a new version
+          <button class="nc-vm-close" onclick="ncCloseVersionModal()">✕</button>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Version number <span style="color:#ff5c8a">*</span></label>
+          <input class="nc-vm-input" id="nc-vm-ver-num" type="text" placeholder="e.g. 1.0.0"/>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Version name (optional)</label>
+          <input class="nc-vm-input" id="nc-vm-ver-name" type="text" placeholder="e.g. Initial Release"/>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Minecraft versions <span style="color:#ff5c8a">*</span></label>
+          <div class="nc-vm-tags" id="nc-vm-mc-tags">
+            <button class="nc-vm-tag sel" onclick="this.classList.toggle('sel')">1.21.x</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">1.21.11</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">1.21.5</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">1.20.x</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">1.20.1</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">1.19.x</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">26.1.x</button>
+          </div>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Loaders <span style="color:#ff5c8a">*</span></label>
+          <div class="nc-vm-tags">
+            <button class="nc-vm-tag sel" onclick="this.classList.toggle('sel')">Fabric</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">Forge</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">NeoForge</button>
+            <button class="nc-vm-tag" onclick="this.classList.toggle('sel')">Quilt</button>
+          </div>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Release channel</label>
+          <select class="nc-vm-select" id="nc-vm-channel">
+            <option value="release">Release</option>
+            <option value="beta">Beta</option>
+            <option value="alpha">Alpha</option>
+          </select>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Changelog</label>
+          <textarea class="nc-vm-textarea" id="nc-vm-changelog" placeholder="Describe what changed in this version…"></textarea>
+        </div>
+        <div class="nc-vm-field">
+          <label class="nc-vm-label">Files <span style="color:#ff5c8a">*</span></label>
+          <div class="nc-vm-drop" id="nc-vm-drop"
+            onclick="document.getElementById('nc-vm-file').click()"
+            ondragover="event.preventDefault();this.classList.add('drag')"
+            ondragleave="this.classList.remove('drag')"
+            ondrop="ncVmFileDrop(event)">
+            <div class="nc-vm-drop-icon">📂</div>
+            <div class="nc-vm-drop-text">Drag and drop your <strong style="color:#d4e8f0">.mrpack</strong> or <strong style="color:#d4e8f0">.jar</strong> file here<br><span style="font-size:.72rem;opacity:.6">or click to browse</span></div>
+            <div class="nc-vm-drop-file" id="nc-vm-drop-filename"></div>
+          </div>
+          <input type="file" id="nc-vm-file" accept=".mrpack,.jar,.zip" style="display:none" onchange="ncVmFileSelect(this.files[0])"/>
+        </div>
+      </div>
+      <div class="nc-vm-footer">
+        <button class="nc-vm-cancel" onclick="ncCloseVersionModal()">Cancel</button>
+        <button class="nc-vm-submit" onclick="ncVmSubmit()">Upload version →</button>
       </div>
     </div>
   </div>
